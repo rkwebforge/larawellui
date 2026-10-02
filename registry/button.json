@@ -1,0 +1,16 @@
+{
+    "description": "Button or link in primary, secondary, tertiary, danger, neutral and link variants, with sizes, icons, icon-only buttons and a loading state. Guards forms against double submits. Includes a back link. Works inside Livewire components, wire:submit forms included.",
+    "requires": [
+        "icon"
+    ],
+    "usage": [
+        "in-a-form",
+        "livewire"
+    ],
+    "examples": [
+        "variants",
+        "sizes-and-states",
+        "icon-only",
+        "back"
+    ]
+}

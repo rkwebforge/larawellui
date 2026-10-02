@@ -1,0 +1,2 @@
+{{-- The default: a list of times, step minutes apart (15 by default) between min and max. Arrow keys move through it, and typing digits jumps: 9 to 9:00, 93 to 9:30. It submits HH:MM on a 24-hour clock. Like every input it fills the space it is given; a time needs about 12rem (class="max-w-48"). --}}
+<x-widget.time-picker name="start" label="Start time" min="08:00" max="18:00" :step="30" value="09:30" class="max-w-48" />

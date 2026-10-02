@@ -1,0 +1,21 @@
+{
+    "group": "Forms",
+    "description": "A text field with label, hint and error, filled back from the session after a failed submit. Takes any input type, plus prefix, suffix and a leading icon. Works with Livewire wire:model, name optional. Password, number, select and the other form controls are components of their own.",
+    "requires": [
+        "field",
+        "icon"
+    ],
+    "support": [
+        "ElementIds",
+        "FormField"
+    ],
+    "usage": [
+        "livewire-form"
+    ],
+    "examples": [
+        "text",
+        "states",
+        "prefix-and-suffix",
+        "counter"
+    ]
+}

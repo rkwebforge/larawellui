@@ -1,0 +1,18 @@
+{
+    "description": "Disclosure panels on <details>, as tinted panels, a bordered list or cards. Panels sharing a name open one at a time. The menu variant groups links in a sidebar that scrolls on its own and opens at the current page. Works inside Livewire components: a render updates what's inside and leaves panels open or shut as they were.",
+    "requires": [
+        "icon"
+    ],
+    "usage": [
+        "remember",
+        "livewire"
+    ],
+    "examples": [
+        "faq",
+        "bordered",
+        "cards",
+        "flush",
+        "custom-header",
+        "menu"
+    ]
+}

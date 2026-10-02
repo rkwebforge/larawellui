@@ -1,0 +1,12 @@
+{
+    "description": "Notifications that appear in a corner and close themselves. Show them from a controller with a session flash, or from JavaScript. From Livewire, dispatch a toast event; flashes survive wire:navigate.",
+    "usage": [
+        "in-your-layout",
+        "from-a-controller",
+        "in-scripts",
+        "from-livewire"
+    ],
+    "examples": [
+        "try-it"
+    ]
+}

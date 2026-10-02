@@ -1,0 +1,2 @@
+{{-- layout="stacked" shows a large, readable image above the answer. audio-src adds a button that plays the code aloud, so people who can't see the image can still pass; refresh reloads both. If the image fails to load, a message asks for another. --}}
+<x-widget.captcha label="Type the characters you see or hear" layout="stacked" :src="$captchaUrl" :audio-src="$captchaAudioUrl" class="max-w-sm" />

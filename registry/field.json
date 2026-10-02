@@ -1,0 +1,20 @@
+{
+    "group": "Forms",
+    "description": "Use this to wrap a control of your own so it matches the rest: the same label, box, error and hint, required mark and character counter, and an error that clears the moment the value changes. It's the frame every form control here is built on, so you never need it around those; they already have it. Works in Livewire around a wire:model control.",
+    "requires": [
+        "icon"
+    ],
+    "usage": [
+        "livewire"
+    ],
+    "examples": [
+        "custom-control",
+        "states"
+    ],
+    "slots": {
+        "x-widget.field": {
+            "before": "Content between the label and the box (the stacked captcha's image).",
+            "after": "Content under the box but above the messages (the password's checklist)."
+        }
+    }
+}

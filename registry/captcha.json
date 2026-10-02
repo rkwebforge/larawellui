@@ -1,0 +1,24 @@
+{
+    "group": "Forms",
+    "description": "An image captcha, inline or stacked large above the answer, with an optional audio version and a refresh button. Or Cloudflare Turnstile, reCAPTCHA or hCaptcha, checked on the server with the Captcha rule. In Livewire the image (or the provider's widget) stays put through every render, so the code being answered never changes under you.",
+    "requires": [
+        "field",
+        "icon"
+    ],
+    "support": [
+        "ElementIds",
+        "FormField"
+    ],
+    "rules": [
+        "Captcha"
+    ],
+    "usage": [
+        "captcha-validation",
+        "livewire"
+    ],
+    "examples": [
+        "captcha",
+        "captcha-stacked",
+        "captcha-provider"
+    ]
+}

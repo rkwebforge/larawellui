@@ -1,0 +1,30 @@
+{
+    "group": "Forms",
+    "description": "Start/end date picker with a multi-month popover. Submits two Y-m-d fields; validate them with NotAfterToday. Works with Livewire: wire:model binds an array's start and end.",
+    "requires": [
+        "button",
+        "datepicker",
+        "field",
+        "icon"
+    ],
+    "support": [
+        "ElementIds",
+        "FormField",
+        "LocalDate"
+    ],
+    "rules": [
+        "LocalToday",
+        "NotAfterToday"
+    ],
+    "php-extensions": [
+        "intl"
+    ],
+    "usage": [
+        "livewire"
+    ],
+    "examples": [
+        "report-period",
+        "booking",
+        "with-error"
+    ]
+}

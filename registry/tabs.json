@@ -1,0 +1,23 @@
+{
+    "description": "Tabs that switch between panels on the page: underlined, underlined and tinted, pills, a segmented track, or stacked beside the panel. Icons and counts on tabs, disabled ones, links as tabs for page navigation, sideways scrolling when there are too many, and remember to keep the open tab in the URL. The arrow keys move between them. Works inside Livewire components, with wire:model for the open tab.",
+    "requires": [
+        "icon"
+    ],
+    "support": [
+        "ElementIds",
+        "FormField"
+    ],
+    "usage": [
+        "livewire"
+    ],
+    "examples": [
+        "underline",
+        "pills",
+        "segmented",
+        "vertical",
+        "icons-and-badges",
+        "links",
+        "remember",
+        "many-tabs"
+    ]
+}

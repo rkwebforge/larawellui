@@ -1,0 +1,2 @@
+{{-- In a Livewire component, bind with wire:model (deferred) or wire:model.live; no name is needed. The property gets the full international number (+14155550123), whatever country and formatting people pick. Set it in PHP and the field picks the matching country and shows the national number; country only sets where an empty field starts. --}}
+<x-widget.phone label="Phone" country="US" wire:model="phone" />

@@ -1,0 +1,20 @@
+{
+    "group": "Forms",
+    "description": "A styled select with keyboard support, type-to-jump and optional search. Single or multiple, and clearable. Options can carry meta (a balance, a count) shown beside them. Works with Livewire wire:model, including options that change between renders.",
+    "requires": [
+        "field",
+        "icon",
+        "search"
+    ],
+    "support": [
+        "ElementIds",
+        "FormField"
+    ],
+    "usage": [
+        "livewire"
+    ],
+    "examples": [
+        "select",
+        "multi-select"
+    ]
+}

@@ -1,0 +1,2 @@
+{{-- In a Livewire component, bind with wire:model (deferred) or wire:model.live; no name is needed. The property only ever gets the allowed characters, cut to the length, so with .live updatedCode() can verify as soon as strlen($this->code) reaches it. Set the property to '' in PHP, after a wrong code, and the field empties. --}}
+<x-widget.verification-code label="Verification code" :length="6" wire:model.live="code" />

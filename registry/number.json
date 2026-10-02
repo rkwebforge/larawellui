@@ -1,0 +1,20 @@
+{
+    "group": "Forms",
+    "description": "Digits only, with a set number of decimals, prefix, suffix and an action slot. Optional -/+ stepper within min and max, negatives, and thousands grouping. Accepts a decimal comma and still submits 12.50. Works with Livewire wire:model, which always gets the plain number.",
+    "requires": [
+        "field",
+        "icon"
+    ],
+    "support": [
+        "ElementIds",
+        "FormField"
+    ],
+    "usage": [
+        "livewire"
+    ],
+    "examples": [
+        "number",
+        "number-stepper",
+        "number-grouped"
+    ]
+}

@@ -1,0 +1,43 @@
+{
+    "description": "Data table for arrays or paginators: sortable columns (one or several at once), a Columns menu to show and hide columns, a totals row, a filters toolbar that filters in place with option counts (dimmed rows or skeleton while loading, optional in-memory cache), row selection with bulk actions, clickable and expandable rows, status badges, a row-actions menu, compact density, sticky header, stacked cards on phones, loading placeholders, drawer/numbers/jump/infinite pagination and an empty state.",
+    "requires": [
+        "button",
+        "dropdown",
+        "icon",
+        "pagination",
+        "search",
+        "select"
+    ],
+    "support": [
+        "ElementIds"
+    ],
+    "usage": [
+        "in-a-controller",
+        "livewire-component",
+        "livewire-view"
+    ],
+    "examples": [
+        "filters",
+        "clickable-rows",
+        "sortable",
+        "selectable",
+        "expandable-rows",
+        "stacked",
+        "compact",
+        "loading",
+        "drawer-pagination",
+        "jump-pagination",
+        "infinite-scroll",
+        "empty"
+    ],
+    "slots": {
+        "x-widget.table": {
+            "filters": "Fields for the toolbar above the table (search, selects). It filters as you type or pick, in place, back on page 1; your controller checks every value.",
+            "bulk": "Buttons for the bar that appears when rows are ticked (selectable); they submit the ticked rows with the bulk form.",
+            "footer": "Rows under the data, e.g. <tr><td>Total</td>…</tr>, aligned with the columns; hidden while empty or loading."
+        },
+        "x-widget.table.row": {
+            "details": "Content shown when the row expands (click, Enter or Space); the row gets a chevron."
+        }
+    }
+}

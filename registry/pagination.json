@@ -1,0 +1,24 @@
+{
+    "description": "Paginator links in seven styles: drawer (bottom sheet of pages), numbers, segmented numbers, jump-to-page, table footer with rows per page, a summary with previous/next, and load more. In a Livewire component (WithPagination) every style changes page in place.",
+    "requires": [
+        "button",
+        "icon",
+        "modal"
+    ],
+    "support": [
+        "ElementIds"
+    ],
+    "usage": [
+        "livewire-component",
+        "livewire-view"
+    ],
+    "examples": [
+        "drawer",
+        "numbers",
+        "segmented",
+        "jump",
+        "footer",
+        "summary",
+        "load-more"
+    ]
+}

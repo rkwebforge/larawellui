@@ -1,0 +1,17 @@
+{
+    "description": "Step indicator for multi-step flows like checkout and onboarding: bars, dots, chevrons, or labelled steps (across or stacked with descriptions) that can link back, be locked, optional or need attention. Works inside Livewire components: it follows the current step through renders.",
+    "requires": [
+        "icon"
+    ],
+    "usage": [
+        "livewire"
+    ],
+    "examples": [
+        "bars",
+        "labelled",
+        "states",
+        "vertical",
+        "dots",
+        "chevrons"
+    ]
+}

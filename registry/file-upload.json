@@ -1,0 +1,25 @@
+{
+    "group": "Forms",
+    "description": "File uploads on a real file input: a drag-and-drop dropzone (single or multiple, with a file list and remove), a compact button, and an image or avatar picker with preview. Checks type and size in the browser from accept and max-size, and with upload-url uploads each file straight away with a progress bar and submits the stored ids. Works with Livewire wire:model.",
+    "requires": [
+        "field",
+        "icon"
+    ],
+    "support": [
+        "ElementIds",
+        "FormField",
+        "UploadLimits"
+    ],
+    "usage": [
+        "validation",
+        "direct-upload-route",
+        "livewire"
+    ],
+    "examples": [
+        "dropzone",
+        "multiple",
+        "direct-upload",
+        "button",
+        "image"
+    ]
+}

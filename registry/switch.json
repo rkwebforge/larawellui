@@ -1,0 +1,19 @@
+{
+    "group": "Forms",
+    "description": "An on/off switch that submits like a checkbox and is announced as a switch. Three sizes, an optional tick and cross, before or after its text, or as a card. Works with Livewire wire:model.",
+    "requires": [
+        "field",
+        "icon"
+    ],
+    "support": [
+        "ElementIds",
+        "FormField"
+    ],
+    "usage": [
+        "livewire"
+    ],
+    "examples": [
+        "switch",
+        "switch-variants"
+    ]
+}

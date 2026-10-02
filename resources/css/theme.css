@@ -1,0 +1,39 @@
+/* Widget theme. Components use only these token names, so re-theming means editing values here.
+   The values meet WCAG AA as the widgets use them (4.5:1 for text, 3:1 for borders and focus rings); check
+   yours the same way if you change them. */
+@theme {
+    /* brand */
+    /* Any Tailwind colour works: point these at its variables, e.g. var(--color-violet-700). Keep AA by choosing a
+       shade with white text on it at 4.5:1 or more that also reads at 4.5:1 on its own 15-20% tint (selected chips,
+       secondary buttons): indigo-600 or 700, blue-700, violet-700, purple-700 and slate-600 or 700 do; most 600s don't. */
+    --color-primary: var(--color-purple-700); /* selected states, focus rings, highlights. White on it 7.1:1, on its 20% tint 4.8:1 */
+    --color-on-primary: #ffffff; /* text on top of primary */
+    --color-primary-hover: var(--color-purple-800); /* hover state of primary buttons */
+
+    /* links */
+    --color-link: #2563eb;
+    --color-link-hover: #1d4ed8;
+    /* text */
+    --color-foreground: #101828; /* main text */
+    --color-muted: #667085; /* placeholders, hints, disabled text, unchecked boxes. 5:1 on surface, 4.6:1 on field */
+
+    /* surfaces */
+    --color-surface: #ffffff; /* cards, dropdowns, popovers */
+    --color-field: #f5f6f8; /* input backgrounds */
+
+    /* borders */
+    --color-line: #e4e7ec; /* subtle borders, dividers */
+    --color-line-strong: #d0d5dd; /* hover/focus borders on fields */
+
+    /* status */
+    --color-error: #b42318; /* 5.6:1 as text on its own 10% tint, the invalid field */
+    --color-success: #15803d; /* 5:1 as text on surface */
+    --color-warning: #e0e71c;
+}
+
+/* Body text of form widgets (labels, messages). Set it to a step of your own type scale. */
+@utility text-style-2 {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+}

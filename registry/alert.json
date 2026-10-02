@@ -1,0 +1,21 @@
+{
+    "description": "Messages that stay on the page, in info, success, warning and error, with a title, actions and an optional dismiss button. flash=\"status\" shows the session message Laravel's auth screens set. Includes an error summary for the top of a form that links each validation error to its field. Works inside Livewire components.",
+    "requires": [
+        "icon"
+    ],
+    "support": [
+        "ElementIds",
+        "FormField"
+    ],
+    "usage": [
+        "from-a-controller",
+        "livewire"
+    ],
+    "examples": [
+        "tones",
+        "with-actions",
+        "dismissible",
+        "flash-status",
+        "error-summary"
+    ]
+}

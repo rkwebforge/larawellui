@@ -1,0 +1,2 @@
+{{-- Rows per page, the range on screen, and previous/next: the usual footer under a data table. Picking a size reloads with ?per_page= and starts again at page 1. Accept only the sizes you offer, e.g. $perPage = in_array($request->integer('per_page'), [10, 25, 50, 100], true) ? $request->integer('per_page') : 10; then pass Order::query()->paginate($perPage)->withQueryString() from your controller. --}}
+<x-widget.pagination type="footer" :paginator="$orders" />

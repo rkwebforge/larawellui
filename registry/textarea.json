@@ -1,0 +1,18 @@
+{
+    "group": "Forms",
+    "description": "Grows with its content, or resizes by dragging. Optional character counter. Works with Livewire wire:model.",
+    "requires": [
+        "field"
+    ],
+    "support": [
+        "ElementIds",
+        "FormField"
+    ],
+    "usage": [
+        "livewire"
+    ],
+    "examples": [
+        "textarea",
+        "counter"
+    ]
+}

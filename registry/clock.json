@@ -1,0 +1,18 @@
+{
+    "description": "Live clocks: digital and analog, world clocks across timezones, countdowns to a date, and a stopwatch or timer. First paint from the server, then they tick in the browser. Works inside Livewire components: they keep ticking, and a running stopwatch keeps running, through renders.",
+    "requires": [
+        "button",
+        "icon"
+    ],
+    "usage": [
+        "livewire"
+    ],
+    "examples": [
+        "digital",
+        "analog",
+        "world",
+        "countdown",
+        "countdown-inline",
+        "stopwatch"
+    ]
+}

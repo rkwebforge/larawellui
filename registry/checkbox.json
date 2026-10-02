@@ -1,0 +1,18 @@
+{
+    "group": "Forms",
+    "description": "A checkbox with a label or a label slot, a description, and an optional value for when it is off. Works with Livewire wire:model, as one box or a list on an array.",
+    "requires": [
+        "field",
+        "icon"
+    ],
+    "support": [
+        "ElementIds",
+        "FormField"
+    ],
+    "usage": [
+        "livewire"
+    ],
+    "examples": [
+        "checkbox"
+    ]
+}

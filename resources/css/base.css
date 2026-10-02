@@ -1,0 +1,76 @@
+/* Behaviour the widgets rely on. Imported after tailwindcss; no colours here, those live in theme.css. */
+
+/* Tailwind v4 resets buttons to cursor: default; restore the pointer for every clickable button. */
+@layer base {
+    button:not(:disabled),
+    [role="button"]:not(:disabled) {
+        cursor: pointer;
+    }
+
+    /* Lock page scroll while a modal is open; the gutter stops the layout jumping when the scrollbar goes. */
+    html:has(dialog[data-modal]:modal) {
+        overflow: hidden;
+        scrollbar-gutter: stable;
+    }
+
+    /*
+     * Browser autofill paints the input's own background (Chrome's light blue) with !important styles
+     * no stylesheet can override. Widget inputs are transparent inside their rounded box, so that
+     * showed as a mismatched block. Delaying the background change "forever" keeps the box's look,
+     * and text-fill-color keeps our text colour (including the red error state).
+     * :autofill covers Chrome 110+, Safari 15.4+, Firefox 86+; the build folds :-webkit-autofill into it anyway.
+     */
+    [data-field] input:autofill {
+        -webkit-text-fill-color: currentColor;
+        caret-color: currentColor;
+        transition: background-color 600000s 0s, color 600000s 0s;
+    }
+}
+
+/* <x-widget.progress>: the indeterminate bar slides across; striped fills drift. */
+@theme {
+    --animate-progress-slide: progress-slide 1.4s ease-in-out infinite;
+    --animate-progress-slide-rtl: progress-slide-rtl 1.4s ease-in-out infinite;
+    --animate-progress-stripes: progress-stripes 1s linear infinite;
+
+    @keyframes progress-slide {
+        from {
+            translate: -100% 0;
+        }
+        to {
+            translate: 250% 0;
+        }
+    }
+
+    /* Right to left the bar starts at the right edge (start-0), so it slides the other way, from off that edge. */
+    @keyframes progress-slide-rtl {
+        from {
+            translate: 100% 0;
+        }
+        to {
+            translate: -250% 0;
+        }
+    }
+
+    @keyframes progress-stripes {
+        from {
+            background-position: 1rem 0;
+        }
+        to {
+            background-position: 0 0;
+        }
+    }
+}
+
+/*
+    Sizes the server works out (a bar's width, a digit's position, a textarea's rows) are classes from these
+    ranges rather than style="" attributes, which a Content Security Policy without 'unsafe-inline' blocks.
+    They're generated here because the views build the class names from numbers, which Tailwind can't find by
+    scanning. Each view clamps its value into the range.
+*/
+@source inline("w-[{0..100}%]");
+@source inline("[--progress:{0..100}]");
+@source inline("[--d:{0..9}]");
+@source inline("[--i:{0..30}]");
+@source inline("{min,max}-h-[calc({1..30}lh+2rem)]");
+@source inline("[--table-window:calc(2.5rem+{1..50}*4rem)]");

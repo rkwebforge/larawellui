@@ -1,0 +1,2 @@
+{{-- variant="segmented": typed straight into the field, with no popover. Digits fill the hour and then the minute, the arrow keys change the part with focus, Left and Right move between parts, and A or P sets the period. Empty parts read hh, mm and AM/PM, and a hint shows an example to type (info="" hides it). Kept within min and max. --}}
+<x-widget.time-picker name="opens_at" label="Opens at" variant="segmented" min="06:00" max="23:00" class="max-w-48" />

@@ -1,0 +1,129 @@
+@props([
+    'id',
+    'title' => null,
+    'label' => null,
+    'size' => 'md',
+    'variant' => 'dialog',
+    'side' => 'end',
+    'scrollable' => false,
+    'mobile' => null,
+    'closeButton' => true,
+    'closeOnBackdrop' => false,
+    'disableClose' => false,
+    'resetOnClose' => false,
+    'open' => false,
+])
+
+@php
+    $drawer = $variant === 'drawer';
+    $side = in_array($side, ['start', 'end', 'bottom'], true) ? $side : 'end';
+    $full = $size === 'full' && ! $drawer;
+    $widths = ['sm' => 'max-w-sm', 'md' => 'max-w-lg', 'lg' => 'max-w-2xl', 'xl' => 'max-w-4xl'];
+    $width = $widths[$size] ?? $widths['md'];
+    // Header and footer stay put while only the body scrolls: asked for with `scrollable`, and always so for
+    // drawers and full-screen dialogs, where the panel is exactly as tall as the screen.
+    $pinned = $scrollable || $drawer || $full;
+    // mobile="sheet": a centred dialog becomes a bottom sheet below the sm breakpoint.
+    $sheet = $mobile === 'sheet' && ! $drawer && ! $full;
+    // An X that can't close anything is just noise, so a locked modal never shows one.
+    $closeButton = $closeButton && ! $disableClose;
+    // Openers find the dialog by this id, so a duplicate must fail loudly rather than be renamed.
+    $id = app(\LarawellUi\Support\ElementIds::class)->claim($id, explicit: true);
+    $hasFooter = isset($footer);
+    // Drawers slide in on exactly the curve and 300ms they slide out on, so opening is the closing played backwards.
+    // 300ms is also the ceiling: the exit must stay within the dialog's own closing transition or it gets cut off.
+    $glide = 'will-change-[translate]';
+
+    // Each drawer side slides in from its own edge (the end edge flips in RTL). Classes written out in full for Tailwind.
+    $drawerPanel = [
+        'end' => "ms-auto h-full {$width} translate-x-full rtl:-translate-x-full group-open:translate-x-0 rtl:group-open:translate-x-0 starting:group-open:translate-x-full rtl:starting:group-open:-translate-x-full",
+        'start' => "me-auto h-full {$width} -translate-x-full rtl:translate-x-full group-open:translate-x-0 rtl:group-open:translate-x-0 starting:group-open:-translate-x-full rtl:starting:group-open:translate-x-full",
+        'bottom' => "mx-auto mt-auto max-h-[85dvh] {$width} rounded-t-3xl translate-y-full group-open:translate-y-0 starting:group-open:translate-y-full",
+    ];
+@endphp
+
+{{--
+    Native <dialog>: the browser traps focus, blocks the page behind it, closes on Esc and returns focus to
+    the opener. The dialog is the full-screen layer and its empty area is the clickable backdrop; the panel
+    inside is the modal. Open with data-modal-open="{{ $id }}" or modal.open('{{ $id }}').
+--}}
+{{-- wire:ignore.self: the browser marks an open dialog with `open`, which a Livewire render would take away again,
+     closing it under the person (a form's validation errors included). What's inside still updates. Open and close it
+     from a component with $this->dispatch('modal-open', id: '…') and 'modal-close'. --}}
+<dialog
+    id="{{ $id }}"
+    data-modal
+    wire:ignore.self
+    tabindex="-1"
+    @if ($title) aria-labelledby="{{ $id }}-title" @elseif ($label) aria-label="{{ $label }}" @endif
+    @if ($closeOnBackdrop) data-close-on-backdrop @endif
+    @if ($disableClose) data-disable-close @endif
+    @if ($resetOnClose) data-reset-on-close @endif
+    @if ($open) data-open-on-load @endif
+    @class([
+        'group fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none flex-col overscroll-contain bg-transparent outline-none transition-all transition-discrete duration-300 open:flex motion-reduce:transition-none backdrop:bg-foreground/40',
+        // The backdrop fades in and out rather than popping. It sits beside the dialog in the top layer, so the
+        // dialog's own opacity doesn't reach it. No backdrop blur: re-blurring the whole page as it opens
+        // stalls rendering for a few hundred milliseconds, and the panel visibly jumps instead of sliding.
+        'backdrop:opacity-0 backdrop:transition-opacity backdrop:duration-300 open:backdrop:opacity-100 starting:open:backdrop:opacity-0 motion-reduce:backdrop:transition-none',
+        // A drawer stays opaque and only slides; fading it at the same time hides the motion.
+        'opacity-0 open:opacity-100 starting:open:opacity-0' => ! $drawer,
+        'overflow-y-auto px-2.5 py-8' => ! $pinned && ! $drawer && ! $full,
+        'overflow-hidden px-2.5 py-8' => $pinned && ! $drawer && ! $full,
+        // Clip, not hidden: hidden still scrolls programmatically, so showModal() focusing the off-screen panel
+        // scrolls the dialog sideways and the panel lands, then snaps back. Clip can't be scrolled at all.
+        'overflow-clip p-0' => $drawer,
+        'overflow-hidden p-0' => $full,
+        'max-sm:px-0 max-sm:pt-8 max-sm:pb-0' => $sheet,
+    ])
+>
+    <div
+        {{ $attributes->class([
+            'bg-surface text-foreground relative w-full shadow-xl transition-transform duration-300 motion-reduce:transition-none',
+            'flex flex-col' => $pinned,
+            // Centred dialog: grows in slightly as it opens.
+            "m-auto rounded-3xl scale-95 group-open:scale-100 starting:group-open:scale-95 {$width}" => ! $drawer && ! $full,
+            'max-h-full' => $pinned && ! $drawer && ! $full,
+            'h-full max-w-none' => $full,
+            $drawerPanel[$side] => $drawer,
+            $glide => $drawer,
+            'max-sm:mt-auto max-sm:mb-0 max-sm:max-w-none max-sm:scale-100 max-sm:rounded-b-none max-sm:translate-y-full max-sm:group-open:translate-y-0 max-sm:starting:group-open:translate-y-full max-sm:will-change-[translate] max-sm:group-open:duration-500 max-sm:group-open:ease-[cubic-bezier(0.25,0.46,0.45,0.94)]' => $sheet,
+        ]) }}
+    >
+        @if ($title)
+            <div @class(['px-6 pt-6', 'pe-14' => $closeButton, 'pb-6' => ! $pinned, 'shrink-0 pb-4' => $pinned])>
+                <h2 id="{{ $id }}-title" class="text-lg font-semibold">{{ $title }}</h2>
+            </div>
+        @endif
+
+        @if ($closeButton)
+            <button
+                type="button"
+                data-modal-close
+                aria-label="Close"
+                class="text-muted hover:text-foreground focus-visible:ring-primary absolute end-4 top-4 z-10 grid size-8 place-items-center rounded-full outline-none focus-visible:ring-2"
+            >
+                <x-widget.icon name="x" class="size-5" />
+            </button>
+        @endif
+
+        <div @class([
+            'px-6',
+            'pt-6' => ! $title,
+            // No title row to hold the X, so the body keeps clear of it.
+            'pe-14' => ! $title && $closeButton,
+            'pb-6' => ! $hasFooter,
+            'min-h-0 flex-1 overflow-y-auto overscroll-contain' => $pinned,
+        ])>
+            {{ $slot }}
+        </div>
+
+        @if ($hasFooter)
+            <div @class([
+                'flex flex-wrap items-center justify-end gap-3 px-6 pb-6',
+                'pt-6' => ! $pinned,
+                'border-line shrink-0 border-t pt-4' => $pinned,
+            ])>{{ $footer }}</div>
+        @endif
+    </div>
+</dialog>

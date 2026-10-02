@@ -1,0 +1,17 @@
+{
+    "title": "Tooltip cursor",
+    "description": "A tooltip that follows the pointer over its element, for charts, maps and large areas where a label pinned to one edge would be far from what's pointed at. Moves to the other side of the pointer near the window's edges; with the keyboard it sits under the focused element. Hidden on Esc, read out by screen readers, never clipped. For a label pinned to an element, see the tooltip. Works inside Livewire components.",
+    "requires": [
+        "icon"
+    ],
+    "support": [
+        "ElementIds"
+    ],
+    "usage": [
+        "livewire"
+    ],
+    "examples": [
+        "area",
+        "chart"
+    ]
+}

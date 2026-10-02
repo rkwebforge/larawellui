@@ -1,0 +1,37 @@
+{
+    "name": "larawellui/larawellui",
+    "description": "Copy-paste Blade + Tailwind v4 widgets for Laravel. The installer copies the source into your app; you own it from there.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["laravel", "blade", "tailwindcss", "components", "widgets"],
+    "homepage": "https://github.com/rkwebforge/larawellui",
+    "authors": [
+        {
+            "name": "Krishnaprasad R",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/rkwebforge/larawellui-site/issues",
+        "source": "https://github.com/rkwebforge/larawellui"
+    },
+    "require": {
+        "php": "^8.3",
+        "illuminate/console": "^12.0|^13.0",
+        "illuminate/filesystem": "^12.0|^13.0",
+        "illuminate/support": "^12.0|^13.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "LarawellUi\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LarawellUi\\LarawellUiServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable"
+}

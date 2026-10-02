@@ -1,0 +1,21 @@
+{
+    "group": "Forms",
+    "description": "A search box that fills itself from the query string, in two sizes, with a clear button, the icon at either end and an optional keyboard shortcut. It searches as you type in a table's filters slot or with Livewire's wire:model.live; on its own it submits its form.",
+    "requires": [
+        "field",
+        "icon"
+    ],
+    "support": [
+        "ElementIds",
+        "FormField"
+    ],
+    "usage": [
+        "livewire"
+    ],
+    "examples": [
+        "sizes-and-widths",
+        "search-form",
+        "icon-at-the-start",
+        "keyboard-shortcut"
+    ]
+}

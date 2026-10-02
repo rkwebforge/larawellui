@@ -1,0 +1,17 @@
+{
+    "group": "Forms",
+    "description": "A group of radio buttons in a fieldset, with descriptions and disabled options. Works with Livewire wire:model.",
+    "requires": [
+        "field"
+    ],
+    "support": [
+        "ElementIds",
+        "FormField"
+    ],
+    "usage": [
+        "livewire"
+    ],
+    "examples": [
+        "radio"
+    ]
+}

@@ -1,0 +1,19 @@
+{
+    "group": "Forms",
+    "description": "A single field for a verification code: digits only, or letters too, cut to its length. For codes typed in one go; see the OTP for one box per character. Works with Livewire wire:model.",
+    "requires": [
+        "field"
+    ],
+    "support": [
+        "ElementIds",
+        "FormField"
+    ],
+    "usage": [
+        "livewire"
+    ],
+    "examples": [
+        "verification-code",
+        "lengths-and-letters",
+        "states"
+    ]
+}

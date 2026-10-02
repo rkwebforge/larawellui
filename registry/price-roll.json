@@ -1,0 +1,17 @@
+{
+    "description": "Odometer-style price that rolls its digits when data-value changes, with an optional change badge (since a previous price), trend colours that can be inverted or switched off, and before/after slots for your own markup. Formats with Intl on both server and client. Works inside Livewire components: a render with a new value rolls to it.",
+    "php-extensions": [
+        "intl"
+    ],
+    "usage": [
+        "livewire"
+    ],
+    "examples": [
+        "live-price",
+        "with-change",
+        "trend-colors",
+        "slots",
+        "sizes",
+        "formats"
+    ]
+}

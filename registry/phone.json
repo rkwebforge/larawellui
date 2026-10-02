@@ -1,0 +1,20 @@
+{
+    "group": "Forms",
+    "description": "A country picker with flags and dial codes, plus the number. Submits one international number, +60123456789. Works with Livewire wire:model.",
+    "requires": [
+        "field",
+        "icon",
+        "search"
+    ],
+    "support": [
+        "Countries",
+        "ElementIds",
+        "FormField"
+    ],
+    "usage": [
+        "livewire"
+    ],
+    "examples": [
+        "phone"
+    ]
+}

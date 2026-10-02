@@ -1,0 +1,15 @@
+{
+    "description": "Progress bars, rings and stacked usage bars. Values in your own units, indeterminate and striped states, and progress.set() to update one from JavaScript. For step-by-step flows, see the stepper. Works inside Livewire components, wire:poll included.",
+    "usage": [
+        "in-scripts",
+        "livewire"
+    ],
+    "examples": [
+        "linear",
+        "values",
+        "indeterminate",
+        "live",
+        "circular",
+        "stacked"
+    ]
+}

@@ -1,0 +1,31 @@
+{
+    "title": "Date picker",
+    "group": "Forms",
+    "description": "Single date field with a calendar popover. Submits Y-m-d; validate with NotAfterToday, or MinimumAge for birthday. Works with Livewire wire:model, name optional.",
+    "requires": [
+        "field",
+        "icon"
+    ],
+    "support": [
+        "ElementIds",
+        "FormField",
+        "LocalDate"
+    ],
+    "rules": [
+        "LocalToday",
+        "MinimumAge",
+        "NotAfterToday"
+    ],
+    "php-extensions": [
+        "intl"
+    ],
+    "usage": [
+        "in-other-languages",
+        "livewire"
+    ],
+    "examples": [
+        "basic",
+        "birthday",
+        "states"
+    ]
+}
