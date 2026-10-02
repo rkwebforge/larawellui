@@ -68,8 +68,9 @@
             'bg-field text-foreground flex overflow-hidden rounded-[20px] border border-transparent transition-colors',
             $box,
             // Hover and focus both turn the border primary (7:1 against the page), with no ring around it: one edge,
-            // never two. An invalid field keeps its red border instead (below).
-            'hover:border-primary focus-within:border-primary' => ! $disabled && ! $readonly,
+            // never two. An invalid field keeps its red border instead (below). An open popup (calendar, list) keeps it
+            // primary too: focus can leave the box, or never land on it (Safari doesn't focus a clicked button).
+            'hover:border-primary focus-within:border-primary has-aria-expanded:border-primary' => ! $disabled && ! $readonly,
             'group-data-invalid/field:border-error group-data-invalid/field:bg-error/10 group-data-invalid/field:text-error',
             'group-data-invalid/field:hover:border-error group-data-invalid/field:focus-within:border-error group-data-invalid/field:focus-within:bg-field group-data-invalid/field:focus-within:text-foreground',
             'opacity-70' => $readonly,

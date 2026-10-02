@@ -138,7 +138,7 @@
     :error="$field->errors"
     :info="$info"
     :disabled="$disabled"
-    box="h-12 items-center has-aria-expanded:border-line-strong"
+    box="h-12 items-center"
     :class="$attributes->get('class')"
     {{ $attributes->except(['class', 'form', 'required', 'aria-invalid', 'aria-describedby', ...array_keys($binding)]) }}
 >

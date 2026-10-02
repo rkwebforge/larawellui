@@ -79,10 +79,6 @@
 
     $required = $attributes->has('required');
     $popover = in_array($variant, ['list', 'columns'], true);
-    $box = match ($variant) {
-        'segmented' => 'h-12 items-center',
-        default => 'h-12 items-center has-aria-expanded:border-line-strong',
-    };
 @endphp
 
 {{--
@@ -108,7 +104,7 @@
     :disabled="$disabled"
     :bare="$variant === 'slots'"
     :labels-control="! in_array($variant, ['segmented', 'slots'], true)"
-    :box="$box"
+    box="h-12 items-center"
     :class="$attributes->get('class')"
 >
     @if ($popover)
