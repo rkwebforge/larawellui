@@ -1,5 +1,6 @@
 // Drives <x-widget.select>. Open/close, Esc and click-outside come from the native popover;
-// this adds keyboard navigation, type-to-jump, search filtering and positioning under the field.
+// this adds keyboard navigation, type-to-jump, search filtering (or, with search-url, searching your app) and positioning
+// under the field.
 import { closeIfOutOfView } from '../field';
 
 const VIEWPORT_EDGE = 16;
@@ -41,6 +42,20 @@ function initSelect(root) {
     let active = -1;
     let typed = '';
     let typedTimer = null;
+
+    // search-url: typing asks your app, and its answers become the options. What's chosen stays in the list (hidden
+    // when it doesn't match), so it's never lost; under search-min-length, the options the server drew show again.
+    const searchUrl = root.dataset.searchUrl;
+    const listbox = popup.querySelector('[role="listbox"]');
+    const optionTemplate = popup.querySelector('template[data-select-option-template]');
+    const status = popup.querySelector('[data-select-status]');
+    // The options the server drew, in its order: what shows before any search, along with whatever is chosen.
+    const drawnOrder = options();
+    const drawn = new Set(drawnOrder.map((option) => option.dataset.value));
+    const answers = new Map();
+    let searchTimer = null;
+    let searchRequest = null;
+    let made = 0;
 
     const isOpen = () => popup.matches(':popover-open');
     const visible = () => options().filter((option) => !option.hidden);
@@ -115,6 +130,9 @@ function initSelect(root) {
         const picked = chosen();
         const target = multiple ? (model ?? values) : input;
         if (model) {
+            // A choice a search brought isn't among the bound select's options yet; add it, or it couldn't be selected.
+            picked.filter((option) => ![...model.options].some((item) => item.value === option.dataset.value))
+                .forEach((option) => model.add(new Option('', option.dataset.value)));
             const chosenValues = new Set(picked.map((option) => option.dataset.value));
             [...model.options].forEach((item) => {
                 item.selected = chosenValues.has(item.value);
@@ -192,7 +210,126 @@ function initSelect(root) {
         trigger.focus();
     });
 
+    // An option as your app sent it: a string, or value and label (id and name work too), with meta and disabled.
+    function normalise(item) {
+        const entry = typeof item === 'string' || typeof item === 'number' ? { value: item, label: item } : (item ?? {});
+        const value = String(entry.value ?? entry.id ?? entry.label ?? '');
+
+        return { value, label: String(entry.label ?? entry.name ?? value), meta: entry.meta ?? '', disabled: Boolean(entry.disabled) };
+    }
+
+    function optionFor(item) {
+        const option = optionTemplate.content.firstElementChild.cloneNode(true);
+        made += 1;
+        option.id = `${listbox.id.replace(/-listbox$/, '')}-found-${made}`;
+        Object.assign(option.dataset, { value: item.value, label: item.label, meta: item.meta });
+        option.title = item.label;
+        option.querySelector('[data-select-option-label]').textContent = item.label;
+        option.querySelector('[data-select-option-meta]').textContent = item.meta;
+        if (item.disabled) {
+            option.setAttribute('aria-disabled', 'true');
+        }
+
+        return option;
+    }
+
+    function say(text) {
+        if (status) {
+            status.textContent = text;
+        }
+    }
+
+    // Shows the options for these answers, in their order; null brings back the ones the server drew, in its order,
+    // and whatever is chosen.
+    function showFound(items) {
+        const wanted = new Map((items ?? []).map((item) => [item.value, item]));
+        if (!items) {
+            drawnOrder.filter((option) => option.isConnected).forEach((option) => empty.before(option));
+            options().filter((option) => !drawn.has(option.dataset.value)).forEach((option) => empty.before(option));
+        }
+        options().forEach((option) => {
+            const picked = option.getAttribute('aria-selected') === 'true';
+            const keep = items ? wanted.has(option.dataset.value) : drawn.has(option.dataset.value) || picked;
+            if (!keep && !picked && !drawn.has(option.dataset.value)) {
+                option.remove();
+            } else {
+                option.hidden = !keep;
+            }
+        });
+        for (const item of wanted.values()) {
+            const option = options().find((existing) => existing.dataset.value === item.value) ?? optionFor(item);
+            option.hidden = false;
+            empty.before(option);
+        }
+        empty.textContent = empty.dataset.noResults;
+        empty.hidden = visible().length > 0;
+        setActive(-1);
+        move(1, -1);
+        if (items) {
+            say(items.length === 0 ? empty.dataset.noResults : '');
+        }
+    }
+
+    async function searchApp(query) {
+        const term = query.trim();
+        clearTimeout(searchTimer);
+        searchRequest?.abort();
+        listbox.removeAttribute('aria-busy');
+        if (term.length < Number(root.dataset.searchMinLength ?? 2)) {
+            showFound(null);
+            say('');
+
+            return;
+        }
+        if (answers.has(term)) {
+            showFound(answers.get(term));
+
+            return;
+        }
+        searchTimer = setTimeout(async () => {
+            const request = new AbortController();
+            searchRequest = request;
+            listbox.setAttribute('aria-busy', 'true');
+            if (visible().length === 0) {
+                empty.textContent = empty.dataset.searching;
+                empty.hidden = false;
+            }
+            say(empty.dataset.searching);
+            const url = new URL(searchUrl, window.location.href);
+            url.searchParams.set('q', term);
+            try {
+                const response = await fetch(url, { headers: { Accept: 'application/json' }, signal: request.signal });
+                if (!response.ok) {
+                    throw new Error(String(response.status));
+                }
+                const body = await response.json();
+                const items = (Array.isArray(body) ? body : (Array.isArray(body?.data) ? body.data : [])).map(normalise).filter((item) => item.value !== '');
+                answers.set(term, items);
+                // Typing may have moved on while this was on its way; only the latest answer counts.
+                if (search.value.trim() === term) {
+                    showFound(items);
+                }
+            } catch (error) {
+                if (error.name !== 'AbortError') {
+                    options().forEach((option) => { option.hidden = true; });
+                    empty.textContent = empty.dataset.searchFailed;
+                    empty.hidden = false;
+                    say(empty.dataset.searchFailed);
+                }
+            } finally {
+                if (searchRequest === request) {
+                    listbox.removeAttribute('aria-busy');
+                }
+            }
+        }, 250);
+    }
+
     function filter(query) {
+        if (searchUrl) {
+            searchApp(query);
+
+            return;
+        }
         const needle = query.trim().toLowerCase();
         options().forEach((option) => {
             option.hidden = needle !== '' && !option.dataset.label.toLowerCase().includes(needle);

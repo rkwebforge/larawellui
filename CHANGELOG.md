@@ -10,14 +10,18 @@ What you build on is only ever added to, never renamed or removed: component nam
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-03
+
 ### Added
 
-- **breadcrumbs**: a new widget showing where a page sits, as a trail of links down to the current page (`aria-current="page"`). On phones, one link back up instead. Chevron or slash separators, an icon-only Home that keeps its name, and long labels cut short with the full text on hover.
 - **show-if**: a new widget that shows part of a form only while another field has a given value, such as a phone number when Phone is chosen. Hidden, its fields don't submit and their required can't block the form; it starts in the right state after a failed submit, nests, and works inside Livewire.
-- **All widgets**: a manifest can name, in `examples-use`, other widgets its examples use without needing them itself. The page, `/r/{name}.json` (`examples_use`, `examples_install`), `larawell:list --json` and MCP list them with the command that adds them.
+- **breadcrumbs**: a new widget showing where a page sits, as a trail of links down to the current page (`aria-current="page"`). On phones, one link back up instead. Chevron or slash separators, an icon-only Home that keeps its name, and long labels cut short with the full text on hover.
+- **search**: suggestions as you type, like a store's search, with `suggest-url`: your endpoint answers `GET ?q=…` with JSON. Suggestions can carry details, open a page directly (`href`) or sit under group headings; the typed text shows in bold. Keyboard and screen-reader support follow the ARIA combobox pattern, requests wait for a pause in typing and drop stale answers, and a failed one is announced. `suggest-min` and `messages` tune it.
+- **select**: `search-url` searches your app as you type, for lists too long to send to the page (customers, products). Single or multiple: choices stay picked across searches, the chosen option(s) you pass show before any search, and other options you pass show as a starter list until you type. Searching and failures are shown and announced; `search-min-length`, `searching` and `search-failed` tune it. A Livewire `wire:model` multiple select takes values a search brought.
 - **All widgets**: a dark theme in `theme.css`, at WCAG AA. Put `class="dark"` or `data-theme="dark"` on `<html>`, or on any element for just that part of the page.
 - **Theme**: `primary-fill`, `error-fill` and `success-fill`, for solid backgrounds that carry white text. `primary`, `error` and `success` are now only for text, borders, focus rings and tints, so dark mode can make those lighter without failing contrast. In light mode each fill follows its base colour unless you set it, and `primary-hover` is now a darker mix of `primary-fill` in both modes, so a theme that changed only `primary` looks as it did, hover included. In dark mode the fills are a deeper shade of their own; if you change the brand colour, set the dark pair too.
 - **icon**: 24 icons: arrow-down, arrow-up, bell, bookmark, circle-help, circle-x, credit-card, download, external-link, filter, globe, heart, home, link, mail, map-pin, menu, phone, send, settings, share, star, tag and users.
+- **All widgets**: a manifest can name, in `examples-use`, other widgets its examples use without needing them itself. The page, `/r/{name}.json` (`examples_use`, `examples_install`), `larawell:list --json` and MCP list them with the command that adds them.
 - **All widgets**: every prop has a description on its component's page, in `/r/*.json` and through MCP. Props that take one of a set of values list them all, and the icon's `name` lists every icon.
 
 ### Changed
@@ -54,5 +58,6 @@ What you build on is only ever added to, never renamed or removed: component nam
 - `larawellui.lock`, so updates replace only the files you haven't edited.
 - Livewire 3 and 4 support, with `wire:model` on every form control.
 
-[Unreleased]: https://github.com/rkwebforge/larawellui/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/rkwebforge/larawellui/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/rkwebforge/larawellui/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/rkwebforge/larawellui/releases/tag/v0.1.0

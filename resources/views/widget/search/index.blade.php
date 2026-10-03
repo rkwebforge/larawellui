@@ -19,6 +19,14 @@
     // A key that jumps to the box from anywhere on the page, e.g. "/", shown as a hint while the box is empty and
     // unfocused. One character, without modifiers; it doesn't fire while you're typing in another field.
     'shortcut' => null,
+    // Suggestions as you type, like a store's search: a URL that answers GET ?q=… with JSON, a list or {"data": [...]}. Each
+    // suggestion is a string, or ['label' => …, 'value' => what fills the box, 'meta' => small text at the end,
+    // 'href' => a page to open instead, 'group' => a heading to list it under].
+    'suggestUrl' => null,
+    // How many characters to type before asking for suggestions.
+    'suggestMin' => 2,
+    // Rewords what screen readers hear about the suggestions, by key: count (:count), none, failed.
+    'messages' => [],
 ])
 
 @php
@@ -38,6 +46,14 @@
     }
     $start = $iconPosition === 'start';
     $shortcut = is_string($shortcut) && mb_strlen($shortcut) === 1 && trim($shortcut) !== '' ? $shortcut : null;
+    // Plain English like every component; pass messages="[…]" to reword or translate any of them.
+    $messages = [
+        'count' => ':count suggestions. Use the arrow keys to choose one.',
+        'none' => 'No suggestions.',
+        'failed' => 'Couldn\'t load suggestions.',
+        ...$messages,
+    ];
+    $suggest = $suggestUrl !== null && $suggestUrl !== '';
 @endphp
 
 <div {{ $attributes->only('class')->class([
@@ -57,6 +73,18 @@
         placeholder="{{ $placeholder !== '' ? $placeholder : ' ' }}"
         aria-label="{{ $label ?? $placeholder }}"
         @if ($shortcut) aria-keyshortcuts="{{ $shortcut }}" data-search-shortcut="{{ $shortcut }}" @endif
+        {{-- With suggestions it's a combobox: the list below is its popup, and the arrow keys move through it while focus
+             stays in the box (aria-activedescendant). The browser's own autofill list would cover it. --}}
+        @if ($suggest)
+            role="combobox"
+            aria-autocomplete="list"
+            aria-expanded="false"
+            aria-controls="{{ $id }}-suggestions"
+            autocomplete="off"
+            data-search-suggest="{{ $suggestUrl }}"
+            data-suggest-min="{{ max(1, (int) $suggestMin) }}"
+            data-suggest-messages="{{ json_encode($messages) }}"
+        @endif
         {{ $attributes->except('class')->class([
             'peer h-full w-full min-w-0 bg-transparent outline-none placeholder:text-muted [&::-webkit-search-cancel-button]:appearance-none',
             $start ? 'ps-3' : 'ps-5',
@@ -85,4 +113,24 @@
     @unless ($start)
         <x-widget.icon name="search" class="text-muted me-5 size-4 shrink-0" />
     @endunless
+    @if ($suggest)
+        {{-- In the top layer (a popover), so the box's rounded clip and a table or modal can't cut it off; the script
+             places it under the box and fills it. wire:ignore: a Livewire render would empty it while it's open. --}}
+        <div id="{{ $id }}-suggestions" role="listbox" aria-label="Suggestions" popover="manual" wire:ignore data-search-suggestions class="border-line bg-surface text-foreground fixed inset-auto m-0 max-h-80 overflow-y-auto overscroll-contain rounded-2xl border p-1.5 text-sm shadow-lg [scrollbar-width:thin]"></div>
+        {{-- What a screen reader hears as suggestions come and go. --}}
+        <p data-search-status role="status" class="sr-only"></p>
+        {{-- One suggestion and one group heading, filled in by the script. Here rather than in the JS so you can restyle
+             them in the Blade you own. The typed text is shown in bold within each label. --}}
+        <template data-search-suggestion>
+            <div role="option" aria-selected="false" class="aria-selected:bg-field flex cursor-pointer items-center justify-between gap-3 rounded-xl px-3 py-2">
+                <span data-suggestion-label class="text-foreground/80 min-w-0 truncate [&_mark]:text-foreground [&_mark]:bg-transparent [&_mark]:font-semibold"></span>
+                <span data-suggestion-meta class="text-muted shrink-0 text-xs empty:hidden"></span>
+            </div>
+        </template>
+        <template data-search-group>
+            <div role="group" class="not-first:border-line not-first:mt-1 not-first:border-t not-first:pt-1">
+                <div data-group-label class="text-muted px-3 pt-1.5 pb-1 text-xs font-medium"></div>
+            </div>
+        </template>
+    @endif
 </div>

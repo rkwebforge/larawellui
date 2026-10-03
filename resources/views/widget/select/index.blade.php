@@ -29,6 +29,16 @@
     'searchPlaceholder' => 'Search',
     // Shown when the search matches nothing.
     'noResults' => 'No results',
+    // Searches your app instead of the options on the page, for lists too long to send: a URL that answers GET ?q=… with
+    // JSON, a list or {"data": [...]}, each option a string or ['value' => 7, 'label' => 'Ana Silva', 'meta' => …]. Pass the
+    // chosen option(s) in options, so the field shows them before any search; any others there show until you type.
+    'searchUrl' => null,
+    // With search-url: how many characters to type before asking.
+    'searchMinLength' => 2,
+    // With search-url: shown, and announced, while a search runs.
+    'searching' => 'Searching…',
+    // With search-url: shown, and announced, when a search fails.
+    'searchFailed' => 'Couldn\'t search. Try again.',
     // The label inside the field, above the value, instead of above the field.
     'innerLabel' => false,
     // Choose several: the list stays open and each pick toggles an option.
@@ -91,13 +101,16 @@
     }
     $display = $multiple ? $display : 'list';
     $visible = $display === 'count' && $chosen->count() > 1 ? str_replace(':count', (string) $chosen->count(), $countLabel) : $shown;
-    // A short list doesn't need a search box, same threshold as the React version.
-    $showSearch = $searchable && $items->count() >= (int) $searchMin;
+    // A short list doesn't need a search box, same threshold as the React version. Searching the server always does.
+    $remote = $searchUrl !== null && $searchUrl !== '';
+    $showSearch = $remote || ($searchable && $items->count() >= (int) $searchMin);
+    // One look for every option, the server's and those a search brings (the template below).
+    $optionClass = 'flex shrink-0 cursor-pointer items-center justify-between gap-3 px-5 py-2 transition-colors duration-150 select-none aria-disabled:cursor-not-allowed aria-disabled:opacity-40 aria-selected:bg-primary/10 data-active:bg-field aria-selected:data-active:bg-primary/15';
 @endphp
 
 {{-- data-required-message: the value is in hidden inputs, which the browser never validates, so resources/js/widget/field
      stops an empty submit itself and shows this. --}}
-<x-widget.field :required="$attributes->has('required')" :data-required-message="$attributes->has('required') && ! $disabled ? $requiredMessage : false" data-select :data-multiple="$multiple ? 'true' : false" :data-display="$display" :data-count-label="$display === 'count' ? $countLabel : false" :id="$id" :label="$innerLabel ? null : $label" :error="$field->errors" :info="$info" :disabled="$disabled" box="relative min-h-12 items-stretch" :class="$attributes->get('class')">
+<x-widget.field :required="$attributes->has('required')" :data-required-message="$attributes->has('required') && ! $disabled ? $requiredMessage : false" data-select :data-multiple="$multiple ? 'true' : false" :data-search-url="$remote ? $searchUrl : false" :data-search-min-length="$remote ? max(1, (int) $searchMinLength) : false" :data-display="$display" :data-count-label="$display === 'count' ? $countLabel : false" :id="$id" :label="$innerLabel ? null : $label" :error="$field->errors" :info="$info" :disabled="$disabled" box="relative min-h-12 items-stretch" :class="$attributes->get('class')">
     @if ($display === 'chips')
         {{-- Chips sit above the trigger, which fills the box behind them: clicking any empty spot opens the list,
              and only the chips' remove buttons take clicks of their own (a button can't sit inside the trigger). --}}
@@ -236,12 +249,21 @@
                     title="{{ $item['label'] }}"
                     aria-selected="{{ in_array($item['value'], $selectedValues, true) ? 'true' : 'false' }}"
                     @if ($item['disabled']) aria-disabled="true" @endif
-                    class="flex shrink-0 cursor-pointer items-center justify-between gap-3 px-5 py-2 transition-colors duration-150 select-none aria-disabled:cursor-not-allowed aria-disabled:opacity-40 aria-selected:bg-primary/10 data-active:bg-field aria-selected:data-active:bg-primary/15"
+                    class="{{ $optionClass }}"
                 {{-- The meta (a balance, a count) at the end of the line; an empty span without one, so it can be filled in later. --}}
                 ><span class="min-w-0 truncate">{{ $item['label'] }}</span><span data-select-option-meta class="text-foreground/60 shrink-0 text-xs tabular-nums empty:hidden">{{ $item['meta'] }}</span></div>
             @endforeach
 
-            <div data-select-empty @if ($items->isNotEmpty()) hidden @endif class="text-muted px-5 py-2">{{ $noResults }}</div>
+            <div data-select-empty data-no-results="{{ $noResults }}" @if ($remote) data-searching="{{ $searching }}" data-search-failed="{{ $searchFailed }}" @endif @if ($items->isNotEmpty()) hidden @endif class="text-muted px-5 py-2">{{ $noResults }}</div>
         </div>
+        @if ($remote)
+            {{-- What a screen reader hears as a search runs, finds or fails. --}}
+            <p data-select-status role="status" class="sr-only"></p>
+            {{-- An option a search brings, filled in by the script: the same look as the server's, kept here so you can
+                 restyle both in the Blade you own. --}}
+            <template data-select-option-template>
+                <div role="option" aria-selected="false" class="{{ $optionClass }}"><span data-select-option-label class="min-w-0 truncate"></span><span data-select-option-meta class="text-foreground/60 shrink-0 text-xs tabular-nums empty:hidden"></span></div>
+            </template>
+        @endif
     </div>
 </x-widget.field>

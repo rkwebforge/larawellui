@@ -1,6 +1,6 @@
 {
     "group": "Forms",
-    "description": "A styled select with keyboard support, type-to-jump and optional search. Single or multiple, and clearable. Options can carry meta (a balance, a count) shown beside them. Works with Livewire wire:model, including options that change between renders.",
+    "description": "A styled select with keyboard support, type-to-jump and optional search. Single or multiple, and clearable. Options can carry meta (a balance, a count) shown beside them. With search-url it searches your app as you type, for lists too long to send to the page. Works with Livewire wire:model, including options that change between renders.",
     "requires": [
         "field",
         "icon",
@@ -11,10 +11,13 @@
         "FormField"
     ],
     "usage": [
+        "search-endpoint",
         "livewire"
     ],
     "examples": [
         "select",
-        "multi-select"
+        "multi-select",
+        "search-your-app",
+        "search-your-app-for-several"
     ]
 }
