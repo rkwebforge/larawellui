@@ -1,0 +1,11 @@
+{
+    "description": "Where a page sits: a trail of links from the top down to the current page, which screen readers hear as such. On phones, a single link back up instead. Chevron or slash between the steps, an icon for Home, and long labels cut short with the full text on hover.",
+    "requires": [
+        "icon"
+    ],
+    "examples": [
+        "basic",
+        "home-icon",
+        "long-trail"
+    ]
+}

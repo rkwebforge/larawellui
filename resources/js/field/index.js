@@ -84,7 +84,8 @@ document.addEventListener('submit', (event) => {
     if (!(form instanceof HTMLFormElement) || form.noValidate || event.submitter?.formNoValidate) {
         return;
     }
-    const missing = [...form.querySelectorAll('[data-field][data-required-message]')].filter((field) => !hasChoice(field));
+    // Not inside a disabled fieldset (a hidden show-if): like the browser's own checks, those don't count.
+    const missing = [...form.querySelectorAll('[data-field][data-required-message]')].filter((field) => !field.closest('fieldset:disabled') && !hasChoice(field));
     if (missing.length === 0) {
         return;
     }

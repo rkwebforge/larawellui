@@ -12,8 +12,11 @@ What you build on is only ever added to, never renamed or removed: component nam
 
 ### Added
 
+- **breadcrumbs**: a new widget showing where a page sits, as a trail of links down to the current page (`aria-current="page"`). On phones, one link back up instead. Chevron or slash separators, an icon-only Home that keeps its name, and long labels cut short with the full text on hover.
+- **show-if**: a new widget that shows part of a form only while another field has a given value, such as a phone number when Phone is chosen. Hidden, its fields don't submit and their required can't block the form; it starts in the right state after a failed submit, nests, and works inside Livewire.
+- **All widgets**: a manifest can name, in `examples-use`, other widgets its examples use without needing them itself. The page, `/r/{name}.json` (`examples_use`, `examples_install`), `larawell:list --json` and MCP list them with the command that adds them.
 - **All widgets**: a dark theme in `theme.css`, at WCAG AA. Put `class="dark"` or `data-theme="dark"` on `<html>`, or on any element for just that part of the page.
-- **Theme**: `primary-fill`, `error-fill` and `success-fill`, for solid backgrounds that carry white text. `primary`, `error` and `success` are now only for text, borders, focus rings and tints, so dark mode can make those lighter without failing contrast. In light mode each fill follows its base colour unless you set it, so a theme that changed only `primary` looks as it did. In dark mode the fills are a deeper shade of their own; if you change the brand colour, set the dark pair too.
+- **Theme**: `primary-fill`, `error-fill` and `success-fill`, for solid backgrounds that carry white text. `primary`, `error` and `success` are now only for text, borders, focus rings and tints, so dark mode can make those lighter without failing contrast. In light mode each fill follows its base colour unless you set it, and `primary-hover` is now a darker mix of `primary-fill` in both modes, so a theme that changed only `primary` looks as it did, hover included. In dark mode the fills are a deeper shade of their own; if you change the brand colour, set the dark pair too.
 - **icon**: 24 icons: arrow-down, arrow-up, bell, bookmark, circle-help, circle-x, credit-card, download, external-link, filter, globe, heart, home, link, mail, map-pin, menu, phone, send, settings, share, star, tag and users.
 - **All widgets**: every prop has a description on its component's page, in `/r/*.json` and through MCP. Props that take one of a set of values list them all, and the icon's `name` lists every icon.
 
@@ -29,6 +32,7 @@ What you build on is only ever added to, never renamed or removed: component nam
 
 ### Fixed
 
+- **field**: the required check for the select, date pickers and time picker skips fields inside a disabled fieldset, as the browser's own checks do. Before, a hidden required one could stop the form.
 - **time-picker**: the list and each column now have one Tab stop, the chosen time or else the first that can be picked, which follows focus as the arrow keys move (a roving tabindex). Before, no option could be reached with Tab, and a scrolling list had no keyboard way in.
 - **table**: an expandable row opens from a real Details button in its chevron cell, which carries `aria-expanded`. ARIA doesn't allow that on a table row, so screen readers could miss whether it was open. A click anywhere on the row still opens it.
 - **tooltip**: around an icon with no text, the focusable wrapper is now an image named by the tooltip (`role="img"`). Before, it had a name but no role, which isn't allowed.

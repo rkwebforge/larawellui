@@ -25,6 +25,8 @@ final readonly class WidgetDetails
                 'slots' => (object) $component->slots,
             ], $this->registry->components($widget)),
             'requires' => $widget->requires,
+            // Other widgets the examples use, which `larawell:add` doesn't bring with this one: add them to use an example as is.
+            'examples-use' => $widget->examplesUse,
             'composer' => $widget->composer,
             'php-extensions' => $widget->phpExtensions,
             'usage' => array_map(static fn (Snippet $snippet): array => [

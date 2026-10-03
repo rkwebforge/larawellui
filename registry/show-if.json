@@ -1,0 +1,25 @@
+{
+    "title": "Show if",
+    "group": "Forms",
+    "description": "Shows part of a form only while another field has a given value: a phone number when Phone is chosen, a second address when a box is ticked, a text box for Other. Hidden, its fields don't submit and their required can't block the form. Starts in the right state after a failed submit, and works inside Livewire components.",
+    "requires": [
+        "field"
+    ],
+    "examples-use": [
+        "radio",
+        "phone",
+        "select",
+        "text-input",
+        "checkbox",
+        "textarea"
+    ],
+    "usage": [
+        "validation",
+        "livewire"
+    ],
+    "examples": [
+        "contact-method",
+        "other-option",
+        "different-address"
+    ]
+}

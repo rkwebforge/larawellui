@@ -12,7 +12,8 @@
        changing primary alone restyles both; dark mode below sets a deeper shade of its own. */
     --color-primary-fill: var(--color-primary);
     --color-on-primary: #ffffff; /* text on top of primary-fill. 7.1:1 */
-    --color-primary-hover: var(--color-purple-800); /* primary-fill under the pointer */
+    /* primary-fill under the pointer: a darker mix of it, so it follows the fill and white on it gains contrast. */
+    --color-primary-hover: color-mix(in oklab, var(--color-primary-fill) 85%, black);
 
     /* links */
     --color-link: #2563eb;
@@ -50,7 +51,8 @@
     --color-primary: var(--color-purple-300); /* 7.8:1, 6.4:1 */
     --color-primary-fill: var(--color-purple-600); /* white on it 5.5:1 */
     --color-on-primary: #ffffff;
-    --color-primary-hover: var(--color-purple-700); /* white on it 7.1:1 */
+    /* Declared again here: a var() is worked out where it's declared, so the one above would mix the light fill. */
+    --color-primary-hover: color-mix(in oklab, var(--color-primary-fill) 85%, black); /* white on it 7.7:1 */
     --color-link: #84adff; /* 6.2:1, 5.1:1 */
     --color-link-hover: #b2ccff;
     --color-foreground: #f2f4f7; /* 12.6:1, 10.3:1 */

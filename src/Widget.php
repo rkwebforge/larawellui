@@ -23,6 +23,7 @@ final readonly class Widget
      * @param  array<string, array<string, string>>  $slots  by component tag: each named slot and what it's for
      * @param  string|null  $heading  for headings, when the name doesn't read right as one (otp → OTP)
      * @param  string|null  $group  the catalogue's heading it's listed under (Forms), for related widgets
+     * @param  list<string>  $examplesUse  other widgets its examples use, not installed with it: the page names them
      */
     public function __construct(
         public string $name,
@@ -37,6 +38,7 @@ final readonly class Widget
         public array $slots = [],
         public ?string $heading = null,
         public ?string $group = null,
+        public array $examplesUse = [],
     ) {}
 
     /** Date range picker, for headings: the manifest's title, or else the name. */
@@ -73,6 +75,7 @@ final readonly class Widget
             self::slots($name, $data),
             $data['title'] ?? null,
             $data['group'] ?? null,
+            self::strings($name, $data, 'examples-use'),
         );
     }
 
