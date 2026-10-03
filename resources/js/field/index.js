@@ -25,11 +25,13 @@ function clearInvalid(event) {
     }
     field.removeAttribute('data-invalid');
     field.querySelector('[data-field-error]')?.remove();
+    // The hint shows again, so it's announced again: it stood aside for the error (FormField::aria).
+    const hint = field.querySelector('[data-field-info]')?.id;
     field.querySelectorAll('[aria-invalid="true"]').forEach((control) => {
         control.removeAttribute('aria-invalid');
         // Drop the (now removed) error from what screen readers announce, keep the rest.
-        const describedBy = (control.getAttribute('aria-describedby') ?? '').split(' ').filter((id) => id && document.getElementById(id));
-        describedBy.length ? control.setAttribute('aria-describedby', describedBy.join(' ')) : control.removeAttribute('aria-describedby');
+        const describedBy = new Set([hint, ...(control.getAttribute('aria-describedby') ?? '').split(' ')].filter((id) => id && document.getElementById(id)));
+        describedBy.size ? control.setAttribute('aria-describedby', [...describedBy].join(' ')) : control.removeAttribute('aria-describedby');
     });
 }
 
@@ -68,12 +70,13 @@ function showRequired(field) {
     const message = Object.assign(document.createElement('p'), { id: `${trigger.id}-error`, className: 'text-error break-words', textContent: field.dataset.requiredMessage });
     error.append(message);
     // Where the server would have put it: under the box, above any hint (which the invalid state hides).
-    const info = field.querySelector(`#${CSS.escape(trigger.id)}-info`)?.parentElement;
-    info ? info.before(error) : field.append(error);
+    const info = field.querySelector('[data-field-info]');
+    info ? info.parentElement.before(error) : field.append(error);
 
     field.setAttribute('data-invalid', '');
     trigger.setAttribute('aria-invalid', 'true');
-    const describedBy = new Set((trigger.getAttribute('aria-describedby') ?? '').split(' ').filter(Boolean));
+    // The error instead of the hint, which the invalid state hides, as the server does it (FormField::aria).
+    const describedBy = new Set((trigger.getAttribute('aria-describedby') ?? '').split(' ').filter((id) => id && id !== info?.id));
     trigger.setAttribute('aria-describedby', [message.id, ...describedBy].join(' '));
 
     return trigger;

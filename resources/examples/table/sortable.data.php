@@ -12,7 +12,7 @@ return static function (): array {
         'reference' => 'PAY-'.str_pad((string) (1000 + ($n * 7) % 97), 4, '0', STR_PAD_LEFT),
         'customer' => $customers[$n % count($customers)],
         'date' => now()->startOfYear()->addDays(($n * 11) % 250)->format('Y-m-d'),
-        'value' => round(12 + ($n * 53.7) % 900, 2),
+        'value' => round(12 + fmod($n * 53.7, 900), 2),
     ]);
     $sort = in_array(request()->query('sort'), ['reference', 'date', 'amount'], true) ? request()->query('sort') : 'date';
     $all = $all->sortBy($sort === 'amount' ? 'value' : $sort, SORT_REGULAR, request()->query('direction') === 'desc')->values()

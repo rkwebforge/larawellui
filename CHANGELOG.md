@@ -10,6 +10,17 @@ What you build on is only ever added to, never renamed or removed: component nam
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-10-04
+
+### Added
+
+- **field**: a `data-field-info` hook on the hint, which the field's script uses to announce the hint again once an error clears.
+
+### Fixed
+
+- **All form widgets**: a field showing an error is described by the error alone. Before, screen readers also read the hint the error hides, often two sentences saying nearly the same thing, like the birthday picker's "You must be 18 or older." after "You must be at least 18 years old." The hint is announced again once the error clears.
+- **table**: the sortable example's demo data no longer logs a PHP deprecation ("Implicit conversion from float … to int") when it builds its amounts.
+
 ## [0.2.0] - 2026-10-03
 
 ### Added
@@ -58,6 +69,7 @@ What you build on is only ever added to, never renamed or removed: component nam
 - `larawellui.lock`, so updates replace only the files you haven't edited.
 - Livewire 3 and 4 support, with `wire:model` on every form control.
 
-[Unreleased]: https://github.com/rkwebforge/larawellui/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/rkwebforge/larawellui/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/rkwebforge/larawellui/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/rkwebforge/larawellui/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/rkwebforge/larawellui/releases/tag/v0.1.0

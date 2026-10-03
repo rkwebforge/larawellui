@@ -3,8 +3,8 @@
     "description": "Copy-paste Blade + Tailwind v4 widgets for Laravel. The installer copies the source into your app; you own it from there.",
     "type": "library",
     "license": "MIT",
-    "keywords": ["laravel", "blade", "tailwindcss", "components", "widgets"],
-    "homepage": "https://github.com/rkwebforge/larawellui",
+    "keywords": ["laravel", "livewire", "blade", "blade-components", "tailwindcss", "ui-components", "components", "widgets", "forms", "datepicker"],
+    "homepage": "https://larawellui.wasmer.app",
     "authors": [
         {
             "name": "Krishnaprasad R",
@@ -13,6 +13,7 @@
     ],
     "support": {
         "issues": "https://github.com/rkwebforge/larawellui-site/issues",
+        "docs": "https://larawellui.wasmer.app/docs/installation",
         "source": "https://github.com/rkwebforge/larawellui"
     },
     "require": {

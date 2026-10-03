@@ -1,6 +1,6 @@
 # LarawellUi
 
-`larawellui/larawellui`. The catalogue site lives in the host app of this repo: live previews, props, source, and `/llms.txt` plus `/r/{name}.json` for AI agents.
+`larawellui/larawellui`. **Try every widget live at [larawellui.wasmer.app](https://larawellui.wasmer.app)**: previews you can click through, in light and dark, with each one's props and source to copy. For AI agents it serves [`/llms.txt`](https://larawellui.wasmer.app/llms.txt) and `/r/{name}.json`.
 
 Blade + Tailwind CSS v4 widgets for Laravel that you copy into your app, then own. No Livewire or Alpine needed: server-rendered Blade, plus a small vanilla JS file per widget that hooks onto `data-*` attributes. They work inside Livewire 3 and 4 components too (see below).
 
@@ -27,7 +27,7 @@ npm run build
 `larawell:add` copies:
 
 | What | Where |
-|---|---|
+| --- | --- |
 | Blade components | `resources/views/components/widget/{widget}/` (used as `<x-widget.*>`) |
 | JS | `resources/js/widget/{widget}/`, imported from `resources/js/app.js` |
 | Theme tokens and base CSS | `resources/css/widget/{theme,base}.css`, imported from `resources/css/app.css` |
@@ -60,7 +60,7 @@ What you build on is only ever added to, never renamed or removed: component nam
 `php artisan larawell:mcp` is a [Model Context Protocol](https://modelcontextprotocol.io) server for the app it runs in, over stdio. No extra package: it ships with this one. Its tools:
 
 | Tool | What it does |
-|---|---|
+| --- | --- |
 | `list_components` | The catalogue, with whether each is installed; `query` narrows it |
 | `get_component` | One component's tags, props, slots, usage (Livewire included) and examples |
 | `project_status` | What's installed, which installed files are out of date or edited (from `larawellui.lock`), and the Tailwind/Vite check |
@@ -203,7 +203,6 @@ gemini mcp add larawellui php /path/to/your-app/artisan larawell:mcp
 ```
 
 Any other client: the command `php`, with the arguments `/path/to/your-app/artisan larawell:mcp`. Where a client may not start the server in your app's folder, the full path to `artisan` is what makes it work. If a desktop app can't find `php`, give it the full path too (`which php`).
-
 
 ## Values from your data
 

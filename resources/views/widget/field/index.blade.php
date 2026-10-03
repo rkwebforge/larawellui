@@ -101,7 +101,7 @@
     @if ($info)
         <div class="mt-1 flex items-start gap-1 group-data-invalid/field:hidden">
             <x-widget.icon name="info" class="text-foreground/60 mt-0.5 size-3.5" />
-            <p id="{{ $id }}-info" class="text-foreground/60 break-words">{{ $info }}</p>
+            <p id="{{ $id }}-info" data-field-info class="text-foreground/60 break-words">{{ $info }}</p>
         </div>
     @endif
 

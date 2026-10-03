@@ -230,14 +230,17 @@ final class FormField
     }
 
     /**
-     * aria-invalid plus one aria-describedby that joins the error, the hint and the caller's own
+     * aria-invalid plus one aria-describedby that joins the error or the hint, and the caller's own
      * ids. Two separate aria-describedby attributes would make the browser silently drop one.
      */
     public function aria(ComponentAttributeBag $attributes, bool $hasInfo = false): ComponentAttributeBag
     {
+        // Not both: the frame hides the hint while there's an error, and aria-describedby reads hidden text, so a
+        // screen reader would hear two messages that often say the same thing. resources/js/field brings the hint
+        // back when the error clears.
         $describedBy = array_filter([
             $this->hasError() ? $this->errorId() : null,
-            $hasInfo ? $this->infoId() : null,
+            $hasInfo && !$this->hasError() ? $this->infoId() : null,
             $attributes->get('aria-describedby'),
         ]);
 
