@@ -13,14 +13,14 @@ What you build on is only ever added to, never renamed or removed: component nam
 ### Added
 
 - **All widgets**: a dark theme in `theme.css`, at WCAG AA. Put `class="dark"` or `data-theme="dark"` on `<html>`, or on any element for just that part of the page.
-- **Theme**: `primary-fill`, `error-fill` and `success-fill`, for solid backgrounds that carry white text. `primary`, `error` and `success` are now only for text, borders, focus rings and tints, so dark mode can make those lighter without failing contrast. If you changed your brand colour, set `primary-fill` to match.
+- **Theme**: `primary-fill`, `error-fill` and `success-fill`, for solid backgrounds that carry white text. `primary`, `error` and `success` are now only for text, borders, focus rings and tints, so dark mode can make those lighter without failing contrast. In light mode each fill follows its base colour unless you set it, so a theme that changed only `primary` looks as it did. In dark mode the fills are a deeper shade of their own; if you change the brand colour, set the dark pair too.
 - **icon**: 24 icons: arrow-down, arrow-up, bell, bookmark, circle-help, circle-x, credit-card, download, external-link, filter, globe, heart, home, link, mail, map-pin, menu, phone, send, settings, share, star, tag and users.
 - **All widgets**: every prop has a description on its component's page, in `/r/*.json` and through MCP. Props that take one of a set of values list them all, and the icon's `name` lists every icon.
 
 ### Changed
 
 - **button, checkbox, accordion, date pickers, modal, pagination, progress, stepper, tabs, time-picker**: solid backgrounds under white text use the new fill colours, and focus rings leave a surface-coloured gap instead of a white one.
-- **All widgets**: a value a prop doesn't take, like `variant="primay"` or `size="xl"`, now throws and names the values it does take. Before, the widget quietly used its default. This covers accordion, alert, button, captcha, clock, dropdown, file-upload, modal, otp, pagination, price-roll, progress, search, select, stepper, switch, table, tabs, time-picker, toast and tooltip.
+- **All widgets**: a value a prop doesn't take, like `variant="primay"` or `size="xl"`, now throws and names the values it does take. Before, the widget quietly used its default. If a value comes from your data (a status, a setting), map it to the widget's values with a default first; see "Values from your data" in the README. This covers accordion, alert, button, captcha, clock, dropdown, file-upload, modal, otp, pagination, price-roll, progress, search, select, stepper, switch, table, tabs, time-picker, toast and tooltip.
 - **button**: `type` takes only button, submit or reset.
 - **dropdown**: an item's `method` takes only GET, POST, PUT, PATCH or DELETE, in any case.
 - **file-upload**: `uploaded` needs `upload-url`. Without it, a picked file was submitted under the same name as the stored ids and replaced them.

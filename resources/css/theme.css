@@ -7,8 +7,10 @@
        primary that reads at 4.5:1 on surface and on its own 15-20% tint (selected chips, secondary buttons), and a
        primary-fill that carries white text at 4.5:1. In light mode one shade does both: indigo-600 or 700, blue-700,
        violet-700, purple-700 and slate-600 or 700 do; most 600s don't. */
-    --color-primary: var(--color-purple-700); /* text, borders, focus rings and tints. 7.1:1 on surface, 4.8:1 on its 20% tint */
-    --color-primary-fill: var(--color-purple-700); /* solid backgrounds with on-primary text on them: buttons, picked dates */
+    --color-primary: var(--color-purple-700); /* text, borders, focus rings, tints. 7.1:1; 4.8:1 on its 20% tint */
+    /* Solid backgrounds with on-primary text on them: buttons, picked dates. Follows primary unless you set it, so
+       changing primary alone restyles both; dark mode below sets a deeper shade of its own. */
+    --color-primary-fill: var(--color-primary);
     --color-on-primary: #ffffff; /* text on top of primary-fill. 7.1:1 */
     --color-primary-hover: var(--color-purple-800); /* primary-fill under the pointer */
 
@@ -29,9 +31,9 @@
 
     /* status */
     --color-error: #b42318; /* text and borders. 5.6:1 as text on its own 10% tint, the invalid field */
-    --color-error-fill: #b42318; /* solid backgrounds with white text: the danger button. 6.5:1 */
+    --color-error-fill: var(--color-error); /* solid backgrounds with white text: danger buttons. 6.5:1 */
     --color-success: #15803d; /* 5:1 as text on surface */
-    --color-success-fill: #15803d; /* solid backgrounds with white text: a finished progress bar with its label inside. 5:1 */
+    --color-success-fill: var(--color-success); /* solid backgrounds with white text: a finished bar. 5:1 */
     --color-warning: #e0e71c;
 }
 

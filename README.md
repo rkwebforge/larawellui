@@ -205,6 +205,18 @@ gemini mcp add larawellui php /path/to/your-app/artisan larawell:mcp
 Any other client: the command `php`, with the arguments `/path/to/your-app/artisan larawell:mcp`. Where a client may not start the server in your app's folder, the full path to `artisan` is what makes it work. If a desktop app can't find `php`, give it the full path too (`which php`).
 
 
+## Values from your data
+
+A prop that takes one of a set of values (`variant`, `size`, `tone`…) throws on anything else, so a typo shows up in development instead of shipping the wrong look. A value that comes from your data, such as an order's status or a size from settings, can be one you didn't expect, and then the page fails. Map it to the widget's values first, with a default:
+
+```blade
+<x-widget.table.badge :tone="['paid' => 'success', 'failed' => 'error', 'pending' => 'warning'][$order->status] ?? 'neutral'">
+    {{ $order->status }}
+</x-widget.table.badge>
+```
+
+With an enum, a method on it (`$order->status->tone()`) keeps the mapping in one place, and a `match` without a default tells you when a new case needs one.
+
 ## Configuration
 
 To install into other namespaces or paths, publish the config:
@@ -219,7 +231,7 @@ Both namespaces must sit under a PSR-4 root in your `composer.json`. The install
 
 Components only use the token names in `resources/css/widget/theme.css` (`primary`, `field`, `line`, `error`, …). To re-theme, edit the values there.
 
-Each colour does one job. `primary` is for text, borders and focus rings; `primary-fill` is for solid backgrounds with `on-primary` text on them. `error-fill` and `success-fill` do the same for red and green. In light mode they're the same shade; on a dark page a shade light enough to read can't carry white text, so they differ.
+Each colour does one job. `primary` is for text, borders and focus rings; `primary-fill` is for solid backgrounds with `on-primary` text on them. `error-fill` and `success-fill` do the same for red and green. In light mode each fill follows its base colour unless you set it, so changing `primary` alone restyles both. On a dark page a shade light enough to read can't carry white text, so the dark set gives the fills a deeper shade of their own: change the brand colour there too.
 
 Dark mode ships in the same file: put `class="dark"` or `data-theme="dark"` on `<html>` and every widget follows, popovers and dialogs included (on any other element, just that part of the page). To follow the device setting instead, swap its selector for `@media (prefers-color-scheme: dark) { :root { … } }`. Every pair meets WCAG AA in both modes.
 
