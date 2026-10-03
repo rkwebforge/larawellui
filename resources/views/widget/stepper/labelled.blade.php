@@ -15,6 +15,10 @@
         $steps,
     ));
     $current = max(1, min(max(1, count($steps)), (int) $current));
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! in_array($orientation, ['horizontal', 'vertical'], true)) {
+        throw new \InvalidArgumentException("Unknown orientation [{$orientation}] for <x-widget.stepper.labelled>. Use one of: horizontal, vertical.");
+    }
     $vertical = $orientation === 'vertical';
 
     $stateOf = static fn (int $number, array $step): string => match (true) {

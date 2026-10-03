@@ -20,9 +20,16 @@
     $max = max((float) $max, 0.0) ?: 100.0;
     $value = max(0.0, min($max, (float) $value));
     $percent = (int) round($value / $max * 100);
-    $inside = $labelPosition === 'inside';
     $heights = ['sm' => 'h-1.5', 'md' => 'h-3', 'lg' => 'h-4'];
-    $height = $inside ? 'h-6' : ($heights[$size] ?? $heights['md']);
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! in_array($labelPosition, ['above', 'beside', 'inside'], true)) {
+        throw new \InvalidArgumentException("Unknown label-position [{$labelPosition}] for <x-widget.progress>. Use one of: above, beside, inside.");
+    }
+    if (! array_key_exists($size, $heights)) {
+        throw new \InvalidArgumentException("Unknown size [{$size}] for <x-widget.progress>. Use one of: ".implode(', ', array_keys($heights)).'.');
+    }
+    $inside = $labelPosition === 'inside';
+    $height = $inside ? 'h-6' : $heights[$size];
     $text = $valueText ?? "{$percent}%";
     $complete = ! $indeterminate && ! $failed && ! $disabled && $value >= $max;
 

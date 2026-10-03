@@ -10,13 +10,21 @@
 ])
 
 @php
+    $sizes = ['sm' => 'text-2xl', 'md' => 'text-4xl', 'lg' => 'text-6xl'];
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! in_array($mode, ['stopwatch', 'timer'], true)) {
+        throw new \InvalidArgumentException("Unknown mode [{$mode}] for <x-widget.clock.stopwatch>. Use one of: stopwatch, timer.");
+    }
+    if (! array_key_exists($size, $sizes)) {
+        throw new \InvalidArgumentException("Unknown size [{$size}] for <x-widget.clock.stopwatch>. Use one of: ".implode(', ', array_keys($sizes)).'.');
+    }
     $timer = $mode === 'timer';
     $duration = max(1, (int) $duration);
     // Same format as resources/js/widget/clock: m:ss (h:mm:ss past an hour), plus tenths on a stopwatch.
     $start = $timer
         ? ($duration >= 3600 ? sprintf('%d:%02d:%02d', intdiv($duration, 3600), intdiv($duration % 3600, 60), $duration % 60) : sprintf('%d:%02d', intdiv($duration, 60), $duration % 60))
         : '0:00.0';
-    $numbers = ['sm' => 'text-2xl', 'md' => 'text-4xl', 'lg' => 'text-6xl'][$size] ?? 'text-4xl';
+    $numbers = $sizes[$size];
 @endphp
 
 {{-- wire:ignore: all of it is the browser's (running or not, the time, the button's label), and a Livewire render would put

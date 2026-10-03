@@ -68,6 +68,16 @@
 ])
 
 @php
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! in_array($pagination, ['drawer', 'numbers', 'segmented', 'jump', 'footer', 'summary', 'infinite', false], true)) {
+        throw new \InvalidArgumentException("Unknown pagination [{$pagination}] for <x-widget.table>. Use one of: drawer, numbers, segmented, jump, footer, summary, infinite, or false for none.");
+    }
+    if (! in_array($density, ['comfortable', 'compact'], true)) {
+        throw new \InvalidArgumentException("Unknown density [{$density}] for <x-widget.table>. Use one of: comfortable, compact.");
+    }
+    if (! in_array($whileLoading, ['dim', 'skeleton'], true)) {
+        throw new \InvalidArgumentException("Unknown while-loading [{$whileLoading}] for <x-widget.table>. Use one of: dim, skeleton.");
+    }
     // paginate() and simplePaginate() give a Paginator; cursorPaginate() (fastest on very large tables) a CursorPaginator.
     $isCursor = $rows instanceof \Illuminate\Contracts\Pagination\CursorPaginator;
     $isPaginator = $isCursor || $rows instanceof \Illuminate\Contracts\Pagination\Paginator;
@@ -377,7 +387,7 @@
         <table
             @if ($striped) data-striped @endif
             @if ($hiddenAtFirst) data-hide="{{ $hiddenAtFirst }}" @endif
-            data-density="{{ $density === 'compact' ? 'compact' : 'comfortable' }}"
+            data-density="{{ $density }}"
             {{-- On the table rather than the root: the root's aria-busy means "changing page" and dims everything. --}}
             @if ($loading) aria-busy="true" @endif
             @class([

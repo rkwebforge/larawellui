@@ -29,9 +29,17 @@
     $pad = fn (string $unit, int $n): string => $unit === 'days' ? (string) $n : str_pad((string) $n, 2, '0', STR_PAD_LEFT);
     // Spoken without the zero units ("13 seconds left", not "0 hours, 0 minutes, 13 seconds left").
     $spoken = collect($units)->filter()->whenEmpty(fn ($c) => $c->put('seconds', 0))->map(fn (int $n, string $unit): string => $n.' '.($n === 1 ? rtrim($unit, 's') : $unit))->implode(', ');
-    $inline = $variant === 'inline';
     // Phones share the width between the boxes, so md and lg step down a size there.
-    $numbers = ['sm' => 'text-xl', 'md' => 'text-2xl sm:text-3xl', 'lg' => 'text-4xl sm:text-5xl'][$size] ?? 'text-2xl sm:text-3xl';
+    $sizes = ['sm' => 'text-xl', 'md' => 'text-2xl sm:text-3xl', 'lg' => 'text-4xl sm:text-5xl'];
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! in_array($variant, ['boxes', 'inline'], true)) {
+        throw new \InvalidArgumentException("Unknown variant [{$variant}] for <x-widget.clock.countdown>. Use one of: boxes, inline.");
+    }
+    if (! array_key_exists($size, $sizes)) {
+        throw new \InvalidArgumentException("Unknown size [{$size}] for <x-widget.clock.countdown>. Use one of: ".implode(', ', array_keys($sizes)).'.');
+    }
+    $inline = $variant === 'inline';
+    $numbers = $sizes[$size];
 @endphp
 
 {{-- data-now is the server's clock, so a visitor whose device clock is off still sees the right time left. --}}

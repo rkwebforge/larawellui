@@ -1,4 +1,7 @@
-@props(['paginator'])
+@props([
+    // A length-aware paginator (paginate()).
+    'paginator',
+])
 
 @php
     $current = $paginator->currentPage();

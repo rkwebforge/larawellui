@@ -204,7 +204,7 @@ final class Registry
                 foreach (explode("\n", $block[1]) as $line) {
                     if (preg_match('/^\s*\/\/\s?(.*)$/', $line, $text) === 1) {
                         $comment[] = trim($text[1]);
-                    } elseif (preg_match("/^\\s*'([A-Za-z]+)'(?:\\s*=>\\s*(.+?))?,?\\s*$/", $line, $prop) === 1) {
+                    } elseif (preg_match("/^\\s*'([A-Za-z][A-Za-z0-9]*)'(?:\\s*=>\\s*(.+?))?,?\\s*$/", $line, $prop) === 1) {
                         $props[] = new Prop(Str::kebab($prop[1]), isset($prop[2]) ? $prop[2] : null, $comment === [] ? null : implode(' ', $comment));
                         $comment = [];
                     } else {

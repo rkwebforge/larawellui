@@ -27,7 +27,11 @@
         'md' => ['box' => 'size-16', 'stroke' => 9, 'text' => 'text-sm'],
         'lg' => ['box' => 'size-24', 'stroke' => 8, 'text' => 'text-lg'],
     ];
-    ['box' => $box, 'stroke' => $stroke, 'text' => $text] = $sizes[$size] ?? $sizes['md'];
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! array_key_exists($size, $sizes)) {
+        throw new \InvalidArgumentException("Unknown size [{$size}] for <x-widget.progress.circular>. Use one of: ".implode(', ', array_keys($sizes)).'.');
+    }
+    ['box' => $box, 'stroke' => $stroke, 'text' => $text] = $sizes[$size];
     $radius = 50 - $stroke / 2;
 
     // Same colours per state as the linear <x-widget.progress>, completion included (data-complete).

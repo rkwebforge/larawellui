@@ -16,7 +16,10 @@
         'warning' => ['border-warning/60 bg-warning/10', 'text-[color-mix(in_oklab,var(--color-warning)_60%,var(--color-foreground))]', 'triangle-alert'],
         'error' => ['border-error/30 bg-error/5', 'text-error', 'circle-alert'],
     ];
-    $tone = array_key_exists($tone, $tones) ? $tone : 'info';
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! array_key_exists($tone, $tones)) {
+        throw new \InvalidArgumentException("Unknown tone [{$tone}] for <x-widget.alert>. Use one of: ".implode(', ', array_keys($tones)).'.');
+    }
     [$box, $iconColour, $defaultIcon] = $tones[$tone];
     // An icon name swaps the tone's icon; false drops it.
     $icon = $icon === false ? null : (is_string($icon) && $icon !== '' ? $icon : $defaultIcon);

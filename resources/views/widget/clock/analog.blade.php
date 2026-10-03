@@ -15,6 +15,10 @@
     }
     $now = now($timezone);
     $sizes = ['sm' => 'size-24', 'md' => 'size-36', 'lg' => 'size-52'];
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! array_key_exists($size, $sizes)) {
+        throw new \InvalidArgumentException("Unknown size [{$size}] for <x-widget.clock.analog>. Use one of: ".implode(', ', array_keys($sizes)).'.');
+    }
     // Hand angles, clockwise from 12. resources/js/widget/clock sets the same rotation every second.
     $angles = [
         'hour' => ($now->hour % 12) * 30 + $now->minute * 0.5,
@@ -31,7 +35,7 @@
     data-timezone="{{ $timezone }}"
     {{ $attributes->class(['inline-flex flex-col items-center gap-2']) }}
 >
-    <svg viewBox="0 0 100 100" aria-hidden="true" class="{{ $sizes[$size] ?? $sizes['md'] }}">
+    <svg viewBox="0 0 100 100" aria-hidden="true" class="{{ $sizes[$size] }}">
         <circle cx="50" cy="50" r="48" class="fill-surface stroke-line" stroke-width="2" />
         @for ($i = 0; $i < 12; $i++)
             {{-- Longer, darker marks at the quarters. --}}

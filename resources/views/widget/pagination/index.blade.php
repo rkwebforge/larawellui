@@ -18,6 +18,10 @@
     as well; the other styles need a page count, so without one (no total) they fall back to summary.
 --}}
 @php
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! in_array($type, ['drawer', 'numbers', 'segmented', 'jump', 'footer', 'summary', 'load-more'], true)) {
+        throw new \InvalidArgumentException("Unknown type [{$type}] for <x-widget.pagination>. Use one of: drawer, numbers, segmented, jump, footer, summary, load-more.");
+    }
     // Livewire's paginators use a relative path ("orders"): from /orders, their links would open /orders/orders.
     if (! preg_match('#^(/|[a-z][a-z0-9+.-]*:)#i', (string) $paginator->path())) {
         $paginator->withPath(url()->to((string) $paginator->path()));

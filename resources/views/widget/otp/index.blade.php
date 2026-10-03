@@ -49,7 +49,11 @@
         'outline' => 'border-line-strong rounded-[14px] border bg-transparent hover:border-primary focus:border-primary',
         'underline' => 'border-line-strong rounded-none border-0 border-b-2 bg-transparent hover:border-primary focus:border-primary',
     ];
-    $look = $variants[$variant] ?? $variants['filled'];
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! array_key_exists($variant, $variants)) {
+        throw new \InvalidArgumentException("Unknown variant [{$variant}] for <x-widget.otp>. Use one of: ".implode(', ', array_keys($variants)).'.');
+    }
+    $look = $variants[$variant];
 @endphp
 
 <x-widget.field :required="$attributes->has('required')" :id="$field->id" :label="$label" :error="$field->errors" :disabled="$disabled" bare :class="$attributes->get('class')">

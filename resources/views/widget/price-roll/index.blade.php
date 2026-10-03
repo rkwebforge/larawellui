@@ -31,9 +31,14 @@
     // previous="…": a badge with the change since then ("+4.38%", "+$2,750.50", or both), which the script keeps
     // up to date as the price moves. Worked out the same way as resources/js/widget/price-roll, so they agree.
     $previous = is_numeric($previous) ? (float) $previous : null;
-    $change = in_array($change, ['percent', 'amount', 'both'], true) ? $change : 'percent';
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! in_array($change, ['percent', 'amount', 'both'], true)) {
+        throw new \InvalidArgumentException("Unknown change [{$change}] for <x-widget.price-roll>. Use one of: percent, amount, both.");
+    }
     // default: up is good (green). inverse: up is bad, for a cost or a wait. none: no colours at all.
-    $trendColors = in_array($trendColors, ['default', 'inverse', 'none'], true) ? $trendColors : 'default';
+    if (! in_array($trendColors, ['default', 'inverse', 'none'], true)) {
+        throw new \InvalidArgumentException("Unknown trend-colors [{$trendColors}] for <x-widget.price-roll>. Use one of: default, inverse, none.");
+    }
     $changeText = null;
     $direction = 'flat';
     $spokenChange = '';

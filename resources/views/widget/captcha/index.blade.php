@@ -38,6 +38,16 @@
     $field = \LarawellUi\Support\FormField::make($service['field'] ?? $name, $id, $errors ?? null, $error, $bag, 'captcha', attributes: $attributes);
     // The site key is public, but still comes from config (services.turnstile.key …) rather than the view.
     $siteKey ??= $provider !== null ? config("services.{$provider}.key") : null;
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! in_array($layout, ['inline', 'stacked'], true)) {
+        throw new \InvalidArgumentException("Unknown layout [{$layout}] for <x-widget.captcha>. Use one of: inline, stacked.");
+    }
+    if (! in_array($theme, ['auto', 'light', 'dark'], true)) {
+        throw new \InvalidArgumentException("Unknown theme [{$theme}] for <x-widget.captcha>. Use one of: auto, light, dark.");
+    }
+    if (! in_array($size, ['normal', 'compact'], true)) {
+        throw new \InvalidArgumentException("Unknown size [{$size}] for <x-widget.captcha>. Use one of: normal, compact.");
+    }
     $stacked = $layout === 'stacked';
     // In a Livewire update the image is left out (data-src only): the browser fetches an <img src> as soon as Livewire
     // turns the response into elements, and every fetch is a new code. The one on the page stays (wire:ignore);

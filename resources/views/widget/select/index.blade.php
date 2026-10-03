@@ -85,7 +85,11 @@
     // One label, or several joined for multiple (the full list is also the tooltip).
     $shown = $chosen->isNotEmpty() ? $chosen->pluck('label')->implode(', ') : null;
     // How a multiple select shows its choices: list (joined), chips (one removable chip each) or count ("3 selected").
-    $display = $multiple && in_array($display, ['chips', 'count'], true) ? $display : 'list';
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! in_array($display, ['list', 'chips', 'count'], true)) {
+        throw new \InvalidArgumentException("Unknown display [{$display}] for <x-widget.select>. Use one of: list, chips, count.");
+    }
+    $display = $multiple ? $display : 'list';
     $visible = $display === 'count' && $chosen->count() > 1 ? str_replace(':count', (string) $chosen->count(), $countLabel) : $shown;
     // A short list doesn't need a search box, same threshold as the React version.
     $showSearch = $searchable && $items->count() >= (int) $searchMin;

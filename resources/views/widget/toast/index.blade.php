@@ -16,7 +16,10 @@
         'bottom-center' => 'bottom-4 left-1/2 -translate-x-1/2 flex-col-reverse',
         'bottom-right' => 'bottom-4 right-4 flex-col-reverse',
     ];
-    $position = array_key_exists($position, $positions) ? $position : 'top-right';
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! array_key_exists($position, $positions)) {
+        throw new \InvalidArgumentException("Unknown position [{$position}] for <x-widget.toast>. Use one of: ".implode(', ', array_keys($positions)).'.');
+    }
 
     // Flash messages: ->with('success', '...'), or ->with('toast', ['type' => ..., 'message' => ..., 'title' => ...]).
     $flashTypes = ['success', 'error', 'warning', 'info'];

@@ -1,4 +1,9 @@
-@props(['paginator', 'segmented' => false])
+@props([
+    // A length-aware paginator (paginate()).
+    'paginator',
+    // The pages as one joined, bordered group with the current page filled, instead of separate links.
+    'segmented' => false,
+])
 
 @php
     $current = $paginator->currentPage();

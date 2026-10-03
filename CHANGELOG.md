@@ -6,6 +6,14 @@ Widgets are copied into your app, so a new release doesn't change them until you
 
 ## [Unreleased]
 
+### Changed
+
+- A prop value a widget doesn't know, like `variant="primay"` or `size="xl"`, now throws, naming the values it accepts, instead of quietly rendering the default. Covers every prop with a fixed set of values, across accordion, alert, button, captcha, clock, dropdown, file-upload, modal, otp, pagination, price-roll, progress, search, select, stepper, switch, table, tabs, time-picker, toast and tooltip.
+
+### Fixed
+
+- The docs, `/r/*.json` and the MCP server now list the icon's `name`, the clock's `hour12`, and the pagination components' `paginator` and `segmented` props.
+
 ## [0.1.0] - 2026-10-02
 
 ### Added

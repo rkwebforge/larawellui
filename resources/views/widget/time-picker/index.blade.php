@@ -39,7 +39,10 @@
 ])
 
 @php
-    $variant = in_array($variant, ['list', 'columns', 'segmented', 'slots'], true) ? $variant : 'list';
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! in_array($variant, ['list', 'columns', 'segmented', 'slots'], true)) {
+        throw new \InvalidArgumentException("Unknown variant [{$variant}] for <x-widget.time-picker>. Use one of: list, columns, segmented, slots.");
+    }
     $field = \LarawellUi\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'time', attributes: $attributes);
     $id = $field->id;
     $value = \LarawellUi\Support\TimeOfDay::normalize($field->old($value));

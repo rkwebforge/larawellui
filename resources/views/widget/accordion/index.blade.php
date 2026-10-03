@@ -36,8 +36,12 @@
             'body' => 'border-line ms-3 flex flex-col gap-0.5 border-s ps-2 pt-0.5 pb-1',
         ],
     ];
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! array_key_exists($variant, $variants)) {
+        throw new \InvalidArgumentException("Unknown variant [{$variant}] for <x-widget.accordion>. Use one of: ".implode(', ', array_keys($variants)).'.');
+    }
     $menu = $variant === 'menu';
-    $style = $variants[$variant] ?? $variants['default'];
+    $style = $variants[$variant];
     $open ??= $menu;
     $chevron = [$menu ? 'size-4' : 'size-6', '-rotate-90 transition-transform duration-300 group-open/accordion:rotate-0 group-data-closing/accordion:-rotate-90 rtl:rotate-90 rtl:group-open/accordion:rotate-0 rtl:group-data-closing/accordion:rotate-90 motion-reduce:transition-none'];
 @endphp

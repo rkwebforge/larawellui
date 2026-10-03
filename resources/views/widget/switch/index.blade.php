@@ -43,7 +43,17 @@
         'md' => ['track' => 'h-6 w-11', 'knob' => 'size-5', 'travel' => 'peer-checked:translate-x-5 rtl:peer-checked:-translate-x-5', 'icon' => 'size-3'],
         'lg' => ['track' => 'h-7 w-13', 'knob' => 'size-6', 'travel' => 'peer-checked:translate-x-6 rtl:peer-checked:-translate-x-6', 'icon' => 'size-3.5'],
     ];
-    $size = $sizes[$size] ?? $sizes['md'];
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! array_key_exists($size, $sizes)) {
+        throw new \InvalidArgumentException("Unknown size [{$size}] for <x-widget.switch>. Use one of: ".implode(', ', array_keys($sizes)).'.');
+    }
+    if (! in_array($placement, ['end', 'start'], true)) {
+        throw new \InvalidArgumentException("Unknown placement [{$placement}] for <x-widget.switch>. Use one of: end, start.");
+    }
+    if (! in_array($variant, ['default', 'card'], true)) {
+        throw new \InvalidArgumentException("Unknown variant [{$variant}] for <x-widget.switch>. Use one of: default, card.");
+    }
+    $size = $sizes[$size];
     // end: text first, switch at the end, for settings rows. start: switch first, like a checkbox.
     $switchFirst = $placement === 'start';
     $card = $variant === 'card';

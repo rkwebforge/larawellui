@@ -1,4 +1,7 @@
-@props(['paginator'])
+@props([
+    // Any Laravel paginator; a cursor paginator gets the buttons without the item numbers.
+    'paginator',
+])
 
 @php
     // Cursor paginators have no item numbers, so they get the buttons alone.

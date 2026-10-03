@@ -29,7 +29,13 @@
     // Otherwise the value prop, or a bound Livewire property (see FormField::old).
     $value = is_string($fromQuery) ? $fromQuery : $field->old($value);
     $sizes = ['sm' => 'h-8 text-xs', 'md' => 'h-12 text-sm'];
-    $size = array_key_exists($size, $sizes) ? $size : 'md';
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! array_key_exists($size, $sizes)) {
+        throw new \InvalidArgumentException("Unknown size [{$size}] for <x-widget.search>. Use one of: ".implode(', ', array_keys($sizes)).'.');
+    }
+    if (! in_array($iconPosition, ['end', 'start'], true)) {
+        throw new \InvalidArgumentException("Unknown icon-position [{$iconPosition}] for <x-widget.search>. Use one of: end, start.");
+    }
     $start = $iconPosition === 'start';
     $shortcut = is_string($shortcut) && mb_strlen($shortcut) === 1 && trim($shortcut) !== '' ? $shortcut : null;
 @endphp

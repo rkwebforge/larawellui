@@ -14,7 +14,11 @@
         'error' => ['bg-error/10 text-[color-mix(in_oklab,var(--color-error)_75%,var(--color-foreground))]', 'bg-error'],
         'info' => ['bg-link/10 text-[color-mix(in_oklab,var(--color-link)_75%,var(--color-foreground))]', 'bg-link'],
     ];
-    [$look, $dotColour] = $tones[$tone] ?? $tones['neutral'];
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! array_key_exists($tone, $tones)) {
+        throw new \InvalidArgumentException("Unknown tone [{$tone}] for <x-widget.table.badge>. Use one of: ".implode(', ', array_keys($tones)).'.');
+    }
+    [$look, $dotColour] = $tones[$tone];
 @endphp
 
 {{-- A status in a cell: "Completed", "Failed". The words carry the meaning; colour only backs them up. --}}

@@ -17,6 +17,10 @@
     }
     $now = now($timezone);
     $sizes = ['sm' => 'text-lg', 'md' => 'text-3xl', 'lg' => 'text-5xl'];
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! array_key_exists($size, $sizes)) {
+        throw new \InvalidArgumentException("Unknown size [{$size}] for <x-widget.clock>. Use one of: ".implode(', ', array_keys($sizes)).'.');
+    }
 @endphp
 
 <div
@@ -31,7 +35,7 @@
     @endif
 
     {{-- Not a live region: announcing every second would drown out everything else. It reads when reached. --}}
-    <time datetime="{{ $now->toIso8601String() }}" class="{{ $sizes[$size] ?? $sizes['md'] }} text-foreground leading-none font-semibold tracking-tight tabular-nums">
+    <time datetime="{{ $now->toIso8601String() }}" class="{{ $sizes[$size] }} text-foreground leading-none font-semibold tracking-tight tabular-nums">
         <span data-clock-time>{{ $now->format($hour12 ? 'g:i' : 'H:i') }}{{ $seconds ? $now->format(':s') : '' }}</span>
         @if ($hour12)
             <span data-clock-period class="text-[0.45em] font-medium tracking-normal">{{ $now->format('A') }}</span>

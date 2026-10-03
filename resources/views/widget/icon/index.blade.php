@@ -1,4 +1,7 @@
-@props(['name'])
+@props([
+    // One of the names in $icons below, e.g. chevron-down. Any other name throws, listing the ones there are.
+    'name',
+])
 
 {{--
     LarawellUi's own icon set, drawn inline so there is no icon package to install. Every icon sits on a

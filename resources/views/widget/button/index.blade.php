@@ -29,8 +29,13 @@
     $paddings = ['sm' => 'px-3 py-2', 'md' => 'px-4 py-3', 'lg' => 'px-6 py-3.5'];
     // Icon-only buttons are square and exactly as tall as a text button of the same size.
     $squarePaddings = ['sm' => 'p-2', 'md' => 'p-3.5', 'lg' => 'p-4'];
-    $variant = array_key_exists($variant, $variants) ? $variant : 'primary';
-    $size = array_key_exists($size, $textSizes) ? $size : 'md';
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! array_key_exists($variant, $variants)) {
+        throw new \InvalidArgumentException("Unknown variant [{$variant}] for <x-widget.button>. Use one of: ".implode(', ', array_keys($variants)).'.');
+    }
+    if (! array_key_exists($size, $textSizes)) {
+        throw new \InvalidArgumentException("Unknown size [{$size}] for <x-widget.button>. Use one of: ".implode(', ', array_keys($textSizes)).'.');
+    }
 
     // An icon with no visible text still needs a name for screen readers; fail in development rather than ship a silent button.
     $iconOnly = $icon !== null;

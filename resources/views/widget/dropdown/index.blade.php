@@ -13,7 +13,17 @@
     $id = app(\LarawellUi\Support\ElementIds::class)->claim($id ?? 'dropdown', explicit: $id !== null);
     $menuId = "{$id}-menu";
     // Which edge of the trigger the menu lines up with: start (left in left-to-right pages) or end.
-    $align = $align === 'end' ? 'end' : 'start';
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! in_array($align, ['start', 'end'], true)) {
+        throw new \InvalidArgumentException("Unknown align [{$align}] for <x-widget.dropdown>. Use one of: start, end.");
+    }
+    // The trigger's look, passed to the button; checked here too, so the error names the tag that was written.
+    if (! in_array($variant, ['primary', 'secondary', 'tertiary', 'danger', 'neutral', 'link'], true)) {
+        throw new \InvalidArgumentException("Unknown variant [{$variant}] for <x-widget.dropdown>. Use one of: primary, secondary, tertiary, danger, neutral, link.");
+    }
+    if (! in_array($size, ['sm', 'md', 'lg'], true)) {
+        throw new \InvalidArgumentException("Unknown size [{$size}] for <x-widget.dropdown>. Use one of: sm, md, lg.");
+    }
 
     // The trigger slot is your own markup (an avatar and name, say); a string is a button with a chevron;
     // neither is an icon-only button, which needs a label.

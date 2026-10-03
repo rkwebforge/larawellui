@@ -15,10 +15,22 @@
 ])
 
 @php
-    $drawer = $variant === 'drawer';
-    $side = in_array($side, ['start', 'end', 'bottom'], true) ? $side : 'end';
-    $full = $size === 'full' && ! $drawer;
     $widths = ['sm' => 'max-w-sm', 'md' => 'max-w-lg', 'lg' => 'max-w-2xl', 'xl' => 'max-w-4xl'];
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! in_array($size, ['sm', 'md', 'lg', 'xl', 'full'], true)) {
+        throw new \InvalidArgumentException("Unknown size [{$size}] for <x-widget.modal>. Use one of: sm, md, lg, xl, full.");
+    }
+    if (! in_array($variant, ['dialog', 'drawer'], true)) {
+        throw new \InvalidArgumentException("Unknown variant [{$variant}] for <x-widget.modal>. Use one of: dialog, drawer.");
+    }
+    if (! in_array($side, ['start', 'end', 'bottom'], true)) {
+        throw new \InvalidArgumentException("Unknown side [{$side}] for <x-widget.modal>. Use one of: start, end, bottom.");
+    }
+    if (! in_array($mobile, [null, 'sheet'], true)) {
+        throw new \InvalidArgumentException("Unknown mobile [{$mobile}] for <x-widget.modal>. Use one of: sheet, or leave it out.");
+    }
+    $drawer = $variant === 'drawer';
+    $full = $size === 'full' && ! $drawer;
     $width = $widths[$size] ?? $widths['md'];
     // Header and footer stay put while only the body scrolls: asked for with `scrollable`, and always so for
     // drawers and full-screen dialogs, where the panel is exactly as tall as the screen.

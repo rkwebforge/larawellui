@@ -27,6 +27,13 @@
     $hintId = $hint ? "{$id}-hint" : null;
     $shapes = ['circle' => 'rounded-full', 'square' => 'rounded-2xl'];
     $sizes = ['sm' => 'size-14', 'md' => 'size-20', 'lg' => 'size-28'];
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! array_key_exists($shape, $shapes)) {
+        throw new \InvalidArgumentException("Unknown shape [{$shape}] for <x-widget.file-upload.image>. Use one of: ".implode(', ', array_keys($shapes)).'.');
+    }
+    if (! array_key_exists($size, $sizes)) {
+        throw new \InvalidArgumentException("Unknown size [{$size}] for <x-widget.file-upload.image>. Use one of: ".implode(', ', array_keys($sizes)).'.');
+    }
     $messages = [
         'tooBig' => ':name is larger than :size.',
         'wrongType' => ':name isn\'t an image this accepts.',
@@ -63,7 +70,7 @@
     :class="$attributes->get('class')"
 >
     <div @if ($live) wire:ignore @endif class="flex items-center gap-4">
-        <div data-file-preview @class(['bg-field border-line text-muted grid shrink-0 place-items-center overflow-hidden border', $shapes[$shape] ?? $shapes['circle'], $sizes[$size] ?? $sizes['md']])>
+        <div data-file-preview @class(['bg-field border-line text-muted grid shrink-0 place-items-center overflow-hidden border', $shapes[$shape], $sizes[$size]])>
             <img data-file-image @if ($src) src="{{ $src }}" @else hidden @endif alt="{{ $alt }}" class="size-full object-cover">
             <x-widget.icon name="image" data-file-placeholder :hidden="(bool) $src" class="size-1/3" />
         </div>

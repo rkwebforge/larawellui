@@ -21,7 +21,10 @@
 @php
     $field = \LarawellUi\Support\FormField::make($name, $id, null, idPrefix: 'tabs', attributes: $attributes);
     $id = $field->id;
-    $variant = in_array($variant, ['underline', 'tinted', 'pills', 'segmented', 'vertical'], true) ? $variant : 'underline';
+    // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
+    if (! in_array($variant, ['underline', 'tinted', 'pills', 'segmented', 'vertical'], true)) {
+        throw new \InvalidArgumentException("Unknown variant [{$variant}] for <x-widget.tabs>. Use one of: underline, tinted, pills, segmented, vertical.");
+    }
     $vertical = $variant === 'vertical';
     $items = collect($tabs)->map(static fn (mixed $tab, int|string $key): array => [
         'key' => (string) $key,
