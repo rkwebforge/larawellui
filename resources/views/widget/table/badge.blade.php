@@ -1,6 +1,7 @@
 @props([
     // neutral, success, warning, error or info.
     'tone' => 'neutral',
+    // A small dot in the tone's colour before the text; false leaves it out.
     'dot' => true,
 ])
 

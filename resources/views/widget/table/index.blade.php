@@ -61,7 +61,7 @@
     'perPageModel' => null,
     // Where the bulk form submits the ticked rows.
     'bulkAction' => null,
-    // POST, GET, PUT, PATCH or DELETE.
+    // The bulk form's method: GET, POST, PUT, PATCH or DELETE, in any case.
     'bulkMethod' => 'POST',
     // Opt-in: below the sm breakpoint, each row becomes a card of label / value pairs instead of scrolling sideways.
     'stack' => false,
@@ -235,6 +235,9 @@
     $card = 'border-line bg-surface relative w-full overflow-clip rounded-3xl border';
     $rowHeight = 'h-14 group-data-[density=compact]/table:h-11';
     $formId = $selectable ? $id.'-selection' : null;
+    if (! in_array(strtoupper((string) $bulkMethod), ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], true)) {
+        throw new \InvalidArgumentException("Unknown bulk-method [{$bulkMethod}] for <x-widget.table>. Use one of: GET, POST, PUT, PATCH, DELETE.");
+    }
     $bulkMethod = strtoupper((string) $bulkMethod);
 @endphp
 

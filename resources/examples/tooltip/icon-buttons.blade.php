@@ -2,7 +2,7 @@
 <div class="flex gap-2">
     @foreach (['pencil' => 'Edit', 'copy' => 'Copy link', 'trash' => 'Delete'] as $icon => $label)
         <x-widget.tooltip :text="$label">
-            <button type="button" aria-label="{{ $label }}" class="bg-field hover:bg-line focus-visible:ring-primary grid size-11 place-items-center rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-offset-2">
+            <button type="button" aria-label="{{ $label }}" class="bg-field hover:bg-line focus-visible:ring-primary grid size-11 place-items-center rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-surface">
                 <x-widget.icon :name="$icon" class="size-4" />
             </button>
         </x-widget.tooltip>

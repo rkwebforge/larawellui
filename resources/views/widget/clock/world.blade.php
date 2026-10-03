@@ -1,7 +1,9 @@
 @props([
     // ['London' => 'Europe/London', 'Tokyo' => 'Asia/Tokyo'], or a list of ['label' => …, 'timezone' => …].
     'zones' => [],
+    // 12-hour time with AM or PM, instead of 24-hour.
     'hour12' => false,
+    // The list's name for screen readers.
     'label' => 'World clocks',
 ])
 

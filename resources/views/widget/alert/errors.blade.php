@@ -1,5 +1,7 @@
 @props([
+    // The heading. Defaults to "There is a problem" or "There are 3 problems".
     'title' => null,
+    // Which error bag to read the errors from.
     'bag' => 'default',
 ])
 

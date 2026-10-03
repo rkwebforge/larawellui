@@ -1,8 +1,14 @@
 @props([
+    // Where toasts appear: top-left, top-center, top-right, center, bottom-left, bottom-center or bottom-right.
     'position' => 'top-right',
+    // Milliseconds before a toast closes itself; false keeps it until dismissed. The rest of these props are defaults
+    // too: a single toast can change them in its options.
     'autoClose' => 3000,
+    // A bar along the bottom that shows the time left before it closes.
     'showProgress' => true,
+    // Holds the timer while the pointer is over a toast.
     'pauseOnHover' => true,
+    // Holds the timer while the window is in the background or the tab is hidden.
     'pauseOnFocusLoss' => true,
 ])
 

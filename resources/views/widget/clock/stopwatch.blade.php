@@ -3,9 +3,11 @@
     'mode' => 'stopwatch',
     // Timer length in seconds, e.g. 1500 for 25 minutes.
     'duration' => 60,
+    // Small text above the time, and its name for screen readers.
     'label' => null,
     // Announced, and shown, when a timer reaches zero.
     'done' => "Time's up",
+    // How big the time is: sm, md or lg.
     'size' => 'md',
 ])
 

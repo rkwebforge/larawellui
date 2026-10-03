@@ -1,10 +1,18 @@
 @props([
+    // The trigger button's id; scripts can open the menu by it, so it must be unique. Made up when left out.
     'id' => null,
+    // Text for a button with a chevron, or an <x-slot:trigger> with your own markup (an avatar and name, say).
+    // Without it, the trigger is an icon-only button.
     'trigger' => null,
+    // The trigger's name for screen readers. Required for the icon-only trigger; the slot trigger uses it too.
     'label' => null,
+    // The icon-only trigger's icon.
     'icon' => 'ellipsis',
+    // The trigger's look, as on the button: primary, secondary, tertiary, danger, neutral or link.
     'variant' => 'neutral',
+    // The trigger's size: sm, md or lg.
     'size' => 'md',
+    // Which edge of the trigger the menu lines up with: start (left in left-to-right pages) or end.
     'align' => 'start',
 ])
 
@@ -52,7 +60,7 @@
         <button
             type="button"
             @if ($label) aria-label="{{ $label }}" @endif
-            {{ $trigger->attributes->class(['focus-visible:ring-primary inline-flex items-center gap-2 rounded-xl text-start outline-none focus-visible:ring-2 focus-visible:ring-offset-2'])->merge($triggerAttributes->getAttributes()) }}
+            {{ $trigger->attributes->class(['focus-visible:ring-primary inline-flex items-center gap-2 rounded-xl text-start outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-surface'])->merge($triggerAttributes->getAttributes()) }}
         >{{ $trigger }}</button>
     @elseif (is_string($trigger) && $trigger !== '')
         <x-widget.button :variant="$variant" :size="$size" icon-end="chevron-down" :attributes="$triggerAttributes">{{ $trigger }}</x-widget.button>

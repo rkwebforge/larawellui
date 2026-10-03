@@ -4,11 +4,13 @@
 @theme {
     /* brand */
     /* Any Tailwind colour works: point these at its variables, e.g. var(--color-violet-700). Keep AA by choosing a
-       shade with white text on it at 4.5:1 or more that also reads at 4.5:1 on its own 15-20% tint (selected chips,
-       secondary buttons): indigo-600 or 700, blue-700, violet-700, purple-700 and slate-600 or 700 do; most 600s don't. */
-    --color-primary: var(--color-purple-700); /* selected states, focus rings, highlights. White on it 7.1:1, on its 20% tint 4.8:1 */
-    --color-on-primary: #ffffff; /* text on top of primary */
-    --color-primary-hover: var(--color-purple-800); /* hover state of primary buttons */
+       primary that reads at 4.5:1 on surface and on its own 15-20% tint (selected chips, secondary buttons), and a
+       primary-fill that carries white text at 4.5:1. In light mode one shade does both: indigo-600 or 700, blue-700,
+       violet-700, purple-700 and slate-600 or 700 do; most 600s don't. */
+    --color-primary: var(--color-purple-700); /* text, borders, focus rings and tints. 7.1:1 on surface, 4.8:1 on its 20% tint */
+    --color-primary-fill: var(--color-purple-700); /* solid backgrounds with on-primary text on them: buttons, picked dates */
+    --color-on-primary: #ffffff; /* text on top of primary-fill. 7.1:1 */
+    --color-primary-hover: var(--color-purple-800); /* primary-fill under the pointer */
 
     /* links */
     --color-link: #2563eb;
@@ -26,8 +28,39 @@
     --color-line-strong: #d0d5dd; /* hover/focus borders on fields */
 
     /* status */
-    --color-error: #b42318; /* 5.6:1 as text on its own 10% tint, the invalid field */
+    --color-error: #b42318; /* text and borders. 5.6:1 as text on its own 10% tint, the invalid field */
+    --color-error-fill: #b42318; /* solid backgrounds with white text: the danger button. 6.5:1 */
     --color-success: #15803d; /* 5:1 as text on surface */
+    --color-success-fill: #15803d; /* solid backgrounds with white text: a finished progress bar with its label inside. 5:1 */
+    --color-warning: #e0e71c;
+}
+
+/*
+    Dark: put class="dark" (or data-theme="dark") on <html> and every widget follows, popovers and dialogs included;
+    on any other element, just that part of the page does. To follow the device setting instead, replace the selector
+    line with @media (prefers-color-scheme: dark) { :root { … } }.
+    Here one shade can't do both jobs: a primary light enough to read on the dark surface can't carry white text, so
+    primary-fill is a deeper shade of the same colour. The same goes for error and success. Ratios are on surface, then
+    on field.
+*/
+:where(.dark, [data-theme="dark"]) {
+    color-scheme: dark;
+    --color-primary: var(--color-purple-300); /* 7.8:1, 6.4:1 */
+    --color-primary-fill: var(--color-purple-600); /* white on it 5.5:1 */
+    --color-on-primary: #ffffff;
+    --color-primary-hover: var(--color-purple-700); /* white on it 7.1:1 */
+    --color-link: #84adff; /* 6.2:1, 5.1:1 */
+    --color-link-hover: #b2ccff;
+    --color-foreground: #f2f4f7; /* 12.6:1, 10.3:1 */
+    --color-muted: #a4adbf; /* 6.2:1, 5:1 */
+    --color-surface: #262c3d;
+    --color-field: #323a4f;
+    --color-line: #3d465d;
+    --color-line-strong: #586179;
+    --color-error: #fa8b82; /* 6:1, 4.9:1 */
+    --color-error-fill: var(--color-red-600); /* white on it 4.8:1 */
+    --color-success: #4ade80; /* 8:1, 6.5:1 */
+    --color-success-fill: #15803d; /* white on it 5:1 */
     --color-warning: #e0e71c;
 }
 

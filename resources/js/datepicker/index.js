@@ -61,7 +61,7 @@ export const horizontalStep = (key, rtl) => (key === 'ArrowRight' ? 1 : -1) * (r
 // so the grid scales with the dropdown instead of forcing a fixed width.
 const DAY_BASE = 'mx-auto grid aspect-square w-full max-w-11 place-items-center rounded-full text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-primary';
 const DAY_TONE = {
-    selected: 'bg-primary font-semibold text-on-primary',
+    selected: 'bg-primary-fill font-semibold text-on-primary',
     disabled: 'cursor-not-allowed text-muted/50',
     outside: 'text-muted hover:bg-field',
     today: 'font-semibold text-primary hover:bg-field',

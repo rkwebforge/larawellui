@@ -1,5 +1,5 @@
 {
-    "description": "Small SVG icons the other components use: chevrons, close, calendar, search and more. Pass a name; size and colour come from classes.",
+    "description": "Small SVG icons, drawn inline: arrows and chevrons, mail, phone, home, settings, bell, users, search, calendar, file, upload and download, and more. Pass a name; size and colour come from classes.",
     "examples": [
         "basic",
         "all-icons"

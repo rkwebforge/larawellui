@@ -1,18 +1,27 @@
 @props([
+    // How far along it is, out of max. Reaching max turns it green.
     'value' => 0,
     // Progress is value out of max: :value="3" :max="5" for files, bytes, money, anything countable.
     'max' => 100,
+    // Its name for screen readers ("Progress" if left out); shown too with show-label.
     'label' => null,
+    // Shows the label and the value next to the bar, placed by label-position. Without it only screen readers get them
+    // (label-position="inside" still shows the value).
     'showLabel' => false,
     // Where the label and value go: above the bar, beside it on one line, or inside a thicker bar.
     'labelPosition' => 'above',
     // Shown instead of the percentage, and read out by screen readers: "3 of 5 files", "1.2 GB of 5 GB".
     'valueText' => null,
+    // Turns it red, e.g. for an upload that stopped, and screen readers hear "failed".
     'failed' => false,
+    // Greyed out, e.g. for a paused job, and screen readers hear "disabled".
     'disabled' => false,
+    // How thick the bar is: sm, md or lg. label-position="inside" always uses a thicker bar.
     'size' => 'md',
     // The amount isn't known yet: a sliding bar and no value. (A prop, not :value="null": Blade turns a passed null back into the default.)
     'indeterminate' => false,
+    // Moving diagonal stripes on the filled part, to show work is going on. They stay still for people who
+    // prefer reduced motion.
     'striped' => false,
 ])
 
@@ -35,9 +44,11 @@
 
     // Base colour per state; reaching max turns it green through data-complete, which resources/js/widget/progress
     // also sets, so the colour follows progress.set() too.
+    // With the label inside, white text sits on the bar, so it takes the deeper fill shades (they differ in dark mode).
     $fill = match (true) {
         $disabled => 'bg-muted opacity-50',
-        $failed => 'bg-error',
+        $failed => $inside ? 'bg-error-fill' : 'bg-error',
+        $inside => 'bg-primary-fill group-data-complete/progress:bg-success-fill',
         default => 'bg-primary group-data-complete/progress:bg-success',
     };
     $state = match (true) {

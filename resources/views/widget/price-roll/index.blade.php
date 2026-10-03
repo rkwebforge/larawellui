@@ -1,12 +1,21 @@
 @props([
+    // The number to show. Set data-value on it later and the digits roll to the new one.
     'value' => 0,
+    // A currency code like USD or EUR; config('app.currency') (or USD) when left out, and false for a plain number.
     'currency' => null,
+    // How the number is written, e.g. en-IN or de-DE: separators, symbol and its place. Defaults to the app's locale.
     'locale' => null,
+    // Digits after the decimal point, always that many. Left out, the currency's usual number (up to 3 without one).
     'decimals' => null,
+    // Said before the price by screen readers ("Price: $64,210.50"); not shown.
     'label' => null,
+    // Announces each new price to screen readers as it changes.
     'live' => false,
+    // Where the price started (today's open, say): adds a badge with the change since then, kept up to date as it rolls.
     'previous' => null,
+    // What the badge shows: percent (+4.38%), amount (+$115.65) or both. From a previous of 0, always the amount.
     'change' => 'percent',
+    // How the change is coloured: default (up is green, down red), inverse (up is red, for a cost or a wait) or none.
     'trendColors' => 'default',
 ])
 

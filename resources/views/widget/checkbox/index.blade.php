@@ -48,7 +48,7 @@
                 {{ $field->controlAttributes($attributes, (bool) $info)->class([
                     // border-muted: an unchecked box's edge must reach 3:1 against the page to be seen at all.
                     'peer border-muted bg-surface size-5 appearance-none rounded-md border transition-colors outline-none',
-                    'checked:border-primary checked:bg-primary focus-visible:ring-primary focus-visible:ring-2 focus-visible:ring-offset-2',
+                    'checked:border-primary-fill checked:bg-primary-fill focus-visible:ring-primary focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-surface',
                     'group-data-invalid/field:border-error disabled:cursor-not-allowed',
                     'cursor-pointer' => ! $disabled,
                 ]) }}

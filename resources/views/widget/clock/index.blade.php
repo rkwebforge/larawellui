@@ -1,11 +1,15 @@
 @props([
     // Required: an IANA timezone like "Europe/London".
     'timezone',
+    // 12-hour time with AM or PM, instead of 24-hour.
     'hour12' => false,
+    // Shows the seconds as well.
     'seconds' => false,
     // A line under the time: "Friday, 27 September".
     'date' => false,
+    // Small text above the time, e.g. the city.
     'label' => null,
+    // How big the time is: sm, md or lg.
     'size' => 'md',
 ])
 

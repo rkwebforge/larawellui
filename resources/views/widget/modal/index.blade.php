@@ -1,16 +1,31 @@
 @props([
+    // Required, and unique on the page: buttons open it with data-modal-open="{id}", scripts with modal.open('{id}').
     'id',
+    // The heading at the top, and the modal's name for screen readers.
     'title' => null,
+    // The modal's name for screen readers when it has no title; a title wins.
     'label' => null,
+    // How wide it is: sm, md, lg or xl. full fills the whole screen (dialogs only).
     'size' => 'md',
+    // dialog: a panel in the middle of the screen. drawer: a panel that slides in from the edge set by side.
     'variant' => 'dialog',
+    // With variant="drawer", the edge it slides in from: start, end (the right in left-to-right pages) or bottom.
     'side' => 'end',
+    // Keeps the title and footer in view while only the body scrolls. Drawers and size="full" always work this way.
     'scrollable' => false,
+    // sheet: on phones, a dialog becomes a sheet that slides up from the bottom. Leave it out to keep the dialog
+    // centred. Dialogs only, and not with size="full".
     'mobile' => null,
+    // The X in the top corner. Never shown with disable-close.
     'closeButton' => true,
+    // A click on the dimmed area outside the panel closes it too.
     'closeOnBackdrop' => false,
+    // Locks it open: no Esc, backdrop or X. Only your code closes it, with modal.close(id, { force: true }) or a
+    // modal-close event from Livewire.
     'disableClose' => false,
+    // Puts the forms inside back to their starting values each time it closes (wire:model properties too).
     'resetOnClose' => false,
+    // Opens as the page loads, e.g. :open="$errors->any()" to reopen a form after failed validation.
     'open' => false,
 ])
 
@@ -29,14 +44,21 @@
     if (! in_array($mobile, [null, 'sheet'], true)) {
         throw new \InvalidArgumentException("Unknown mobile [{$mobile}] for <x-widget.modal>. Use one of: sheet, or leave it out.");
     }
+    // Combinations that can't apply would otherwise be ignored without a word.
+    if ($variant === 'drawer' && $size === 'full') {
+        throw new \InvalidArgumentException('<x-widget.modal variant="drawer"> takes size sm, md, lg or xl: a drawer is already as tall as the screen, so full has no meaning.');
+    }
+    if ($mobile === 'sheet' && ($variant === 'drawer' || $size === 'full')) {
+        throw new \InvalidArgumentException('<x-widget.modal mobile="sheet"> is for a centred dialog: a drawer or size="full" already fits a phone.');
+    }
     $drawer = $variant === 'drawer';
-    $full = $size === 'full' && ! $drawer;
-    $width = $widths[$size] ?? $widths['md'];
+    $full = $size === 'full';
+    $width = $widths[$size] ?? null;
     // Header and footer stay put while only the body scrolls: asked for with `scrollable`, and always so for
     // drawers and full-screen dialogs, where the panel is exactly as tall as the screen.
     $pinned = $scrollable || $drawer || $full;
     // mobile="sheet": a centred dialog becomes a bottom sheet below the sm breakpoint.
-    $sheet = $mobile === 'sheet' && ! $drawer && ! $full;
+    $sheet = $mobile === 'sheet';
     // An X that can't close anything is just noise, so a locked modal never shows one.
     $closeButton = $closeButton && ! $disableClose;
     // Openers find the dialog by this id, so a duplicate must fail loudly rather than be renamed.

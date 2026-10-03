@@ -53,7 +53,7 @@
     $number = $segmented
         ? 'grid h-7 min-w-7 shrink-0 place-items-center px-1 tabular-nums sm:h-10 sm:min-w-10 sm:px-3'
         : 'min-w-7 shrink-0 rounded-md px-1 py-1 text-center tabular-nums sm:min-w-8 sm:px-3';
-    $currentLook = $segmented ? 'bg-primary text-on-primary font-semibold' : 'text-primary font-bold';
+    $currentLook = $segmented ? 'bg-primary-fill text-on-primary font-semibold' : 'text-primary font-bold';
     $gap = $segmented ? 'text-muted grid h-7 w-5 shrink-0 place-items-center select-none sm:h-10 sm:w-auto sm:min-w-10' : 'text-muted shrink-0 px-1 select-none sm:px-2';
     // A faded cell would fade its border too, so segmented dims only the icon.
     $off = $segmented ? 'text-muted' : 'opacity-30';

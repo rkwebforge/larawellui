@@ -1,19 +1,41 @@
 @props([
+    // What it submits as; its error is found under it (files aren't refilled after a failed submit). With multiple,
+    // [] is added if you leave it off. Optional with wire:model, which then names it.
     'name' => null,
+    // Defaults to one made from the name (or the wire:model property).
     'id' => null,
+    // Shown above the field, and its name for screen readers.
     'label' => null,
+    // An error message of your own; otherwise the validation error for the name, from the session or Livewire.
     'error' => null,
+    // A hint under the field.
     'info' => null,
+    // Which error bag to read the error from.
     'bag' => 'default',
+    // Greyed out: it can't be changed.
     'disabled' => false,
+    // Takes several files, listed one per row with a remove button.
     'multiple' => false,
+    // The file types it takes, as for the accept attribute: extensions and MIME types, e.g. ".pdf,image/*". The picker
+    // only offers those, other files are turned away as they're picked, and the hint names them.
     'accept' => null,
+    // The largest file it takes: 500KB, 5MB, 2GB, or a number of kilobytes like Laravel's max: rule. Bigger files are
+    // turned away as they're picked, and the hint says the limit. Your Form Request must still check it.
     'maxSize' => null,
+    // The most files it takes; more than 1 turns on multiple. Extra ones are listed with an error instead of added.
     'maxFiles' => null,
+    // Direct upload: each file is posted to this URL (as "file") as soon as it's picked, with progress and retry. The
+    // route stores it and returns JSON with its id, and the form submits the ids under the name instead of the files.
     'uploadUrl' => null,
+    // Files already stored, listed as uploaded (after a failed submit, or when editing): [['id' => 7, 'name' => 'a.pdf',
+    // 'size' => 1024], …], size in bytes. Each id is submitted under the name until it's removed. Needs upload-url.
     'uploaded' => [],
+    // The text in the drop area, before the browse link.
     'prompt' => 'Drag files here or',
+    // The browse link's text.
     'browse' => 'browse',
+    // Rewords or translates what it says, by key: tooBig (:name, :size), wrongType (:name), tooMany (:count),
+    // failed (:name), waiting, added (:count), removed (:name), uploadedOne (:name).
     'messages' => [],
 ])
 
@@ -28,6 +50,11 @@
     // upload-url: each file is sent there as soon as it's picked, and the form submits what the route returns (an
     // id per file) from hidden inputs. The file input itself then has no name, so the files aren't sent twice.
     $direct = $uploadUrl !== null;
+    // Stored files submit their ids under the name. Without upload-url the file input has that name too, and a picked
+    // file would replace or mix in with the ids.
+    if (! $direct && filled($uploaded)) {
+        throw new \InvalidArgumentException('<x-widget.file-upload uploaded="…"> needs upload-url: stored files submit their ids under the name, which picked files would otherwise share.');
+    }
     $inputName = $direct || $baseName === null ? null : ($multiple ? "{$baseName}[]" : $baseName);
     $valueName = $baseName === null ? null : ($multiple ? "{$baseName}[]" : $baseName);
     // Files already stored (after a failed submit, or when editing): [['id' => 7, 'name' => 'a.pdf', 'size' => 1024], …].

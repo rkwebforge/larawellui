@@ -1,6 +1,9 @@
 @props([
+    // Labels, or arrays: ['label' => 'Shipping', 'href' => …]. href makes a done step a link back to it.
     'steps' => [],
+    // The step you're on, counting from 1; kept between the first and the last.
     'current' => 1,
+    // The steps' name for screen readers.
     'label' => 'Progress',
 ])
 
@@ -21,7 +24,7 @@
         default => '[clip-path:polygon(0_0,calc(100%-12px)_0,100%_50%,calc(100%-12px)_100%,0_100%,12px_50%)]',
     };
     // Solid tints (mixed with the surface, not see-through) so the overlapping points stay clean on any background.
-    $look = ['done' => 'bg-[color-mix(in_oklab,var(--color-primary)_15%,var(--color-surface))] text-primary', 'current' => 'bg-primary text-on-primary', 'upcoming' => 'bg-field text-foreground/60'];
+    $look = ['done' => 'bg-[color-mix(in_oklab,var(--color-primary)_15%,var(--color-surface))] text-primary', 'current' => 'bg-primary-fill text-on-primary', 'upcoming' => 'bg-field text-foreground/60'];
     $spoken = ['done' => 'completed', 'current' => 'current step', 'upcoming' => 'not started'];
 @endphp
 

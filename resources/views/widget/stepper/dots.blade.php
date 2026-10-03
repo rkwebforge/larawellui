@@ -1,6 +1,9 @@
 @props([
+    // Required: how many steps there are.
     'total',
+    // The step you're on, counting from 1; kept between the first and the last.
     'current' => 1,
+    // The dots' name for screen readers (Progress when left out), said before "Step 2 of 4".
     'label' => null,
 ])
 

@@ -1,4 +1,6 @@
 @props([
+    // Makes the whole row a link to this URL: a click anywhere on it goes there (Ctrl/Cmd or middle click opens a new
+    // tab), and its first cell gets a real link for keyboards and screen readers. Not with a details slot.
     'href' => null,
     // With a selectable table: the value this row's checkbox submits, e.g. its id.
     'value' => null,
@@ -13,6 +15,10 @@
 
 @php
     $hasDetails = isset($details) && $details->isNotEmpty();
+    // A click can't both follow a link and expand the row; the details only would open, middle-click included.
+    if ($href && $hasDetails) {
+        throw new \InvalidArgumentException('<x-widget.table.row> takes href or a details slot, not both: a click can only do one. Put the link inside the details instead.');
+    }
     $detailsId = $hasDetails ? app(\LarawellUi\Support\ElementIds::class)->claim('row-details') : null;
     $interactive = $href || $hasDetails;
 @endphp
@@ -21,10 +27,10 @@
 <tr
     data-table-row
     @if ($href) data-href="{{ $href }}" @if ($linkLabel) data-link-label="{{ $linkLabel }}" @endif @endif
-    @if ($hasDetails) data-expandable aria-expanded="false" aria-controls="{{ $detailsId }}" @endif
-    {{-- A linked row's Tab stop is the real link resources/js/widget/table puts in its first cell, so screen readers
-         hear "link"; an expandable row is focused itself. --}}
-    @if ($hasDetails) tabindex="0" @endif
+    @if ($hasDetails) data-expandable @endif
+    {{-- A row's Tab stop is a real control inside it, so screen readers hear what it is: the link resources/js/widget/table
+         puts in a linked row's first cell, or the Details button of an expandable one (aria-expanded isn't allowed on a
+         table row itself). --}}
     {{ $attributes->class([
         'group/row border-line h-14 border-b transition-colors group-data-[density=compact]/table:h-11',
         // "odd of [data-table-row]" skips the hidden details rows, so stripes stay even.
@@ -33,8 +39,9 @@
         'hover:bg-field/50' => ! $interactive,
         // `!`: the stripe rule is equally specific and emitted later, so hover would lose on tinted rows.
         'hover:bg-field! focus-visible:outline-primary cursor-pointer focus-visible:outline-2 focus-visible:-outline-offset-2' => $interactive,
-        // The ring goes on the whole row when its link has keyboard focus.
+        // The ring goes on the whole row when its link or Details button has keyboard focus.
         'has-[[data-row-link]:focus-visible]:outline-primary has-[[data-row-link]:focus-visible]:outline-2 has-[[data-row-link]:focus-visible]:-outline-offset-2' => $href,
+        'has-[[data-row-toggle]:focus-visible]:outline-primary has-[[data-row-toggle]:focus-visible]:outline-2 has-[[data-row-toggle]:focus-visible]:-outline-offset-2' => $hasDetails,
         'has-[[data-table-select]:checked]:bg-primary/5!' => $selectable,
         'data-expanded:[&>td:first-child]:shadow-[inset_4px_0_0_var(--color-primary)]' => $hasDetails,
     ]) }}
@@ -51,7 +58,9 @@
     @if ($hasDetails)
         {{-- The table adds a matching header cell when any row expands (see table/index). --}}
         <td class="w-12 text-end!">
-            <x-widget.icon name="chevron-down" class="text-foreground/60 inline size-5 transition-transform duration-300 group-data-expanded/row:rotate-180 motion-reduce:transition-none" />
+            <button type="button" data-row-toggle aria-expanded="false" aria-controls="{{ $detailsId }}" aria-label="Details" class="inline-grid cursor-pointer place-items-center rounded-md align-middle outline-none">
+                <x-widget.icon name="chevron-down" class="text-foreground/60 size-5 transition-transform duration-300 group-data-expanded/row:rotate-180 motion-reduce:transition-none" />
+            </button>
         </td>
     @endif
 </tr>

@@ -1,14 +1,24 @@
 @props([
+    // How far along it is, out of max. Reaching max turns it green.
     'value' => 0,
+    // Progress is value out of max: :value="3" :max="5" for files, bytes, money, anything countable.
     'max' => 100,
+    // Its name for screen readers ("Progress" if left out); shown too with show-label.
     'label' => null,
+    // Shows the label under the circle.
     'showLabel' => false,
+    // The percentage in the centre of the circle.
     'showValue' => true,
     // Read out by screen readers and shown under the label, e.g. "3 of 5 files". The centre keeps the percentage.
     'valueText' => null,
+    // Turns it red, e.g. for an upload that stopped, and screen readers hear "failed".
     'failed' => false,
+    // Greyed out, e.g. for a paused job, and screen readers hear "disabled".
     'disabled' => false,
+    // How big the circle is: sm, md or lg.
     'size' => 'md',
+    // The amount isn't known yet: a spinning arc and no value. (A prop, not :value="null": Blade turns a passed null
+    // back into the default.)
     'indeterminate' => false,
 ])
 

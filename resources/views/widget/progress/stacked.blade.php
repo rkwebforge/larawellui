@@ -4,9 +4,11 @@
     'segments' => [],
     // The whole the parts are measured against, e.g. 50 for a 50 GB plan. What's left over shows as free space.
     'max' => 100,
+    // The heading above the bar, and its name for screen readers.
     'label' => 'Usage',
     // A summary beside the label, e.g. "37.5 GB of 50 GB used".
     'summary' => null,
+    // Lists each part's colour, name and amount under the bar; false leaves it out.
     'legend' => true,
     // Legend name for the space left over; null leaves it out.
     'rest' => 'Free',

@@ -1,5 +1,7 @@
 @props([
+    // Where it goes. Defaults to the previous page.
     'href' => null,
+    // Text beside the arrow. Without it, just the arrow shows, named "Back" for screen readers.
     'label' => null,
 ])
 

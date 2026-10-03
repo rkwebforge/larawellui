@@ -18,7 +18,7 @@
         {{ $attributes->class([
             'focus-visible:ring-primary block rounded-lg px-3 py-1.5 outline-none focus-visible:ring-2',
             'text-foreground/70 hover:bg-field hover:text-foreground',
-            'aria-[current=page]:bg-primary aria-[current=page]:text-on-primary aria-[current=page]:font-medium aria-[current=page]:hover:bg-primary aria-[current=page]:hover:text-on-primary',
+            'aria-[current=page]:bg-primary-fill aria-[current=page]:text-on-primary aria-[current=page]:font-medium aria-[current=page]:hover:bg-primary-fill aria-[current=page]:hover:text-on-primary',
             'snap-center [scroll-initial-target:nearest]' => $current,
         ]) }}
     >{{ $slot }}</a>

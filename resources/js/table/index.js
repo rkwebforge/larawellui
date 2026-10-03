@@ -11,11 +11,13 @@ const ROW = 'tr[data-href], tr[data-expandable]';
 const COLLAPSE_MS = 300;
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// The row's Details button carries the state for screen readers; the row's data-expanded styles it.
 function toggle(row) {
-    const open = row.getAttribute('aria-expanded') !== 'true';
-    const details = document.getElementById(row.getAttribute('aria-controls'));
+    const button = row.querySelector('[data-row-toggle]');
+    const open = button.getAttribute('aria-expanded') !== 'true';
+    const details = document.getElementById(button.getAttribute('aria-controls'));
 
-    row.setAttribute('aria-expanded', String(open));
+    button.setAttribute('aria-expanded', String(open));
     row.toggleAttribute('data-expanded', open);
     // Collapsed content stays out of the tab order and away from screen readers.
     details.inert = !open;
@@ -56,6 +58,13 @@ function rowFromEvent(event) {
 }
 
 document.addEventListener('click', (event) => {
+    // The Details button is a button, so the row's own click (below) leaves it alone; it toggles here instead.
+    const toggleButton = event.target.closest?.('[data-row-toggle]');
+    if (toggleButton) {
+        toggle(toggleButton.closest('tr'));
+
+        return;
+    }
     const row = rowFromEvent(event);
     // Selecting text in a row shouldn't navigate away.
     if (row && !window.getSelection()?.toString()) {
@@ -68,17 +77,6 @@ document.addEventListener('auxclick', (event) => {
     const row = rowFromEvent(event);
     if (row && event.button === 1 && row.dataset.href) {
         activate(row, true);
-    }
-});
-
-document.addEventListener('keydown', (event) => {
-    const row = event.target.matches?.(ROW) ? event.target : null;
-    if (!row) {
-        return;
-    }
-    if (event.key === 'Enter' || (event.key === ' ' && row.hasAttribute('data-expandable'))) {
-        event.preventDefault();
-        activate(row, event.metaKey || event.ctrlKey);
     }
 });
 
@@ -1391,7 +1389,7 @@ function saveRowState(root) {
         ...boxes.filter((box) => box.checked).map((box) => ({ value: box.value, name: box.name, form: box.getAttribute('form') })),
         ...[...root.querySelectorAll('[data-table-kept]')].map((input) => ({ value: input.value, name: input.name, form: input.getAttribute('form') })),
     ];
-    const open = new Set([...root.querySelectorAll('tr[data-expandable][aria-expanded="true"]')].map(rowKey).filter(Boolean));
+    const open = new Set([...root.querySelectorAll('tr[data-expandable][data-expanded]')].map(rowKey).filter(Boolean));
     saved.set(root, { ticked, open });
 }
 
@@ -1421,9 +1419,10 @@ function restoreRowState(root) {
     }
     // Open straight away, without the expand transition: to the user the row never closed.
     root.querySelectorAll('tr[data-expandable]').forEach((row) => {
-        const details = document.getElementById(row.getAttribute('aria-controls'));
+        const button = row.querySelector('[data-row-toggle]');
+        const details = document.getElementById(button?.getAttribute('aria-controls'));
         if (details && state.open.has(rowKey(row))) {
-            row.setAttribute('aria-expanded', 'true');
+            button.setAttribute('aria-expanded', 'true');
             row.toggleAttribute('data-expanded', true);
             details.hidden = false;
             details.inert = false;

@@ -6,7 +6,7 @@ import { addDays, addMonths, alignedLeft, daysInMonth, horizontalStep, localeToo
 
 const DAY_BASE = 'mx-auto grid aspect-square w-full max-w-11 place-items-center rounded-full text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-primary';
 const DAY_TONE = {
-    endpoint: 'bg-primary font-semibold text-on-primary',
+    endpoint: 'bg-primary-fill font-semibold text-on-primary',
     disabled: 'cursor-not-allowed text-muted/50',
     inRange: 'text-foreground hover:bg-primary/20',
     today: 'font-semibold text-primary hover:bg-field',

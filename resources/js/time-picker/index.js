@@ -471,6 +471,18 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
+// Roving tabindex: the option with focus is its list's one Tab stop, so Tab leaves the list and comes back to it.
+document.addEventListener('focusin', (event) => {
+    const option = event.target.closest?.(`${ROOT} [role="listbox"] > [role="option"]`);
+    if (!option) {
+        return;
+    }
+    option.parentElement.querySelectorAll(':scope > [role="option"][tabindex="0"]').forEach((other) => {
+        other.tabIndex = -1;
+    });
+    option.tabIndex = 0;
+});
+
 // The first digit typed into a segment waits for a second only while the segment has focus.
 document.addEventListener('focusout', (event) => {
     if (event.target.matches?.('[data-time-picker-segment]')) {

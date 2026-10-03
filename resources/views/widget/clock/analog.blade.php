@@ -1,10 +1,13 @@
 @props([
     // Required: an IANA timezone like "Europe/London".
     'timezone',
+    // Draws a seconds hand.
     'seconds' => true,
-    // 12, 3, 6 and 9 on the face.
+    // Puts 12, 3, 6 and 9 on the face.
     'numbers' => false,
+    // A caption under the face, e.g. the city.
     'label' => null,
+    // How big the face is: sm, md or lg.
     'size' => 'md',
 ])
 

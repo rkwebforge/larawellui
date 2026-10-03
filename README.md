@@ -53,6 +53,8 @@ php artisan larawell:diff select/index.blade.php # or one file
 
 `larawell:diff` compares your copy with this version of the package. To take the package version of one file, delete it and run `larawell:add --installed`.
 
+What you build on is only ever added to, never renamed or removed: component names, props and the values they take, `data-*` hooks, JS exports, the commands and their flags, and the config keys. A release can still get stricter about input that never worked, such as a mistyped value that used to be ignored and now throws. [CHANGELOG.md](CHANGELOG.md) lists every change by widget, so check the ones you use before updating.
+
 ## AI agents (MCP)
 
 `php artisan larawell:mcp` is a [Model Context Protocol](https://modelcontextprotocol.io) server for the app it runs in, over stdio. No extra package: it ships with this one. Its tools:
@@ -217,6 +219,10 @@ Both namespaces must sit under a PSR-4 root in your `composer.json`. The install
 
 Components only use the token names in `resources/css/widget/theme.css` (`primary`, `field`, `line`, `error`, …). To re-theme, edit the values there.
 
+Each colour does one job. `primary` is for text, borders and focus rings; `primary-fill` is for solid backgrounds with `on-primary` text on them. `error-fill` and `success-fill` do the same for red and green. In light mode they're the same shade; on a dark page a shade light enough to read can't carry white text, so they differ.
+
+Dark mode ships in the same file: put `class="dark"` or `data-theme="dark"` on `<html>` and every widget follows, popovers and dialogs included (on any other element, just that part of the page). To follow the device setting instead, swap its selector for `@media (prefers-color-scheme: dark) { :root { … } }`. Every pair meets WCAG AA in both modes.
+
 ## Working on the package
 
 - The source runs as-is. Views live in `resources/views/widget/{widget}`, JS in `resources/js/{widget}`, CSS in `resources/css`, and the helpers and rules are real classes in `src/Support` and `src/Rules`. On install, `LarawellUi\Support` and `LarawellUi\Rules` are rewritten to the app's namespaces.
@@ -227,3 +233,4 @@ Components only use the token names in `resources/css/widget/theme.css` (`primar
 - Every form control (the text input, password, select, the date pickers, the file upload…) sits in `<x-widget.field>` and requires `field`. Its script imports the shared helpers from `'../field'` (`on` for delegated events, `replaceValue`, `typingIn`, `onLivewireMorph`) rather than keeping a copy, and its own Livewire refresh goes through `onLivewireMorph`.
 - The host app develops against the source directly. It registers `resources/views` as an anonymous component path (in `AppServiceProvider`) and imports the JS and CSS from `packages/larawellui/resources`. Edit a widget, refresh the page, done.
 - The host app's test suite checks that every manifest declares everything its widget renders or imports, that every example renders, and that installing into a fresh project produces working, correctly namespaced files.
+- Accessibility runs in a real browser: `npm run build`, then `composer test:a11y` (the first time, `npx playwright install chromium`). It runs axe over every example in the light and dark themes, against the WCAG 2.2 A and AA rules: as the page draws, then with each popover, dialog, toast and tooltip opened in turn, the way a person opens it. Anything axe can't decide fails too, unless the test settles it: it checks that a popup trigger's `aria-controls` target exists, that a list driven by `aria-activedescendant` really scrolls from the keyboard, and measures contrast itself where axe can't (SVG text, single characters). An opener that opens nothing fails too. CI runs it on every pull request.

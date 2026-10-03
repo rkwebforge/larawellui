@@ -39,8 +39,11 @@ function link(root) {
         root.tabIndex = 0;
     }
     // Made focusable around an icon with no text of its own, it would have no name at all: the tooltip's text is its
-    // name then, not a description of one.
+    // name then, not a description of one. It stands in for the icon, so it's an image; a plain span can't take a name.
     if (target === root && [...root.childNodes].every((node) => node === bubble || !node.textContent.trim())) {
+        if (!root.hasAttribute('role')) {
+            root.setAttribute('role', 'img');
+        }
         root.setAttribute('aria-label', bubble.textContent.trim());
 
         return;

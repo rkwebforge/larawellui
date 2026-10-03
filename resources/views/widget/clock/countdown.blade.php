@@ -1,11 +1,13 @@
 @props([
     // When it ends: a date string ("2026-12-31 23:59") in the app's timezone, or a Carbon/DateTime instance.
     'to',
+    // Small text above the boxes (not shown inline), and the countdown's name for screen readers.
     'label' => 'Time left',
     // Shown in place of the numbers, and announced, once it reaches zero.
     'done' => "Time's up",
     // boxes: a card per unit. inline: "2d 04h 12m 09s" in running text.
     'variant' => 'boxes',
+    // How big the numbers are: sm, md or lg.
     'size' => 'md',
 ])
 
@@ -57,7 +59,7 @@
     @endif
 
     {{-- role="timer" without aria-live: not announced every second. The words below read when reached. --}}
-    <{{ $inline ? 'span' : 'div' }} role="timer" aria-label="{{ $label }}" class="group-data-finished/countdown:hidden">
+    <{{ $inline ? 'span' : 'div' }} role="timer" @if ($label) aria-label="{{ $label }}" @endif class="group-data-finished/countdown:hidden">
         <span data-clock-spoken class="sr-only">{{ $spoken }} left</span>
         @if ($variant === 'inline')
             <span aria-hidden="true" class="text-foreground font-semibold tabular-nums">

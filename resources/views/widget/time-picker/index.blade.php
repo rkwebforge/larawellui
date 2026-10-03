@@ -22,8 +22,9 @@
     'bag' => 'default',
     // Greyed out: it can't be changed.
     'disabled' => false,
-    // The earliest and latest times that can be picked, within one day: "09:00", "17:30".
+    // The earliest time that can be picked, within one day: "09:00". Defaults to 00:00.
     'min' => null,
+    // The latest time that can be picked, within one day: "17:30". Defaults to 23:59.
     'max' => null,
     // Minutes between the times offered: 15 by default for list and slots, 1 for columns and segmented.
     'step' => null,
@@ -74,6 +75,10 @@
         })
         ->filter()
         ->values();
+    // The list's one Tab stop (a roving tabindex): the chosen time, or else the first that can be picked. The script
+    // moves it to whichever option has focus, so Tab always lands back where you were.
+    $stop = $times->search(fn (array $slot): bool => $slot['time'] === $value);
+    $stop = $stop !== false ? $stop : $times->search(fn (array $slot): bool => ! $slot['disabled']);
 
     // columns and segmented: the parts of the value.
     [$hour, $minute] = $value ? array_map('intval', explode(':', $value)) : [null, null];
@@ -199,7 +204,7 @@
             @foreach ($times as $i => $slot)
                 <label @class([
                     'border-line text-foreground relative grid h-11 place-items-center rounded-xl border text-sm font-medium tabular-nums transition-colors select-none',
-                    'has-checked:bg-primary has-checked:text-on-primary has-checked:border-primary has-focus-visible:ring-primary has-focus-visible:ring-2 has-focus-visible:ring-offset-2',
+                    'has-checked:bg-primary-fill has-checked:text-on-primary has-checked:border-primary-fill has-focus-visible:ring-primary has-focus-visible:ring-2 has-focus-visible:ring-offset-2 has-focus-visible:ring-offset-surface',
                     'hover:border-primary cursor-pointer' => ! $slot['disabled'] && ! $disabled,
                     'text-muted cursor-not-allowed line-through opacity-60' => $slot['disabled'] || $disabled,
                     'group-data-invalid/field:border-error',
@@ -238,7 +243,7 @@
                 <div
                     id="{{ $id }}-option-{{ $i }}"
                     role="option"
-                    tabindex="-1"
+                    tabindex="{{ $i === $stop ? 0 : -1 }}"
                     data-value="{{ $slot['time'] }}"
                     aria-selected="{{ $value === $slot['time'] ? 'true' : 'false' }}"
                     @if ($slot['disabled']) aria-disabled="true" @endif
@@ -271,13 +276,14 @@
                     <div class="flex flex-col gap-1">
                         <span aria-hidden="true" class="text-muted h-4 text-center text-xs font-medium">{{ $heading }}</span>
                         <div role="listbox" aria-label="{{ $partLabel }}" data-time-picker-column="{{ $part }}" class="flex max-h-60 w-14 flex-col gap-0.5 overflow-y-auto overscroll-contain [scrollbar-width:none]">
+                            {{-- One Tab stop per column, the chosen value or else the first, so Tab moves from column to column. --}}
                             @foreach ($choices as $choice)
                                 <div
                                     role="option"
-                                    tabindex="-1"
+                                    tabindex="{{ $choice === (in_array($chosen, $choices, true) ? $chosen : reset($choices)) ? 0 : -1 }}"
                                     data-value="{{ $choice }}"
                                     aria-selected="{{ $chosen === $choice ? 'true' : 'false' }}"
-                                    class="hover:bg-field focus-visible:ring-primary aria-selected:bg-primary aria-selected:text-on-primary grid h-9 shrink-0 cursor-pointer place-items-center rounded-lg tabular-nums outline-none select-none focus-visible:ring-2 focus-visible:ring-inset aria-disabled:cursor-not-allowed aria-disabled:opacity-30"
+                                    class="hover:bg-field focus-visible:ring-primary aria-selected:bg-primary-fill aria-selected:text-on-primary grid h-9 shrink-0 cursor-pointer place-items-center rounded-lg tabular-nums outline-none select-none focus-visible:ring-2 focus-visible:ring-inset aria-disabled:cursor-not-allowed aria-disabled:opacity-30"
                                 >{{ $part === 'period' ? $periods[$choice] : str_pad((string) $choice, 2, '0', STR_PAD_LEFT) }}</div>
                             @endforeach
                         </div>

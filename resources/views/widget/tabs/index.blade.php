@@ -57,7 +57,7 @@
         // Underlined and tinted: the open tab on a light wash of the primary colour, as in the vertical tabs, its underline
         // in the primary colour.
         'tinted' => '-mb-px rounded-t-xl border-b-2 border-transparent px-4 py-3 text-foreground/70 hover:text-foreground hover:not-aria-selected:not-aria-[current=page]:bg-field/70 aria-selected:border-primary aria-selected:bg-primary/5 aria-selected:text-foreground aria-[current=page]:border-primary aria-[current=page]:bg-primary/5 aria-[current=page]:text-foreground',
-        'pills' => 'rounded-full px-4 py-2 text-foreground/70 hover:bg-field hover:text-foreground aria-selected:bg-primary aria-selected:text-on-primary aria-[current=page]:bg-primary aria-[current=page]:text-on-primary',
+        'pills' => 'rounded-full px-4 py-2 text-foreground/70 hover:bg-field hover:text-foreground aria-selected:bg-primary-fill aria-selected:text-on-primary aria-[current=page]:bg-primary-fill aria-[current=page]:text-on-primary',
         'segmented' => 'rounded-xl px-4 py-2 text-foreground/70 hover:text-foreground aria-selected:bg-surface aria-selected:text-foreground aria-selected:shadow-sm aria-[current=page]:bg-surface aria-[current=page]:text-foreground aria-[current=page]:shadow-sm',
         'vertical' => '-ms-px border-s-2 border-transparent px-4 py-2 text-start text-foreground/70 hover:text-foreground aria-selected:border-primary aria-selected:bg-primary/5 aria-selected:text-foreground aria-[current=page]:border-primary aria-[current=page]:bg-primary/5 aria-[current=page]:text-foreground',
     ][$variant];
@@ -145,7 +145,7 @@
                     data-tab-panel="{{ $item['key'] }}"
                     @unless ($open) hidden @endunless
                     @unless ($bound) wire:ignore.self @endunless
-                    class="focus-visible:ring-primary rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-offset-4"
+                    class="focus-visible:ring-primary rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-offset-surface"
                 >{{ $__laravel_slots[$item['key']] ?? '' }}</div>
             @endforeach
         </div>

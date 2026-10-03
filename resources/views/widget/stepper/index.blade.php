@@ -1,8 +1,12 @@
 @props([
     // A count of steps, or their names with :steps (then total can be left out).
     'total' => null,
+    // The steps' names: ['Cart', 'Shipping', 'Payment'], or the other steppers' arrays (only 'label' is used here).
     'steps' => [],
+    // The step you're on, counting from 1; kept between the first and the last.
     'current' => 1,
+    // The bar's name for screen readers (Progress when left out), said before "Step 2 of 4". With show-label, shown when
+    // the current step has no name.
     'label' => null,
     // A line above the bars: the current step's name (or the label) and "Step 2 of 4".
     'showLabel' => false,
@@ -11,7 +15,8 @@
 ])
 
 @php
-    $steps = array_values($steps);
+    // Names, or the arrays the other steppers take (only the label is used here), so one list fits every stepper.
+    $steps = array_values(array_map(static fn (string|array $step): string => is_string($step) ? $step : (string) ($step['label'] ?? ''), $steps));
     $total = max(1, (int) ($total ?? count($steps)));
     $current = max(1, min($total, (int) $current));
     $name = $steps[$current - 1] ?? null;

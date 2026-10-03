@@ -1,6 +1,11 @@
 @props([
+    // Labels, or arrays: ['label' => 'Payment', 'description' => …, 'href' => …, 'optional' => true, 'locked' => true,
+    // 'error' => true]. href makes a done step, or one with an error, a link back to it; description shows when vertical;
+    // locked dims a step not reached yet and adds a lock; error marks one that needs attention.
     'steps' => [],
+    // The step you're on, counting from 1; kept between the first and the last.
     'current' => 1,
+    // The steps' name for screen readers.
     'label' => 'Progress',
     // horizontal: a row that shows only the current step's name on phones. vertical: stacked, with descriptions.
     'orientation' => 'horizontal',
@@ -30,7 +35,7 @@
     };
     // Outer ring, inner disc, and label, per state. The white gap between ring and disc is the padding.
     $ring = ['done' => 'border-foreground', 'current' => 'border-foreground', 'upcoming' => 'border-muted', 'locked' => 'border-line-strong', 'error' => 'border-error'];
-    $disc = ['done' => 'bg-primary text-on-primary', 'current' => 'bg-foreground text-surface', 'upcoming' => 'bg-muted text-surface', 'locked' => 'bg-line-strong text-surface', 'error' => 'bg-error text-white'];
+    $disc = ['done' => 'bg-primary-fill text-on-primary', 'current' => 'bg-foreground text-surface', 'upcoming' => 'bg-muted text-surface', 'locked' => 'bg-line-strong text-surface', 'error' => 'bg-error-fill text-white'];
     $text = ['done' => 'text-foreground', 'current' => 'text-foreground', 'upcoming' => 'text-foreground', 'locked' => 'text-muted', 'error' => 'text-error'];
     $spoken = ['done' => 'completed', 'current' => 'current step', 'upcoming' => 'not started', 'locked' => 'locked', 'error' => 'needs attention'];
 @endphp
@@ -64,7 +69,7 @@
                 @endunless
 
                 <{{ $link ? 'a' : 'div' }} @if ($link) href="{{ $link }}" @endif @class([
-                    'flex max-w-full rounded-md outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
+                    'flex max-w-full rounded-md outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface',
                     'flex-col items-center gap-2' => ! $vertical,
                     'items-start gap-3' => $vertical,
                     'group/step cursor-pointer' => $link,

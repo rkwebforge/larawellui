@@ -6,7 +6,7 @@
     <div>
         <button
             type="button"
-            class="bg-primary text-on-primary hover:bg-primary-hover focus-visible:ring-primary rounded-xl px-4 py-2.5 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+            class="bg-primary-fill text-on-primary hover:bg-primary-hover focus-visible:ring-primary rounded-xl px-4 py-2.5 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
             data-start-import
         >Start</button>
     </div>

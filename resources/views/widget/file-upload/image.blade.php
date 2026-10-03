@@ -1,21 +1,43 @@
 @props([
+    // What it submits as; its error is found under it (files aren't refilled after a failed submit). Optional with
+    // wire:model, which then names it.
     'name' => null,
+    // Defaults to one made from the name (or the wire:model property).
     'id' => null,
+    // Shown above the field, and its name for screen readers.
     'label' => null,
+    // An error message of your own; otherwise the validation error for the name, from the session or Livewire.
     'error' => null,
+    // A hint under the field.
     'info' => null,
+    // Which error bag to read the error from.
     'bag' => 'default',
+    // Greyed out: it can't be changed.
     'disabled' => false,
+    // The image types it takes, as for the accept attribute, e.g. "image/png,image/svg+xml". The picker only offers
+    // those, other files are turned away as they're picked, and the hint names them.
     'accept' => 'image/*',
+    // The largest file it takes: 500KB, 5MB, 2GB, or a number of kilobytes like Laravel's max: rule. Bigger files are
+    // turned away as they're picked, and the hint says the limit. Your Form Request must still check it.
     'maxSize' => null,
+    // The current image's URL, shown until a new one is picked; without it, a placeholder.
     'src' => null,
+    // The image's alternative text.
     'alt' => '',
+    // circle (avatars) or square (rounded corners, for logos).
     'shape' => 'circle',
+    // The preview's size: sm, md or lg.
     'size' => 'md',
+    // A hidden field of this name submits 1 when the current image is removed (and 0 otherwise), so your
+    // controller knows to delete it.
     'removeName' => null,
+    // The button's text while there's no image.
     'chooseLabel' => 'Upload',
+    // The button's text once there's an image.
     'changeLabel' => 'Change',
+    // The remove button's text.
     'removeLabel' => 'Remove',
+    // Rewords or translates what it says, by key: tooBig (:name, :size), wrongType (:name).
     'messages' => [],
 ])
 
@@ -43,6 +65,9 @@
     $live = str_starts_with((string) array_key_first(\LarawellUi\Support\FormField::binding($attributes)), 'wire:model');
     [$found, $bound] = $field->fromLivewire();
     $liveFiles = $live && $found ? (is_countable($bound) ? count($bound) : (int) filled($bound)) : null;
+    // The input sits inside the button-look label, which opens the picker. A second <label for> it (the field's) is
+    // one too many for some screen readers, so the field's is plain text, and both name the input: "Photo, Choose image".
+    $labelledBy = $attributes->hasAny(['aria-label', 'aria-labelledby']) ? null : trim(($label ? "{$id}-label " : '')."{$id}-button");
 @endphp
 
 {{--
@@ -54,6 +79,7 @@
     :required="$attributes->has('required')"
     :id="$id"
     :label="$label"
+    :labels-control="false"
     :error="$field->errors"
     :info="$info"
     :disabled="$disabled"
@@ -77,18 +103,18 @@
         <div class="flex min-w-0 flex-col gap-1.5">
             <div class="flex flex-wrap items-center gap-2">
                 <label @class([
-                    'bg-field text-foreground hover:bg-line has-[:focus-visible]:ring-primary relative inline-flex items-center rounded-xl px-4 py-2 text-sm font-medium transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-offset-2',
+                    'bg-field text-foreground hover:bg-line has-[:focus-visible]:ring-primary relative inline-flex items-center rounded-xl px-4 py-2 text-sm font-medium transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-offset-2 ring-offset-surface',
                     'cursor-pointer' => ! $disabled,
                     'cursor-not-allowed opacity-60' => $disabled,
                 ])>
-                    <span data-file-choose>{{ $src ? $changeLabel : $chooseLabel }}</span>
+                    <span id="{{ $id }}-button" data-file-choose>{{ $src ? $changeLabel : $chooseLabel }}</span>
                     <input
                         type="file"
                         id="{{ $id }}"
                         @if ($name) name="{{ $name }}" @endif
                         accept="{{ $accept }}"
                         @disabled($disabled)
-                        {{ $field->controlAttributes($attributes->merge(['aria-describedby' => $hintId]), (bool) $info)->class(['sr-only']) }}
+                        {{ $field->controlAttributes($attributes->merge(['aria-describedby' => $hintId, 'aria-labelledby' => $labelledBy]), (bool) $info)->class(['sr-only']) }}
                     >
                 </label>
                 <button type="button" data-file-clear @if (! $src) hidden @endif @disabled($disabled) class="text-error hover:bg-error/10 focus-visible:ring-primary rounded-xl px-3 py-2 text-sm font-medium outline-none focus-visible:ring-2">{{ $removeLabel }}</button>

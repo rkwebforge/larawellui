@@ -93,7 +93,7 @@
                 {{ $field->controlAttributes($attributes, (bool) $info)->class([
                     // muted/75: the off track, and the white knob on it, both reach 3:1; the old light grey was 1.25:1.
                     'peer bg-muted/75 absolute inset-0 appearance-none rounded-full transition-colors outline-none',
-                    'checked:bg-primary focus-visible:ring-primary focus-visible:ring-2 focus-visible:ring-offset-2',
+                    'checked:bg-primary focus-visible:ring-primary focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-surface',
                     'group-data-invalid/field:ring-error group-data-invalid/field:ring-1 disabled:cursor-not-allowed',
                     'cursor-pointer' => ! $disabled,
                 ]) }}

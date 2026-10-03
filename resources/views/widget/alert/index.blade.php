@@ -1,9 +1,16 @@
 @props([
+    // info, success, warning or error: sets the colours and the icon.
     'tone' => 'info',
+    // A bold first line above the message.
     'title' => null,
+    // A session key, e.g. "status": shows what was flashed under it, and nothing at all when nothing was.
+    // Read out to screen readers when it appears (error and warning interrupt).
     'flash' => null,
+    // An icon name in place of the tone's own; false for none.
     'icon' => null,
+    // A close button that hides it for this page view; remember the choice on the server to keep it hidden.
     'dismissible' => false,
+    // The close button's name for screen readers. Defaults to "Dismiss".
     'dismissLabel' => null,
 ])
 

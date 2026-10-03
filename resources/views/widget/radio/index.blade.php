@@ -75,7 +75,7 @@
                             // border-muted: an unchecked radio's ring must reach 3:1 against the page to be seen at all.
                             'border-muted bg-surface mt-0.5 size-5 shrink-0 appearance-none rounded-full border transition-all outline-none',
                             // A thick border in the brand colour reads as the filled dot.
-                            'checked:border-primary checked:border-[6px] focus-visible:ring-primary focus-visible:ring-2 focus-visible:ring-offset-2',
+                            'checked:border-primary checked:border-[6px] focus-visible:ring-primary focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-surface',
                             'group-data-invalid/field:border-error disabled:cursor-not-allowed',
                         ]) }}
                     >
