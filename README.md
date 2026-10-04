@@ -27,8 +27,10 @@ npm run build
 Starting a new app? The [starter kit](https://github.com/rkwebforge/larawellui-starter-kit) is a Laravel 13 app with sign-in, registration, password reset, email verification, account settings and a dashboard, built from these components, with the components already installed:
 
 ```bash
-laravel new my-app --using=larawellui/starter-kit
+composer create-project larawellui/starter-kit my-app
 ```
+
+With the Laravel installer, `laravel new my-app --using=larawellui/starter-kit` does the same.
 
 `larawell:add` copies:
 
