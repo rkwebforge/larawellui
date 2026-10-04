@@ -10,6 +10,8 @@ What you build on is only ever added to, never renamed or removed: component nam
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-10-04
+
 ### Added
 
 - **All widgets** (`base.css`): a `data-theme-changing` hook for switching theme while the page is open. Set it on `<html>` for the switch and the widgets' colour transitions are held back, so fields, buttons and table rows change at once instead of each fading at its own speed. The README's Theming section shows the toggle.
@@ -82,7 +84,8 @@ What you build on is only ever added to, never renamed or removed: component nam
 - `larawellui.lock`, so updates replace only the files you haven't edited.
 - Livewire 3 and 4 support, with `wire:model` on every form control.
 
-[Unreleased]: https://github.com/rkwebforge/larawellui/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/rkwebforge/larawellui/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/rkwebforge/larawellui/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/rkwebforge/larawellui/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/rkwebforge/larawellui/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/rkwebforge/larawellui/releases/tag/v0.1.0
