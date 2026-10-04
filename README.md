@@ -24,6 +24,12 @@ php artisan larawell:add datepicker        # adds datepicker plus field and icon
 npm run build
 ```
 
+Starting a new app? The [starter kit](https://github.com/rkwebforge/larawellui-starter-kit) is a Laravel 13 app with sign-in, registration, password reset, email verification, account settings and a dashboard, built from these components, with the components already installed:
+
+```bash
+laravel new my-app --using=larawellui/starter-kit
+```
+
 `larawell:add` copies:
 
 | What | Where |
