@@ -61,6 +61,15 @@ php artisan larawell:diff select/index.blade.php # or one file
 
 `larawell:diff` compares your copy with this version of the package. To take the package version of one file, delete it and run `larawell:add --installed`.
 
+To remove a widget, delete its folders and its import; with the default paths:
+
+```bash
+rm -r resources/views/components/widget/datepicker resources/js/widget/datepicker
+# then delete `import './widget/datepicker';` from resources/js/app.js
+```
+
+`larawell:add --installed` updates the widgets whose folder is there, so it won't bring a removed one back, unless a widget you kept still needs it (`field` and `icon` are shared by many), and then it should. PHP helpers and rules it brought, such as `Countries` for the phone, stay in `app/`; they do nothing unused, and you can delete them once nothing references them.
+
 What you build on is only ever added to, never renamed or removed: component names, props and the values they take, `data-*` hooks, JS exports, the commands and their flags, and the config keys. A release can still get stricter about input that never worked, such as a mistyped value that used to be ignored and now throws. [CHANGELOG.md](CHANGELOG.md) lists every change by widget, so check the ones you use before updating.
 
 ## AI agents (MCP)
