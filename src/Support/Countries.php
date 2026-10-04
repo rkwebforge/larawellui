@@ -96,13 +96,13 @@ final class Countries
     public static function split(?string $number, string $preferred): array
     {
         $digits = preg_replace('/\D/', '', (string) $number) ?? '';
-        if ($number === null || !str_starts_with(trim($number), '+') || $digits === '') {
+        if ($number === null || ! str_starts_with(trim($number), '+') || $digits === '') {
             return [$preferred, $digits];
         }
 
         $best = null;
         foreach (self::ordered() as $iso => $dial) {
-            if (!str_starts_with($digits, $dial)) {
+            if (! str_starts_with($digits, $dial)) {
                 continue;
             }
             $bestDial = $best !== null ? self::DIAL_CODES[$best] : '';
@@ -121,7 +121,7 @@ final class Countries
         if ($digits === '') {
             return '';
         }
-        if (!in_array($country, self::KEEPS_LEADING_ZERO, true)) {
+        if (! in_array($country, self::KEEPS_LEADING_ZERO, true)) {
             $digits = preg_replace('/^0/', '', $digits) ?? $digits;
         }
 

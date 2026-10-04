@@ -240,6 +240,16 @@ Each colour does one job. `primary` is for text, borders and focus rings; `prima
 
 Dark mode ships in the same file: put `class="dark"` or `data-theme="dark"` on `<html>` and every widget follows, popovers and dialogs included (on any other element, just that part of the page). To follow the device setting instead, swap its selector for `@media (prefers-color-scheme: dark) { :root { … } }`. Every pair meets WCAG AA in both modes.
 
+Switching theme while the page is open: fields, buttons and table rows ease their colours on hover and focus, so a plain toggle makes each one fade to the new theme at its own speed. Set `data-theme-changing` on `<html>` for the switch and `base.css` holds those transitions back, so everything changes at once:
+
+```js
+const root = document.documentElement;
+root.toggleAttribute('data-theme-changing', true);
+root.classList.toggle('dark');
+// Two frames: the new colours are painted before transitions come back.
+requestAnimationFrame(() => requestAnimationFrame(() => root.removeAttribute('data-theme-changing')));
+```
+
 ## Working on the package
 
 - The source runs as-is. Views live in `resources/views/widget/{widget}`, JS in `resources/js/{widget}`, CSS in `resources/css`, and the helpers and rules are real classes in `src/Support` and `src/Rules`. On install, `LarawellUi\Support` and `LarawellUi\Rules` are rewritten to the app's namespaces.

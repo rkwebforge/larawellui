@@ -168,6 +168,13 @@ function showSkeleton(root, show) {
     }
 }
 
+// A fetched page, ready to take tables from. Its inline <style> blocks go first: they carry that response's CSP
+// nonce, not this page's, so under a strict policy the browser reports each one as a violation just for being parsed
+// (Laravel's @fonts adds one to every page). Only the tables are taken from the page, and they never hold one.
+function parsePage(html) {
+    return new DOMParser().parseFromString(html.replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, ''), 'text/html');
+}
+
 // --- cache-for: pages already fetched, in memory ------------------------------------------------------
 
 // Only the tables of each page are kept, not the whole page, and at most CACHE_ENTRIES of them, oldest dropped
@@ -183,7 +190,7 @@ function cachedPage(root, url) {
         return null;
     }
 
-    return new DOMParser().parseFromString(hit.html, 'text/html');
+    return parsePage(hit.html);
 }
 
 function remember(root, url, page) {
@@ -213,7 +220,7 @@ async function fetchPage(url) {
             return { failure: 'http' };
         }
 
-        return { page: new DOMParser().parseFromString(await response.text(), 'text/html') };
+        return { page: parsePage(await response.text()) };
     } catch {
         // Aborted by a newer click stays silent; a timeout or no connection is a network failure.
         return { failure: controller.signal.aborted && controller.signal.reason !== 'timeout' ? 'superseded' : 'network' };
@@ -721,7 +728,7 @@ async function fetchTablePage(url) {
     try {
         const response = await fetch(url, { headers: { Accept: 'text/html' }, credentials: 'same-origin', signal: controller.signal });
 
-        return response.ok ? new DOMParser().parseFromString(await response.text(), 'text/html') : null;
+        return response.ok ? parsePage(await response.text()) : null;
     } catch {
         return null;
     } finally {

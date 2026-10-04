@@ -48,7 +48,7 @@ final class Captcha implements ValidationRule
 
     public function __construct(private readonly string $provider)
     {
-        if (!isset(self::PROVIDERS[$provider])) {
+        if (! isset(self::PROVIDERS[$provider])) {
             throw new InvalidArgumentException("Unknown captcha provider [{$provider}]. Use turnstile, recaptcha or hcaptcha.");
         }
     }
@@ -63,7 +63,7 @@ final class Captcha implements ValidationRule
     {
         $secret = config("services.{$this->provider}.secret");
 
-        if (!is_string($value) || $value === '' || !is_string($secret) || $secret === '') {
+        if (! is_string($value) || $value === '' || ! is_string($secret) || $secret === '') {
             $fail('Please confirm you are not a robot.');
 
             return;

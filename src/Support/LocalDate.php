@@ -28,7 +28,7 @@ final class LocalDate
     public static function format(string $iso, ?string $locale = null): string
     {
         $locale = self::locale($locale);
-        if (!class_exists(IntlDatePatternGenerator::class)) {
+        if (! class_exists(IntlDatePatternGenerator::class)) {
             return $iso;
         }
 
@@ -45,7 +45,7 @@ final class LocalDate
      */
     public static function firstDayOfWeek(?string $locale = null): int
     {
-        if (!class_exists(IntlCalendar::class)) {
+        if (! class_exists(IntlCalendar::class)) {
             return 1; // ISO 8601
         }
 

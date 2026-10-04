@@ -26,7 +26,7 @@ final class ElementIds
      */
     public function claim(string $id, bool $explicit = false): string
     {
-        if (!isset($this->used[$id])) {
+        if (! isset($this->used[$id])) {
             return $this->reserve($id);
         }
 

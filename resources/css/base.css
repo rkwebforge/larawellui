@@ -27,6 +27,19 @@
     }
 }
 
+/*
+ * Switching theme: while an element has data-theme-changing (usually <html>), nothing in it eases its colours, so
+ * fields and buttons take the new theme at once instead of each fading at its own speed. Set it, toggle the theme,
+ * then remove it two frames later. Outside any layer, so it beats the widgets' transition classes; autofilled
+ * inputs keep the delay above.
+ */
+[data-theme-changing],
+[data-theme-changing] *:not(:autofill),
+[data-theme-changing] *::before,
+[data-theme-changing] *::after {
+    transition: none;
+}
+
 /* <x-widget.progress>: the indeterminate bar slides across; striped fills drift. */
 @theme {
     --animate-progress-slide: progress-slide 1.4s ease-in-out infinite;

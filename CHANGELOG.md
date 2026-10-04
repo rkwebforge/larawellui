@@ -10,6 +10,19 @@ What you build on is only ever added to, never renamed or removed: component nam
 
 ## [Unreleased]
 
+### Added
+
+- **All widgets** (`base.css`): a `data-theme-changing` hook for switching theme while the page is open. Set it on `<html>` for the switch and the widgets' colour transitions are held back, so fields, buttons and table rows change at once instead of each fading at its own speed. The README's Theming section shows the toggle.
+
+### Changed
+
+- **button** (`<x-widget.button.back>`): the arrow sits closer to its label (`gap-1.5`, as on the button, instead of `gap-5`), so the two read as one link.
+
+### Fixed
+
+- **table**: changing page, sort or filter in place no longer makes the browser report a Content Security Policy violation for each inline `<style>` on the page it fetches, such as the one Laravel's `@fonts` adds. Those carry the fetched response's nonce, not the current page's; the table now drops them before reading the page.
+- **PHP helpers and validation rules** (copied to `App\View\Widget` and `App\Rules`): written in Laravel Pint's default style. Before, running Pint in your app reformatted seven of them, which marked them as edited, so `larawell:add --installed` skipped their updates.
+
 ## [0.2.1] - 2026-10-04
 
 ### Added

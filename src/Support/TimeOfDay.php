@@ -22,7 +22,7 @@ final class TimeOfDay
         if ($time instanceof DateTimeInterface) {
             return $time->format('H:i');
         }
-        if (!is_string($time) || preg_match('/^\s*(\d{1,2}):(\d{2})(?::\d{2})?\s*([AaPp][Mm])?\s*$/', $time, $parts) !== 1) {
+        if (! is_string($time) || preg_match('/^\s*(\d{1,2}):(\d{2})(?::\d{2})?\s*([AaPp][Mm])?\s*$/', $time, $parts) !== 1) {
             return null;
         }
         [$hour, $minute] = [(int) $parts[1], (int) $parts[2]];

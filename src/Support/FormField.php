@@ -193,7 +193,7 @@ final class FormField
         if ($found) {
             return is_array($live) ? in_array(self::text($value), array_map(self::text(...), $live), true) : (bool) $live;
         }
-        if ($this->key === null || $disabled || !session()->hasOldInput()) {
+        if ($this->key === null || $disabled || ! session()->hasOldInput()) {
             return $default;
         }
 
@@ -240,7 +240,7 @@ final class FormField
         // back when the error clears.
         $describedBy = array_filter([
             $this->hasError() ? $this->errorId() : null,
-            $hasInfo && !$this->hasError() ? $this->infoId() : null,
+            $hasInfo && ! $this->hasError() ? $this->infoId() : null,
             $attributes->get('aria-describedby'),
         ]);
 
@@ -265,7 +265,7 @@ final class FormField
      */
     public function visibleAttributes(ComponentAttributeBag $attributes, bool $hasInfo = false): ComponentAttributeBag
     {
-        return $this->controlAttributes($attributes->filter(static fn (mixed $value, string $key): bool => !self::isBinding($key)), $hasInfo);
+        return $this->controlAttributes($attributes->filter(static fn (mixed $value, string $key): bool => ! self::isBinding($key)), $hasInfo);
     }
 
     private static function isBinding(string $key): bool

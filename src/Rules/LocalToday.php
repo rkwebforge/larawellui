@@ -26,11 +26,11 @@ final class LocalToday
     /** Parses a strict Y-m-d date, as submitted by the date picker; anything else is null. */
     public static function parse(mixed $value): ?CarbonImmutable
     {
-        if (!is_string($value) || preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $value, $parts) !== 1) {
+        if (! is_string($value) || preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $value, $parts) !== 1) {
             return null;
         }
 
-        if (!checkdate((int) $parts[2], (int) $parts[3], (int) $parts[1])) {
+        if (! checkdate((int) $parts[2], (int) $parts[3], (int) $parts[1])) {
             return null;
         }
 
