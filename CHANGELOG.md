@@ -10,6 +10,8 @@ What you build on is only ever added to, never renamed or removed: component nam
 
 ## [Unreleased]
 
+## [0.2.3] - 2026-10-04
+
 ### Added
 
 - **icon**, and with it every widget's icon props: a name that isn't in the built-in set is drawn by Blade Icons (`blade-ui-kit/blade-icons`) when the app has it, so `<x-widget.button icon-start="lucide-rocket">` or a dropdown item's `icon="lucide-zap"` work with any installed set, with the same classes and screen-reader handling. Built-in names still win, nothing new is required, and without Blade Icons an unknown name fails as before, its message now saying how to add one.
@@ -88,7 +90,8 @@ What you build on is only ever added to, never renamed or removed: component nam
 - `larawellui.lock`, so updates replace only the files you haven't edited.
 - Livewire 3 and 4 support, with `wire:model` on every form control.
 
-[Unreleased]: https://github.com/rkwebforge/larawellui/compare/v0.2.2...HEAD
+[Unreleased]: https://github.com/rkwebforge/larawellui/compare/v0.2.3...HEAD
+[0.2.3]: https://github.com/rkwebforge/larawellui/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/rkwebforge/larawellui/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/rkwebforge/larawellui/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/rkwebforge/larawellui/compare/v0.1.0...v0.2.0
