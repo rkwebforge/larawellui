@@ -261,6 +261,8 @@ root.classList.toggle('dark');
 requestAnimationFrame(() => requestAnimationFrame(() => root.removeAttribute('data-theme-changing')));
 ```
 
+Icons: the icon widget draws its own set, which its `name` prop lists. For any other icon, install [Blade Icons](https://github.com/blade-ui-kit/blade-icons) and one of its sets; then every widget that takes an icon takes its names too, e.g. `<x-widget.button icon-start="lucide-rocket">`. Built-in names win when both have one.
+
 ## Working on the package
 
 - The source runs as-is. Views live in `resources/views/widget/{widget}`, JS in `resources/js/{widget}`, CSS in `resources/css`, and the helpers and rules are real classes in `src/Support` and `src/Rules`. On install, `LarawellUi\Support` and `LarawellUi\Rules` are rewritten to the app's namespaces.

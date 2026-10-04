@@ -10,6 +10,10 @@ What you build on is only ever added to, never renamed or removed: component nam
 
 ## [Unreleased]
 
+### Added
+
+- **icon**, and with it every widget's icon props: a name that isn't in the built-in set is drawn by Blade Icons (`blade-ui-kit/blade-icons`) when the app has it, so `<x-widget.button icon-start="lucide-rocket">` or a dropdown item's `icon="lucide-zap"` work with any installed set, with the same classes and screen-reader handling. Built-in names still win, nothing new is required, and without Blade Icons an unknown name fails as before, its message now saying how to add one.
+
 ## [0.2.2] - 2026-10-04
 
 ### Added

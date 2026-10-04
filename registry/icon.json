@@ -3,5 +3,8 @@
     "examples": [
         "basic",
         "all-icons"
+    ],
+    "usage": [
+        "with-blade-icons"
     ]
 }

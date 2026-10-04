@@ -4,8 +4,9 @@
     // circle-alert, circle-check, circle-help, circle-x, clock, copy, credit-card, download, ellipsis, external-link,
     // eye, eye-off, file, filter, globe, heart, home, image, inbox, info, link, lock, log-out, mail, map-pin, menu,
     // minus, moon, pause, pencil, phone, play, plus, refresh-cw, rotate-ccw, search, send, settings, share,
-    // shield-check, star, sun, tag, trash, triangle-alert, upload, user, users, volume-2, wallet, x. Any other name
-    // throws, listing these. To add one, draw it into $icons below.
+    // shield-check, star, sun, tag, trash, triangle-alert, upload, user, users, volume-2, wallet, x. Any other name is
+    // drawn by Blade Icons (blade-ui-kit/blade-icons) if the app has it, e.g. lucide-rocket or heroicon-o-bolt, and
+    // otherwise throws, listing these. To add one of your own, draw it into $icons below.
     'name',
 ])
 
@@ -95,14 +96,33 @@
         'x' => [['path', ['d' => 'm6.5 6.5 11 11']], ['path', ['d' => 'm17.5 6.5-11 11']]],
     ];
 
+    // Decorative by default (hidden from screen readers). Given aria-label or aria-labelledby, it is a labelled image.
+    $named = $attributes->has('aria-label') || $attributes->has('aria-labelledby');
+    $svg = $attributes->class(['shrink-0'])->merge($named ? ['role' => 'img'] : ['aria-hidden' => 'true']);
+
+    // Not one of ours: Blade Icons draws it when the app has it installed, so the icon props of every widget take any
+    // icon from its sets (lucide-rocket, heroicon-o-bolt). Looked up by name, so nothing here needs that package.
+    $drawn = null;
+    if (!isset($icons[$name]) && app()->bound('BladeUI\Icons\Factory')) {
+        try {
+            $drawn = app('BladeUI\Icons\Factory')->svg($name, (string) $svg->get('class'), $svg->except('class')->getAttributes())->toHtml();
+        } catch (\Throwable $missing) {
+            // Falls through to the message below, which lists our names; Blade Icons' own reason stays attached.
+        }
+    }
+
     // A typo should fail loudly in development, not render an empty gap.
-    $shapes = $icons[$name] ?? throw new \InvalidArgumentException("Unknown icon [{$name}]. Available: ".implode(', ', array_keys($icons)).'. Add it to resources/views/widget/icon/index.blade.php.');
+    $shapes = $icons[$name] ?? ($drawn !== null ? [] : throw new \InvalidArgumentException(
+        "Unknown icon [{$name}]. Available: ".implode(', ', array_keys($icons)).'. Add it to resources/views/widget/icon/index.blade.php, or install Blade Icons (blade-ui-kit/blade-icons) and use a name from one of its sets, e.g. lucide-rocket.',
+        previous: $missing ?? null,
+    ));
 @endphp
 
-{{-- Decorative by default (hidden from screen readers). Given aria-label or aria-labelledby, it is a labelled image. --}}
-@php($named = $attributes->has('aria-label') || $attributes->has('aria-labelledby'))
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" {{ $attributes->class(['shrink-0'])->merge($named ? ['role' => 'img'] : ['aria-hidden' => 'true']) }}>
+@if ($drawn !== null)
+{{-- Raw: the SVG comes from an icon set the app installed, picked by the name the code passes, never from visitor input. --}}
+{!! $drawn !!}@else
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" {{ $svg }}>
     @foreach ($shapes as [$tag, $shape])
         <{{ $tag }} {{ new \Illuminate\View\ComponentAttributeBag($shape) }} />
     @endforeach
-</svg><?php /* No newline after this: PHP drops it after a closing tag, so no space trails the component in running text. */ ?>
+</svg>@endif<?php /* No newline after this: PHP drops it after a closing tag, so no space trails the component in running text. */ ?>
