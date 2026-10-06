@@ -10,6 +10,8 @@ What you build on is only ever added to, never renamed or removed: component nam
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-10-06
+
 ### Changed
 
 - **All widgets**: LarawellUI is now **Bladewell**. This one release breaks the promise above: the package, commands, config and lock file are renamed, with no aliases for the old names. The widgets, their props and `data-*` hooks, and the `App\View\Widget` / `App\Rules` code they copied into your app are unchanged. To upgrade:
@@ -99,7 +101,8 @@ What you build on is only ever added to, never renamed or removed: component nam
 - `bladewell.lock`, so updates replace only the files you haven't edited.
 - Livewire 3 and 4 support, with `wire:model` on every form control.
 
-[Unreleased]: https://github.com/rkwebforge/bladewell/compare/v0.2.3...HEAD
+[Unreleased]: https://github.com/rkwebforge/bladewell/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/rkwebforge/bladewell/compare/v0.2.3...v0.3.0
 [0.2.3]: https://github.com/rkwebforge/bladewell/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/rkwebforge/bladewell/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/rkwebforge/bladewell/compare/v0.2.0...v0.2.1
