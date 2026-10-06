@@ -24,7 +24,7 @@ php artisan bladewell:add datepicker        # adds datepicker plus field and ico
 npm run build
 ```
 
-Starting a new app? The [starter kit](https://github.com/rkwebforge/bladewell-starter-kit) is a Laravel 13 app with sign-in, registration, password reset, email verification, account settings and a dashboard, built from these components, with the components already installed:
+Starting a new app? The [starter kit](https://github.com/rkwebforge/bladewell-starter-kit) is a Laravel 13 app with Bladewell installed and nothing to remove: a home page, a light and dark theme, error pages and a strict Content Security Policy, with no accounts or database, and AI agents set up:
 
 ```bash
 composer create-project bladewell/starter-kit my-app
