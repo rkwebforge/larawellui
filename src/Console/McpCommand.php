@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace LarawellUi\Console;
+namespace Bladewell\Console;
 
+use Bladewell\Mcp\Server;
 use Illuminate\Console\Command;
 use JsonException;
-use LarawellUi\Mcp\Server;
 
 /**
  * The MCP server over stdio, for AI agents: one JSON-RPC message per line in, one per line out. Add it to the agent
- * once, run from the app's root: claude mcp add larawellui -- php artisan larawell:mcp
+ * once, run from the app's root: claude mcp add bladewell -- php artisan bladewell:mcp
  */
 final class McpCommand extends Command
 {
-    protected $signature = 'larawell:mcp';
+    protected $signature = 'bladewell:mcp';
 
-    protected $description = 'Run the LarawellUi MCP server over stdio, for AI agents';
+    protected $description = 'Run the Bladewell MCP server over stdio, for AI agents';
 
     public function handle(Server $server): int
     {

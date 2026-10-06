@@ -6,7 +6,7 @@
 @php
     $current = $paginator->currentPage();
     $last = $paginator->lastPage();
-    $sheetId = app(\LarawellUi\Support\ElementIds::class)->claim('pages-'.$paginator->getPageName());
+    $sheetId = app(\Bladewell\Support\ElementIds::class)->claim('pages-'.$paginator->getPageName());
     // Narrower buttons on phones so all five fit inside a table on a 320px screen; shrink-0 so flex never squashes them instead.
     $nav = 'text-foreground bg-field flex h-10 w-9 shrink-0 items-center justify-center rounded-full transition-colors sm:w-14';
 @endphp

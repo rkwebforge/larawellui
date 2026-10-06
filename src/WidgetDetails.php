@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace LarawellUi;
+namespace Bladewell;
 
 /**
  * One widget as tools and agents read it: what it is, its components with their props and slots, what it needs, and
- * its usage and examples. Shared by larawell:list --json and larawell:mcp, so both describe a widget the same way.
+ * its usage and examples. Shared by bladewell:list --json and bladewell:mcp, so both describe a widget the same way.
  */
 final readonly class WidgetDetails
 {
@@ -25,7 +25,7 @@ final readonly class WidgetDetails
                 'slots' => (object) $component->slots,
             ], $this->registry->components($widget)),
             'requires' => $widget->requires,
-            // Other widgets the examples use, which `larawell:add` doesn't bring with this one: add them to use an example as is.
+            // Other widgets the examples use, which `bladewell:add` doesn't bring with this one: add them to use an example as is.
             'examples-use' => $widget->examplesUse,
             'composer' => $widget->composer,
             'php-extensions' => $widget->phpExtensions,

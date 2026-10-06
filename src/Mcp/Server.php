@@ -2,32 +2,32 @@
 
 declare(strict_types=1);
 
-namespace LarawellUi\Mcp;
+namespace Bladewell\Mcp;
 
+use Bladewell\FileStatus;
+use Bladewell\Installer;
+use Bladewell\InstallTarget;
+use Bladewell\PlannedFile;
+use Bladewell\Registry;
+use Bladewell\Requirements;
+use Bladewell\Widget;
+use Bladewell\WidgetDetails;
 use Composer\InstalledVersions;
 use InvalidArgumentException;
-use LarawellUi\FileStatus;
-use LarawellUi\Installer;
-use LarawellUi\InstallTarget;
-use LarawellUi\PlannedFile;
-use LarawellUi\Registry;
-use LarawellUi\Requirements;
-use LarawellUi\Widget;
-use LarawellUi\WidgetDetails;
 use LogicException;
 use Throwable;
 
 /**
  * A Model Context Protocol server for one Laravel app: the catalogue, what this app has installed (and edited), and
  * installing, which only writes after a dry run has been seen and confirmed. JSON-RPC 2.0, one message in, at most one
- * out; larawell:mcp carries them over stdio. Nothing here talks to the network.
+ * out; bladewell:mcp carries them over stdio. Nothing here talks to the network.
  */
 final class Server
 {
     /** Newest first; a client asking for one of these gets it, anything else gets the newest. */
     private const array PROTOCOL_VERSIONS = ['2025-06-18', '2025-03-26', '2024-11-05'];
 
-    private const string INSTRUCTIONS = 'LarawellUi copies Blade + Tailwind CSS v4 components into this Laravel app, where they become the app\'s own files, used as <x-widget.{name}>. '
+    private const string INSTRUCTIONS = 'Bladewell copies Blade + Tailwind CSS v4 components into this Laravel app, where they become the app\'s own files, used as <x-widget.{name}>. '
         .'Find components with list_components, read one with get_component (props, slots, examples, Livewire usage) before writing it into a view, and check project_status for what is installed and edited. '
         .'add_components without confirm is a dry run: show the person its file list, and call it again with confirm: true only once they agree. It never overwrites files they edited unless force is true. '
         .'After installing, the assets need rebuilding (npm run build, or a running npm run dev).';
@@ -86,7 +86,7 @@ final class Server
         return [
             'protocolVersion' => in_array($asked, self::PROTOCOL_VERSIONS, true) ? $asked : self::PROTOCOL_VERSIONS[0],
             'capabilities' => ['tools' => (object) []],
-            'serverInfo' => ['name' => 'larawellui', 'title' => 'LarawellUi', 'version' => $this->version()],
+            'serverInfo' => ['name' => 'bladewell', 'title' => 'Bladewell', 'version' => $this->version()],
             'instructions' => self::INSTRUCTIONS,
         ];
     }
@@ -102,7 +102,7 @@ final class Server
             [
                 'name' => 'list_components',
                 'title' => 'List components',
-                'description' => 'The LarawellUi components, each with its description, group (Forms…), what it requires and whether this app has it installed. Narrow it with query, which matches names and descriptions.',
+                'description' => 'The Bladewell components, each with its description, group (Forms…), what it requires and whether this app has it installed. Narrow it with query, which matches names and descriptions.',
                 'inputSchema' => [
                     'type' => 'object',
                     'properties' => ['query' => ['type' => 'string', 'description' => 'Words to look for, e.g. "date" or "upload".']],
@@ -123,7 +123,7 @@ final class Server
             [
                 'name' => 'project_status',
                 'title' => 'Project status',
-                'description' => 'What this app has installed, and which installed files are out of date (a newer version is available), edited by the developer (left alone by updates) or from before larawellui.lock. Also whether the app\'s Tailwind CSS and Vite are what the components need.',
+                'description' => 'What this app has installed, and which installed files are out of date (a newer version is available), edited by the developer (left alone by updates) or from before bladewell.lock. Also whether the app\'s Tailwind CSS and Vite are what the components need.',
                 'inputSchema' => ['type' => 'object', 'properties' => (object) []],
                 'annotations' => ['readOnlyHint' => true],
             ],
@@ -215,7 +215,7 @@ final class Server
         return [
             'name' => $widget->name,
             'title' => $widget->title(),
-            'install' => "php artisan larawell:add {$widget->name}",
+            'install' => "php artisan bladewell:add {$widget->name}",
             'installed' => in_array($widget->name, $this->installer->installed(), true),
             ...(new WidgetDetails($this->registry))->describe($widget),
         ];
@@ -239,7 +239,7 @@ final class Server
             // What add_components on the installed ones would bring: newer versions, and files gone missing.
             'outdated' => $by(FileStatus::Update),
             'missing' => $by(FileStatus::Create),
-            // Left alone by updates; larawell:diff shows how they differ.
+            // Left alone by updates; bladewell:diff shows how they differ.
             'edited' => $by(FileStatus::Conflict),
             'untracked' => $by(FileStatus::Untracked),
             'requirements' => ['errors' => $requirements->errors, 'warnings' => $requirements->warnings],
@@ -259,7 +259,7 @@ final class Server
         $confirm = ($arguments['confirm'] ?? false) === true;
         $force = ($arguments['force'] ?? false) === true;
 
-        // Before anything is written, as larawell:add does: on an older Tailwind every component installs and looks broken.
+        // Before anything is written, as bladewell:add does: on an older Tailwind every component installs and looks broken.
         $requirements = Requirements::check($this->target->basePath);
         if ($requirements->errors !== []) {
             throw new InvalidArgumentException(implode(' ', $requirements->errors));
@@ -286,7 +286,7 @@ final class Server
             'warnings' => array_values(array_filter([
                 ...$requirements->warnings,
                 array_filter($planned, static fn (PlannedFile $file): bool => $file->status === FileStatus::Conflict) !== []
-                    ? 'Some files were edited by the developer and are left alone (status "conflict"). Pass force: true only if they want them replaced; php artisan larawell:diff shows the differences.'
+                    ? 'Some files were edited by the developer and are left alone (status "conflict"). Pass force: true only if they want them replaced; php artisan bladewell:diff shows the differences.'
                     : null,
             ])),
         ];
@@ -318,7 +318,7 @@ final class Server
     private function version(): string
     {
         try {
-            return InstalledVersions::getPrettyVersion('larawellui/larawellui') ?? 'dev';
+            return InstalledVersions::getPrettyVersion('bladewell/bladewell') ?? 'dev';
         } catch (Throwable) {
             return 'dev';
         }

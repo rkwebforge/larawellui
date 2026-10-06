@@ -33,7 +33,7 @@
 ])
 
 @php
-    $field = \LarawellUi\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'input', attributes: $attributes);
+    $field = \Bladewell\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'input', attributes: $attributes);
     // Never echo a password back into the page.
     $value = $type === 'password' ? null : $field->old($value);
     // Browsers want an explicit autocomplete on fields they recognise; a caller's own value wins (merge keeps it).

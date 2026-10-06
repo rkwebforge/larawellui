@@ -7,8 +7,8 @@
 
 @php
     $key = match (true) {
-        $remember === true => 'larawellui:accordion-menu:'.\Illuminate\Support\Str::slug($label),
-        is_string($remember) && $remember !== '' => 'larawellui:accordion-menu:'.$remember,
+        $remember === true => 'bladewell:accordion-menu:'.\Illuminate\Support\Str::slug($label),
+        is_string($remember) && $remember !== '' => 'bladewell:accordion-menu:'.$remember,
         default => null,
     };
 @endphp

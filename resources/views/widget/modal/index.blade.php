@@ -62,7 +62,7 @@
     // An X that can't close anything is just noise, so a locked modal never shows one.
     $closeButton = $closeButton && ! $disableClose;
     // Openers find the dialog by this id, so a duplicate must fail loudly rather than be renamed.
-    $id = app(\LarawellUi\Support\ElementIds::class)->claim($id, explicit: true);
+    $id = app(\Bladewell\Support\ElementIds::class)->claim($id, explicit: true);
     $hasFooter = isset($footer);
     // Drawers slide in on exactly the curve and 300ms they slide out on, so opening is the closing played backwards.
     // 300ms is also the ceiling: the exit must stay within the dialog's own closing transition or it gets cut off.

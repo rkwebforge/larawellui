@@ -47,7 +47,7 @@
 ])
 
 @php
-    $field = \LarawellUi\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'number', attributes: $attributes);
+    $field = \Bladewell\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'number', attributes: $attributes);
     $value = $field->old($value);
     // A mobile number is digits only, so it never takes a decimal point (for full phone numbers, see input.phone).
     $decimals = $mobile ? 0 : max(0, (int) $decimals);

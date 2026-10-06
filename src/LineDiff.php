@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace LarawellUi;
+namespace Bladewell;
 
 /**
- * A unified diff of two texts, line by line, for larawell:diff. Written here rather than pulled in, because the
+ * A unified diff of two texts, line by line, for bladewell:diff. Written here rather than pulled in, because the
  * package keeps to illuminate/* and the user's machine may have no diff binary (Windows).
  */
 final class LineDiff

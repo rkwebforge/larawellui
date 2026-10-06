@@ -1,10 +1,10 @@
 {
-    "name": "larawellui/larawellui",
+    "name": "bladewell/bladewell",
     "description": "Copy-paste Blade + Tailwind v4 widgets for Laravel. The installer copies the source into your app; you own it from there.",
     "type": "library",
     "license": "MIT",
     "keywords": ["laravel", "livewire", "blade", "blade-components", "tailwindcss", "ui-components", "components", "widgets", "forms", "datepicker"],
-    "homepage": "https://larawellui.wasmer.app",
+    "homepage": "https://www.bladewellui.com",
     "authors": [
         {
             "name": "Krishnaprasad R",
@@ -12,9 +12,9 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/rkwebforge/larawellui-site/issues",
-        "docs": "https://larawellui.wasmer.app/docs/installation",
-        "source": "https://github.com/rkwebforge/larawellui"
+        "issues": "https://github.com/rkwebforge/bladewell-site/issues",
+        "docs": "https://www.bladewellui.com/docs/installation",
+        "source": "https://github.com/rkwebforge/bladewell"
     },
     "require": {
         "php": "^8.3",
@@ -24,13 +24,13 @@
     },
     "autoload": {
         "psr-4": {
-            "LarawellUi\\": "src/"
+            "Bladewell\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "LarawellUi\\LarawellUiServiceProvider"
+                "Bladewell\\BladewellServiceProvider"
             ]
         }
     },

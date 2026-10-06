@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace LarawellUi\Support;
+namespace Bladewell\Support;
 
 /**
  * What an <x-widget.file-upload.*> accepts, read once from its props: the largest file in bytes and the types,

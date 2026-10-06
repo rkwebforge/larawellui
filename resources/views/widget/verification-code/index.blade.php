@@ -28,7 +28,7 @@
 
 @php
     $length = max(1, (int) $length);
-    $field = \LarawellUi\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'code', attributes: $attributes);
+    $field = \Bladewell\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'code', attributes: $attributes);
     $value = substr((string) preg_replace($alphanumeric ? '/[^a-zA-Z0-9]/' : '/\D/', '', (string) $field->old($value)), 0, $length);
     $placeholder ??= str_repeat($alphanumeric ? 'X' : '0', $length);
 @endphp

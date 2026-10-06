@@ -44,18 +44,18 @@
     if (! in_array($variant, ['list', 'columns', 'segmented', 'slots'], true)) {
         throw new \InvalidArgumentException("Unknown variant [{$variant}] for <x-widget.time-picker>. Use one of: list, columns, segmented, slots.");
     }
-    $field = \LarawellUi\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'time', attributes: $attributes);
+    $field = \Bladewell\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'time', attributes: $attributes);
     $id = $field->id;
-    $value = \LarawellUi\Support\TimeOfDay::normalize($field->old($value));
+    $value = \Bladewell\Support\TimeOfDay::normalize($field->old($value));
     $locale = str_replace('_', '-', (string) ($locale ?? app()->getLocale()));
-    $hour12 = $hour12 === null ? \LarawellUi\Support\TimeOfDay::usesHour12($locale) : (bool) $hour12;
+    $hour12 = $hour12 === null ? \Bladewell\Support\TimeOfDay::usesHour12($locale) : (bool) $hour12;
     // The browser writes times with this same pattern and these words (resources/js/widget/time-picker), so it agrees
     // with this first paint whatever its own ICU data says.
-    $pattern = \LarawellUi\Support\TimeOfDay::pattern($locale, $hour12);
-    $periods = \LarawellUi\Support\TimeOfDay::periods($locale);
-    $format = static fn (string $time): string => \LarawellUi\Support\TimeOfDay::format($time, $pattern, $periods);
-    $min = \LarawellUi\Support\TimeOfDay::normalize($min) ?? '00:00';
-    $max = \LarawellUi\Support\TimeOfDay::normalize($max) ?? '23:59';
+    $pattern = \Bladewell\Support\TimeOfDay::pattern($locale, $hour12);
+    $periods = \Bladewell\Support\TimeOfDay::periods($locale);
+    $format = static fn (string $time): string => \Bladewell\Support\TimeOfDay::format($time, $pattern, $periods);
+    $min = \Bladewell\Support\TimeOfDay::normalize($min) ?? '00:00';
+    $max = \Bladewell\Support\TimeOfDay::normalize($max) ?? '23:59';
     $step = max(1, (int) ($step ?? (in_array($variant, ['columns', 'segmented'], true) ? 1 : 15)));
     $within = static fn (string $time): bool => $time >= $min && $time <= $max;
     $display = $value ? $format($value) : null;
@@ -67,9 +67,9 @@
     }
 
     // list and slots: the times on offer, each with whether it can be picked.
-    $times = collect($slots ?? \LarawellUi\Support\TimeOfDay::range($min, $max, $step))
+    $times = collect($slots ?? \Bladewell\Support\TimeOfDay::range($min, $max, $step))
         ->map(static function (mixed $slot) use ($within): ?array {
-            $time = \LarawellUi\Support\TimeOfDay::normalize(is_array($slot) ? ($slot['time'] ?? null) : $slot);
+            $time = \Bladewell\Support\TimeOfDay::normalize(is_array($slot) ? ($slot['time'] ?? null) : $slot);
 
             return $time === null ? null : ['time' => $time, 'disabled' => ! empty($slot['disabled']) || ! $within($time)];
         })

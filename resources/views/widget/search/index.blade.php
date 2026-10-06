@@ -30,7 +30,7 @@
 ])
 
 @php
-    $field = \LarawellUi\Support\FormField::make($name, $id, null, idPrefix: 'search', attributes: $attributes);
+    $field = \Bladewell\Support\FormField::make($name, $id, null, idPrefix: 'search', attributes: $attributes);
     $id = $field->id;
     // Search forms submit with GET, so the current query string is the natural default (dot key: filter[q] works too).
     $fromQuery = $field->key !== null ? request()->query($field->key) : null;

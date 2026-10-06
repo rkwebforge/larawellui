@@ -54,7 +54,7 @@
 ])
 
 @php
-    $field = \LarawellUi\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'select', attributes: $attributes);
+    $field = \Bladewell\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'select', attributes: $attributes);
     $id = $field->id;
     // multiple submits name[] (one hidden input per choice); a single select submits name. name="tags" and
     // name="tags[]" both mean tags[], so a trailing [] isn't doubled into tags[][].

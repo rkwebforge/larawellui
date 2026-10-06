@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace LarawellUi;
+namespace Bladewell;
 
 use Illuminate\Filesystem\Filesystem;
 
@@ -11,13 +11,13 @@ use Illuminate\Filesystem\Filesystem;
  * Planning is separate from writing, so --dry-run shows exactly what a real install would do.
  *
  * The source runs as-is inside the package, under the package namespace; the copy is rewritten
- * into the app namespace from config/larawellui.php.
+ * into the app namespace from config/bladewell.php.
  */
 final class Installer
 {
-    private const string SUPPORT_NAMESPACE = 'LarawellUi\\Support';
+    private const string SUPPORT_NAMESPACE = 'Bladewell\\Support';
 
-    private const string RULES_NAMESPACE = 'LarawellUi\\Rules';
+    private const string RULES_NAMESPACE = 'Bladewell\\Rules';
 
     /** Every widget styles itself with these, so they come along with the first one installed. */
     private const array CSS = ['theme.css', 'base.css'];
@@ -83,7 +83,7 @@ final class Installer
 
     /**
      * Widgets already in the app, by their views folder: every widget has one, and it is there for copies made
-     * before larawellui.lock too.
+     * before bladewell.lock too.
      *
      * @return list<string>
      */

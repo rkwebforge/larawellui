@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace LarawellUi;
+namespace Bladewell;
 
 use Illuminate\Support\Str;
 use InvalidArgumentException;

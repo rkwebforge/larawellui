@@ -59,7 +59,7 @@
     // "today" is resolved by the browser, on the user's own clock: the server's date can be a day
     // behind or ahead of the user (e.g. UTC server, user in IST), which would block or allow the wrong day.
     // Browser-side limit only; the Form Request must enforce the same rule with
-    // LarawellUi\Rules\NotAfterToday (default) or MinimumAge (birthday), not 'before_or_equal:today'.
+    // Bladewell\Rules\NotAfterToday (default) or MinimumAge (birthday), not 'before_or_equal:today'.
     // :max="false" removes the limit (Blade turns a passed null back into the 'today' default).
     $max = match (true) {
         $birthday, $max === 'today' => 'today',
@@ -67,13 +67,13 @@
         default => $toIso($max),
     };
     $min = $min === 'today' ? 'today' : $toIso($min);
-    $field = \LarawellUi\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'datepicker', attributes: $attributes);
+    $field = \Bladewell\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'datepicker', attributes: $attributes);
     $id = $field->id;
     $value = $toIso($field->old($value));
     // Dates read the way the locale writes them; the browser keeps the same format (see the JS).
-    $locale = \LarawellUi\Support\LocalDate::locale($locale);
-    $weekStart ??= \LarawellUi\Support\LocalDate::firstDayOfWeek($locale);
-    $display = $value ? \LarawellUi\Support\LocalDate::format($value, $locale) : null;
+    $locale = \Bladewell\Support\LocalDate::locale($locale);
+    $weekStart ??= \Bladewell\Support\LocalDate::firstDayOfWeek($locale);
+    $display = $value ? \Bladewell\Support\LocalDate::format($value, $locale) : null;
     $placeholder ??= 'Choose a date';
     // Explains the greyed-out recent dates; pass info="" to hide it, or your own text to replace it.
     $info ??= $birthday ? "You must be {$minAge} or older." : null;

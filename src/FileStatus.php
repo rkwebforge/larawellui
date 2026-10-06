@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace LarawellUi;
+namespace Bladewell;
 
 enum FileStatus: string
 {
@@ -10,11 +10,11 @@ enum FileStatus: string
     case Update = 'update';
     case Unchanged = 'unchanged';
 
-    /** The user edited it after it was installed (it no longer matches larawellui.lock), so it's left alone. */
+    /** The user edited it after it was installed (it no longer matches bladewell.lock), so it's left alone. */
     case Conflict = 'conflict';
 
     /**
-     * It differs from upstream and there's no record of installing it (it predates larawellui.lock), so
+     * It differs from upstream and there's no record of installing it (it predates bladewell.lock), so
      * whether it was edited is unknown; it's left alone too.
      */
     case Untracked = 'untracked';

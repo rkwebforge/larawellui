@@ -11,7 +11,7 @@
 ])
 
 {{--
-    LarawellUi's own icon set, drawn inline so there is no icon package to install. Every icon sits on a
+    Bladewell's own icon set, drawn inline so there is no icon package to install. Every icon sits on a
     24px grid with about 3px of padding, and shares one style set on the <svg> below: 1.75px outline,
     round ends and joins, and softly rounded corners (radius 3 to 4 on boxes).
 

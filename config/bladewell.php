@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-// Where `php artisan larawell:add` copies things to. Views always land in
+// Where `php artisan bladewell:add` copies things to. Views always land in
 // resources/views/components/widget, because the widgets reference each other as <x-widget.*>.
 return [
 

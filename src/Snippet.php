@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace LarawellUi;
+namespace Bladewell;
 
 /**
  * Code-only usage: resources/usage/{widget}/{slug}.{blade.php|php|js}. For what can't be a live

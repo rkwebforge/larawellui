@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace LarawellUi\Support;
+namespace Bladewell\Support;
 
 use Illuminate\Contracts\Support\MessageBag;
 use Illuminate\Support\Arr;

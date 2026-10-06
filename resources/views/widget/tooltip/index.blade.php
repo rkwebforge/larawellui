@@ -13,7 +13,7 @@
     if (! in_array($placement, ['top', 'bottom', 'start', 'end'], true)) {
         throw new \InvalidArgumentException("Unknown placement [{$placement}] for <x-widget.tooltip>. Use one of: top, bottom, start, end.");
     }
-    $id = app(\LarawellUi\Support\ElementIds::class)->claim($id ?? 'tooltip', explicit: $id !== null);
+    $id = app(\Bladewell\Support\ElementIds::class)->claim($id ?? 'tooltip', explicit: $id !== null);
 @endphp
 
 {{--

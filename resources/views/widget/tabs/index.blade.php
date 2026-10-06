@@ -19,7 +19,7 @@
 ])
 
 @php
-    $field = \LarawellUi\Support\FormField::make($name, $id, null, idPrefix: 'tabs', attributes: $attributes);
+    $field = \Bladewell\Support\FormField::make($name, $id, null, idPrefix: 'tabs', attributes: $attributes);
     $id = $field->id;
     // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
     if (! in_array($variant, ['underline', 'tinted', 'pills', 'segmented', 'vertical'], true)) {
@@ -42,7 +42,7 @@
         ?? null;
     // Bound with wire:model, the server's property says which tab is open, so a render may change it. Otherwise the
     // person does, and renders leave their choice alone (wire:ignore.self below).
-    $bound = \LarawellUi\Support\FormField::binding($attributes) !== [];
+    $bound = \Bladewell\Support\FormField::binding($attributes) !== [];
     $slug = static fn (string $key): string => trim((string) preg_replace('/[^A-Za-z0-9_-]+/', '-', $key), '-');
 
     $list = [

@@ -12,7 +12,7 @@
 
 @php
     $pageName = $paginator->getPageName();
-    $selectId = app(\LarawellUi\Support\ElementIds::class)->claim('per-page-'.$pageName);
+    $selectId = app(\Bladewell\Support\ElementIds::class)->claim('per-page-'.$pageName);
     $perPage = $paginator->perPage();
     // The current size is always selectable, even if the controller allowed one that isn't offered here.
     $options = collect($perPageOptions)->push($perPage)->map(fn (mixed $size): int => (int) $size)->unique()->sort()->values();

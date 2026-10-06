@@ -32,9 +32,9 @@
 ])
 
 @php
-    $field = \LarawellUi\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'file', attributes: $attributes);
+    $field = \Bladewell\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'file', attributes: $attributes);
     $id = $field->id;
-    $limits = \LarawellUi\Support\UploadLimits::from($maxSize, $accept);
+    $limits = \Bladewell\Support\UploadLimits::from($maxSize, $accept);
     $hint = $limits->hint();
     $hintId = $hint ? "{$id}-hint" : null;
     $inputName = $name === null ? null : ($multiple ? preg_replace('/\[\]$/', '', $name).'[]' : $name);
@@ -45,7 +45,7 @@
         ...$messages,
     ];
     // wire:model: Livewire's renders are kept off the name and error the script writes (see the dropzone).
-    $live = str_starts_with((string) array_key_first(\LarawellUi\Support\FormField::binding($attributes)), 'wire:model');
+    $live = str_starts_with((string) array_key_first(\Bladewell\Support\FormField::binding($attributes)), 'wire:model');
     [$found, $bound] = $field->fromLivewire();
     $liveFiles = $live && $found ? (is_countable($bound) ? count($bound) : (int) filled($bound)) : null;
     // The input sits inside the button-look label, which opens the picker. A second <label for> it (the field's) is

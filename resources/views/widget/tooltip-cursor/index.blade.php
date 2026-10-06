@@ -6,7 +6,7 @@
 ])
 
 @php
-    $id = app(\LarawellUi\Support\ElementIds::class)->claim($id ?? 'tooltip-cursor', explicit: $id !== null);
+    $id = app(\Bladewell\Support\ElementIds::class)->claim($id ?? 'tooltip-cursor', explicit: $id !== null);
 @endphp
 
 {{--

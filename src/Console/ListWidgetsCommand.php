@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace LarawellUi\Console;
+namespace Bladewell\Console;
 
+use Bladewell\Registry;
+use Bladewell\Widget;
+use Bladewell\WidgetDetails;
 use Illuminate\Console\Command;
-use LarawellUi\Registry;
-use LarawellUi\Widget;
-use LarawellUi\WidgetDetails;
 
 final class ListWidgetsCommand extends Command
 {
-    protected $signature = 'larawell:list {--json : Full registry as JSON: components and their props, requirements and usage examples}';
+    protected $signature = 'bladewell:list {--json : Full registry as JSON: components and their props, requirements and usage examples}';
 
-    protected $description = 'List the widgets that larawell:add can install';
+    protected $description = 'List the widgets that bladewell:add can install';
 
     public function handle(Registry $registry, WidgetDetails $details): int
     {

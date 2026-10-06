@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace LarawellUi;
+namespace Bladewell;
 
 use Illuminate\Filesystem\Filesystem;
 use JsonException;
 
 /**
- * larawellui.lock in the app root: a hash of each file as larawell:add last wrote it. That is what tells
+ * bladewell.lock in the app root: a hash of each file as bladewell:add last wrote it. That is what tells
  * "you edited this" apart from "the package has a newer version": a file still matching its hash is
  * untouched, so a re-run can update it; one that doesn't is yours, and is left alone.
  *
@@ -16,7 +16,7 @@ use JsonException;
  */
 final class InstallLock
 {
-    public const string FILE = 'larawellui.lock';
+    public const string FILE = 'bladewell.lock';
 
     /** @var array<string, string> path relative to the app root => sha256 */
     private array $hashes;
@@ -59,7 +59,7 @@ final class InstallLock
         }
         ksort($this->hashes);
         $this->files->put($this->basePath.'/'.self::FILE, json_encode([
-            '_readme' => 'Written by php artisan larawell:add. Lets a re-run update files you have not edited. Commit it.',
+            '_readme' => 'Written by php artisan bladewell:add. Lets a re-run update files you have not edited. Commit it.',
             'files' => $this->hashes,
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)."\n");
         $this->dirty = false;

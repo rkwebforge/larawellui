@@ -24,7 +24,7 @@
 ])
 
 @php
-    $field = \LarawellUi\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'checkbox', attributes: $attributes);
+    $field = \Bladewell\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'checkbox', attributes: $attributes);
     // After a failed submit of this box's own form, old input decides; otherwise `checked` does. See FormField::checked().
     $isChecked = $field->checked($value, (bool) $checked, (bool) $disabled, $uncheckedValue !== null, $errors ?? null, $bag);
 @endphp

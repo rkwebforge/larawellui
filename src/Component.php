@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace LarawellUi;
+namespace Bladewell;
 
 /**
  * One Blade component inside a widget, e.g. x-widget.select, with the props it declares.

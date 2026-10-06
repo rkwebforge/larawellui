@@ -34,8 +34,8 @@
 @php
     // provider: Cloudflare Turnstile, Google reCAPTCHA or hCaptcha instead of an image. Their widget submits
     // its own token field, so errors are looked up under that name. Check it with new Captcha($provider).
-    $service = $provider !== null ? (\LarawellUi\Rules\Captcha::PROVIDERS[$provider] ?? throw new \InvalidArgumentException("Unknown captcha provider [{$provider}]. Use turnstile, recaptcha or hcaptcha.")) : null;
-    $field = \LarawellUi\Support\FormField::make($service['field'] ?? $name, $id, $errors ?? null, $error, $bag, 'captcha', attributes: $attributes);
+    $service = $provider !== null ? (\Bladewell\Rules\Captcha::PROVIDERS[$provider] ?? throw new \InvalidArgumentException("Unknown captcha provider [{$provider}]. Use turnstile, recaptcha or hcaptcha.")) : null;
+    $field = \Bladewell\Support\FormField::make($service['field'] ?? $name, $id, $errors ?? null, $error, $bag, 'captcha', attributes: $attributes);
     // The site key is public, but still comes from config (services.turnstile.key …) rather than the view.
     $siteKey ??= $provider !== null ? config("services.{$provider}.key") : null;
     // A typo fails loudly, naming the values that work, instead of quietly rendering something else.

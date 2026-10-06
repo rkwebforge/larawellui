@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace LarawellUi\Console;
+namespace Bladewell\Console;
 
+use Bladewell\FileStatus;
+use Bladewell\Installer;
+use Bladewell\InstallTarget;
+use Bladewell\LineDiff;
+use Bladewell\PlannedFile;
+use Bladewell\Registry;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use LarawellUi\FileStatus;
-use LarawellUi\Installer;
-use LarawellUi\InstallTarget;
-use LarawellUi\LineDiff;
-use LarawellUi\PlannedFile;
-use LarawellUi\Registry;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 
 final class DiffCommand extends Command
 {
-    protected $signature = 'larawell:diff
+    protected $signature = 'bladewell:diff
         {file? : One installed file, e.g. resources/views/components/widget/select/index.blade.php or just select/index.blade.php}';
 
     protected $description = 'Show how installed widget files differ from this version of the package';
@@ -50,7 +50,7 @@ final class DiffCommand extends Command
             // Without a file, only what a re-run would skip: the rest already matches or updates by itself.
             $planned = array_values(array_filter($planned, static fn (PlannedFile $p): bool => $p->status === FileStatus::Conflict || $p->status === FileStatus::Untracked));
             if ($planned === []) {
-                $this->components->info('Every installed file matches this version, or will update by itself on php artisan larawell:add --installed.');
+                $this->components->info('Every installed file matches this version, or will update by itself on php artisan bladewell:add --installed.');
 
                 return self::SUCCESS;
             }
@@ -63,7 +63,7 @@ final class DiffCommand extends Command
         if ($file === null) {
             $this->components->bulletList([
                 'Keep yours: do nothing. Re-runs leave these files alone.',
-                'Take the package version of one file: delete it, then run php artisan larawell:add --installed.',
+                'Take the package version of one file: delete it, then run php artisan bladewell:add --installed.',
             ]);
         }
 
@@ -79,9 +79,9 @@ final class DiffCommand extends Command
         $this->line("<options=bold>{$relative}</>  ".match ($file->status) {
             FileStatus::Create => '<fg=green>not in your app yet</>',
             FileStatus::Unchanged => '<fg=gray>matches the package</>',
-            FileStatus::Update => '<fg=yellow>not edited, updates on the next larawell:add</>',
+            FileStatus::Update => '<fg=yellow>not edited, updates on the next bladewell:add</>',
             FileStatus::Conflict => '<fg=red>edited by you</>',
-            FileStatus::Untracked => '<fg=red>differs, from before larawellui.lock</>',
+            FileStatus::Untracked => '<fg=red>differs, from before bladewell.lock</>',
         });
 
         $diff = LineDiff::unified($current, $file->contents);

@@ -40,9 +40,9 @@
 ])
 
 @php
-    $field = \LarawellUi\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'file', attributes: $attributes);
+    $field = \Bladewell\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'file', attributes: $attributes);
     $id = $field->id;
-    $limits = \LarawellUi\Support\UploadLimits::from($maxSize, $accept);
+    $limits = \Bladewell\Support\UploadLimits::from($maxSize, $accept);
     $hint = $limits->hint();
     $maxFiles = $maxFiles !== null ? max(1, (int) $maxFiles) : null;
     $multiple = $multiple || ($maxFiles !== null && $maxFiles > 1);
@@ -61,7 +61,7 @@
     $uploaded = collect($uploaded)->map(static fn (mixed $file): array => [
         'id' => (string) (data_get($file, 'id') ?? ''),
         'name' => (string) (data_get($file, 'name') ?? ''),
-        'size' => is_numeric(data_get($file, 'size')) ? \LarawellUi\Support\UploadLimits::size((int) data_get($file, 'size')) : '',
+        'size' => is_numeric(data_get($file, 'size')) ? \Bladewell\Support\UploadLimits::size((int) data_get($file, 'size')) : '',
     ])->filter(static fn (array $file): bool => $file['id'] !== '')->values();
     // Plain English like every component; pass messages="[…]" to reword or translate any of them.
     $messages = [
@@ -79,7 +79,7 @@
     // wire:model: the script uploads through Livewire whenever the list changes. Livewire's renders would wipe the list
     // the script draws, so it's left out of them, and data-livewire-files says how many files the property holds, so
     // the script can tell when PHP emptied it ($this->reset()) and empty the list too.
-    $live = str_starts_with((string) array_key_first(\LarawellUi\Support\FormField::binding($attributes)), 'wire:model');
+    $live = str_starts_with((string) array_key_first(\Bladewell\Support\FormField::binding($attributes)), 'wire:model');
     [$found, $bound] = $field->fromLivewire();
     $liveFiles = $live && $found ? (is_countable($bound) ? count($bound) : (int) filled($bound)) : null;
 @endphp

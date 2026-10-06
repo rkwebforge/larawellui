@@ -31,7 +31,7 @@
 ])
 
 @php
-    $field = \LarawellUi\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'textarea', attributes: $attributes);
+    $field = \Bladewell\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'textarea', attributes: $attributes);
     $value = $field->old($value);
     // Up to 30: the heights are classes from the ranges at the end of base.css, not style="".
     $minRows = max(1, min(30, (int) $minRows));

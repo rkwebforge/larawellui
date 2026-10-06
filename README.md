@@ -1,6 +1,6 @@
-# LarawellUi
+# Bladewell
 
-`larawellui/larawellui`. **Try every widget live at [larawellui.wasmer.app](https://larawellui.wasmer.app)**: previews you can click through, in light and dark, with each one's props and source to copy. For AI agents it serves [`/llms.txt`](https://larawellui.wasmer.app/llms.txt) and `/r/{name}.json`.
+`bladewell/bladewell`. **Try every widget live at [www.bladewellui.com](https://www.bladewellui.com)**: previews you can click through, in light and dark, with each one's props and source to copy. For AI agents it serves [`/llms.txt`](https://www.bladewellui.com/llms.txt) and `/r/{name}.json`.
 
 Blade + Tailwind CSS v4 widgets for Laravel that you copy into your app, then own. No Livewire or Alpine needed: server-rendered Blade, plus a small vanilla JS file per widget that hooks onto `data-*` attributes. They work inside Livewire 3 and 4 components too (see below).
 
@@ -19,20 +19,20 @@ Not a fit for Tailwind v3 or Bootstrap projects, or for Inertia pages written in
 ## Install
 
 ```bash
-composer require --dev larawellui/larawellui
-php artisan larawell:add datepicker        # adds datepicker plus field and icon, which it needs
+composer require --dev bladewell/bladewell
+php artisan bladewell:add datepicker        # adds datepicker plus field and icon, which it needs
 npm run build
 ```
 
-Starting a new app? The [starter kit](https://github.com/rkwebforge/larawellui-starter-kit) is a Laravel 13 app with sign-in, registration, password reset, email verification, account settings and a dashboard, built from these components, with the components already installed:
+Starting a new app? The [starter kit](https://github.com/rkwebforge/bladewell-starter-kit) is a Laravel 13 app with sign-in, registration, password reset, email verification, account settings and a dashboard, built from these components, with the components already installed:
 
 ```bash
-composer create-project larawellui/starter-kit my-app
+composer create-project bladewell/starter-kit my-app
 ```
 
-With the Laravel installer, `laravel new my-app --using=larawellui/starter-kit` does the same.
+With the Laravel installer, `laravel new my-app --using=bladewell/starter-kit` does the same.
 
-`larawell:add` copies:
+`bladewell:add` copies:
 
 | What | Where |
 | --- | --- |
@@ -46,20 +46,20 @@ Before writing anything it checks `package.json`: it stops if Tailwind CSS is ol
 
 Run it again at any time, for example after `composer update`; `--installed` updates every widget already in the app. Files you haven't edited get the new version, files you have edited are skipped and reported, and `--force` overwrites those too.
 
-It tells the two apart with `larawellui.lock` in your app's root, a hash of each file as it was last installed. Commit it, like `composer.lock`. Files installed before the lock existed can't be told apart, so they are skipped and reported as well; if you haven't edited them, run once with `--force` and from then on updates apply by themselves.
+It tells the two apart with `bladewell.lock` in your app's root, a hash of each file as it was last installed. Commit it, like `composer.lock`. Files installed before the lock existed can't be told apart, so they are skipped and reported as well; if you haven't edited them, run once with `--force` and from then on updates apply by themselves.
 
 ```bash
-php artisan larawell:list            # what's available
-php artisan larawell:add             # pick from a list
-php artisan larawell:list --json     # components, requirements and usage examples, for tools and AI agents
-php artisan larawell:add --all
-php artisan larawell:add select --dry-run
-php artisan larawell:add --installed            # update every widget you have
-php artisan larawell:diff                       # diff every file a re-run would skip
-php artisan larawell:diff select/index.blade.php # or one file
+php artisan bladewell:list            # what's available
+php artisan bladewell:add             # pick from a list
+php artisan bladewell:list --json     # components, requirements and usage examples, for tools and AI agents
+php artisan bladewell:add --all
+php artisan bladewell:add select --dry-run
+php artisan bladewell:add --installed            # update every widget you have
+php artisan bladewell:diff                       # diff every file a re-run would skip
+php artisan bladewell:diff select/index.blade.php # or one file
 ```
 
-`larawell:diff` compares your copy with this version of the package. To take the package version of one file, delete it and run `larawell:add --installed`.
+`bladewell:diff` compares your copy with this version of the package. To take the package version of one file, delete it and run `bladewell:add --installed`.
 
 To remove a widget, delete its folders and its import; with the default paths:
 
@@ -68,25 +68,25 @@ rm -r resources/views/components/widget/datepicker resources/js/widget/datepicke
 # then delete `import './widget/datepicker';` from resources/js/app.js
 ```
 
-`larawell:add --installed` updates the widgets whose folder is there, so it won't bring a removed one back, unless a widget you kept still needs it (`field` and `icon` are shared by many), and then it should. PHP helpers and rules it brought, such as `Countries` for the phone, stay in `app/`; they do nothing unused, and you can delete them once nothing references them.
+`bladewell:add --installed` updates the widgets whose folder is there, so it won't bring a removed one back, unless a widget you kept still needs it (`field` and `icon` are shared by many), and then it should. PHP helpers and rules it brought, such as `Countries` for the phone, stay in `app/`; they do nothing unused, and you can delete them once nothing references them.
 
 What you build on is only ever added to, never renamed or removed: component names, props and the values they take, `data-*` hooks, JS exports, the commands and their flags, and the config keys. A release can still get stricter about input that never worked, such as a mistyped value that used to be ignored and now throws. [CHANGELOG.md](CHANGELOG.md) lists every change by widget, so check the ones you use before updating.
 
 ## AI agents (MCP)
 
-`php artisan larawell:mcp` is a [Model Context Protocol](https://modelcontextprotocol.io) server for the app it runs in, over stdio. No extra package: it ships with this one. Its tools:
+`php artisan bladewell:mcp` is a [Model Context Protocol](https://modelcontextprotocol.io) server for the app it runs in, over stdio. No extra package: it ships with this one. Its tools:
 
 | Tool | What it does |
 | --- | --- |
 | `list_components` | The catalogue, with whether each is installed; `query` narrows it |
 | `get_component` | One component's tags, props, slots, usage (Livewire included) and examples |
-| `project_status` | What's installed, which installed files are out of date or edited (from `larawellui.lock`), and the Tailwind/Vite check |
+| `project_status` | What's installed, which installed files are out of date or edited (from `bladewell.lock`), and the Tailwind/Vite check |
 | `add_components` | A dry run by default: lists the files it would write. Writes only with `confirm: true`, and never over edited files unless `force: true` |
 
 Add it to your agent. Claude Code, from the app's root:
 
 ```bash
-claude mcp add larawellui -- php artisan larawell:mcp
+claude mcp add bladewell -- php artisan bladewell:mcp
 ```
 
 Other clients:
@@ -96,11 +96,11 @@ Other clients:
 ```json
 {
     "mcpServers": {
-        "larawellui": {
+        "bladewell": {
             "command": "php",
             "args": [
                 "/path/to/your-app/artisan",
-                "larawell:mcp"
+                "bladewell:mcp"
             ]
         }
     }
@@ -112,12 +112,12 @@ Other clients:
 ```json
 {
     "mcpServers": {
-        "larawellui": {
+        "bladewell": {
             "type": "stdio",
             "command": "php",
             "args": [
                 "${workspaceFolder}/artisan",
-                "larawell:mcp"
+                "bladewell:mcp"
             ]
         }
     }
@@ -129,12 +129,12 @@ Other clients:
 ```json
 {
     "servers": {
-        "larawellui": {
+        "bladewell": {
             "type": "stdio",
             "command": "php",
             "args": [
                 "artisan",
-                "larawell:mcp"
+                "bladewell:mcp"
             ],
             "cwd": "${workspaceFolder}"
         }
@@ -145,13 +145,13 @@ Other clients:
 **OpenAI Codex CLI**: Terminal
 
 ```bash
-codex mcp add larawellui -- php /path/to/your-app/artisan larawell:mcp
+codex mcp add bladewell -- php /path/to/your-app/artisan bladewell:mcp
 ```
 
 **Gemini CLI**: Terminal, from your app's root
 
 ```bash
-gemini mcp add larawellui php /path/to/your-app/artisan larawell:mcp
+gemini mcp add bladewell php /path/to/your-app/artisan bladewell:mcp
 ```
 
 **Windsurf**: mcp_config.json (MCP settings > View raw config)
@@ -159,11 +159,11 @@ gemini mcp add larawellui php /path/to/your-app/artisan larawell:mcp
 ```json
 {
     "mcpServers": {
-        "larawellui": {
+        "bladewell": {
             "command": "php",
             "args": [
                 "/path/to/your-app/artisan",
-                "larawell:mcp"
+                "bladewell:mcp"
             ]
         }
     }
@@ -175,11 +175,11 @@ gemini mcp add larawellui php /path/to/your-app/artisan larawell:mcp
 ```json
 {
     "context_servers": {
-        "larawellui": {
+        "bladewell": {
             "command": "php",
             "args": [
                 "/path/to/your-app/artisan",
-                "larawell:mcp"
+                "bladewell:mcp"
             ],
             "env": {}
         }
@@ -192,11 +192,11 @@ gemini mcp add larawellui php /path/to/your-app/artisan larawell:mcp
 ```json
 {
     "mcpServers": {
-        "larawellui": {
+        "bladewell": {
             "command": "php",
             "args": [
                 "artisan",
-                "larawell:mcp"
+                "bladewell:mcp"
             ]
         }
     }
@@ -208,18 +208,18 @@ gemini mcp add larawellui php /path/to/your-app/artisan larawell:mcp
 ```json
 {
     "mcpServers": {
-        "larawellui": {
+        "bladewell": {
             "command": "php",
             "args": [
                 "/path/to/your-app/artisan",
-                "larawell:mcp"
+                "bladewell:mcp"
             ]
         }
     }
 }
 ```
 
-Any other client: the command `php`, with the arguments `/path/to/your-app/artisan larawell:mcp`. Where a client may not start the server in your app's folder, the full path to `artisan` is what makes it work. If a desktop app can't find `php`, give it the full path too (`which php`).
+Any other client: the command `php`, with the arguments `/path/to/your-app/artisan bladewell:mcp`. Where a client may not start the server in your app's folder, the full path to `artisan` is what makes it work. If a desktop app can't find `php`, give it the full path too (`which php`).
 
 ## Values from your data
 
@@ -238,7 +238,7 @@ With an enum, a method on it (`$order->status->tone()`) keeps the mapping in one
 To install into other namespaces or paths, publish the config:
 
 ```bash
-php artisan vendor:publish --tag=larawellui-config
+php artisan vendor:publish --tag=bladewell-config
 ```
 
 Both namespaces must sit under a PSR-4 root in your `composer.json`. The installer derives the directory from it.
@@ -265,12 +265,12 @@ Icons: the icon widget draws its own set, which its `name` prop lists. For any o
 
 ## Working on the package
 
-- The source runs as-is. Views live in `resources/views/widget/{widget}`, JS in `resources/js/{widget}`, CSS in `resources/css`, and the helpers and rules are real classes in `src/Support` and `src/Rules`. On install, `LarawellUi\Support` and `LarawellUi\Rules` are rewritten to the app's namespaces.
+- The source runs as-is. Views live in `resources/views/widget/{widget}`, JS in `resources/js/{widget}`, CSS in `resources/css`, and the helpers and rules are real classes in `src/Support` and `src/Rules`. On install, `Bladewell\Support` and `Bladewell\Rules` are rewritten to the app's namespaces.
 - `registry/{widget}.json` holds the metadata: an optional `title` (when the name doesn't read right as a heading, like `otp`) and `group` (the catalogue heading it's listed under, like `Forms`), `requires`, `support`, `rules`, `composer` and `php-extensions`, `examples-use` (other widgets its examples use that it doesn't need itself: the page names them with the command that adds them), plus `examples`, the display order of the files in `resources/examples/{widget}/`. A widget's files are whatever sits in its directories.
-- Each example is a Blade file. A leading `{{-- … --}}` comment is its description, and the rest is the code. The site renders it as a live preview and shows the code, and `larawell:list --json` and `/r/{name}.json` hand it to agents. Examples may only use their own widget, the widgets it requires and those its `examples-use` names, so copied code always works once those are added.
+- Each example is a Blade file. A leading `{{-- … --}}` comment is its description, and the rest is the code. The site renders it as a live preview and shows the code, and `bladewell:list --json` and `/r/{name}.json` hand it to agents. Examples may only use their own widget, the widgets it requires and those its `examples-use` names, so copied code always works once those are added.
 - An example that calls a widget's JS API keeps that call in `{slug}.js` beside it: markup with `data-*` hooks, and one `document.addEventListener` in the script, never `onclick=""` or an inline `<script>`. The site bundles these and shows them under the Blade. No example or widget may render `style=""`: a server-side size becomes a class, added to the `@source inline()` ranges in `base.css` if it's new. The test suite renders every example and fails on either.
 - Props are read from each component's `@props` block, one prop per line.
 - Every form control (the text input, password, select, the date pickers, the file upload…) sits in `<x-widget.field>` and requires `field`. Its script imports the shared helpers from `'../field'` (`on` for delegated events, `replaceValue`, `typingIn`, `onLivewireMorph`) rather than keeping a copy, and its own Livewire refresh goes through `onLivewireMorph`.
-- The host app develops against the source directly. It registers `resources/views` as an anonymous component path (in `AppServiceProvider`) and imports the JS and CSS from `packages/larawellui/resources`. Edit a widget, refresh the page, done.
+- The host app develops against the source directly. It registers `resources/views` as an anonymous component path (in `AppServiceProvider`) and imports the JS and CSS from `packages/bladewell/resources`. Edit a widget, refresh the page, done.
 - The host app's test suite checks that every manifest declares everything its widget renders or imports, that every example renders, and that installing into a fresh project produces working, correctly namespaced files.
 - Accessibility runs in a real browser: `npm run build`, then `composer test:a11y` (the first time, `npx playwright install chromium`). It runs axe over every example in the light and dark themes, against the WCAG 2.2 A and AA rules: as the page draws, then with each popover, dialog, toast and tooltip opened in turn, the way a person opens it. Anything axe can't decide fails too, unless the test settles it: it checks that a popup trigger's `aria-controls` target exists, that a list driven by `aria-activedescendant` really scrolls from the keyboard, and measures contrast itself where axe can't (SVG text, single characters). An opener that opens nothing fails too. CI runs it on every pull request.

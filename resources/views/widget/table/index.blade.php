@@ -139,8 +139,8 @@
     // Page links end in #id, so the new page opens scrolled to this table instead of the top.
     // Derived from the page name; ElementIds suffixes it if two tables share one (e.g. both use "page").
     $id = match (true) {
-        $id !== null => app(\LarawellUi\Support\ElementIds::class)->claim($id, explicit: true),
-        $isPaginator => app(\LarawellUi\Support\ElementIds::class)->claim('table-'.($isCursor ? $rows->getCursorName() : $rows->getPageName())),
+        $id !== null => app(\Bladewell\Support\ElementIds::class)->claim($id, explicit: true),
+        $isPaginator => app(\Bladewell\Support\ElementIds::class)->claim('table-'.($isCursor ? $rows->getCursorName() : $rows->getPageName())),
         default => null,
     };
     if ($isPaginator && $id && ! $rows->fragment()) {

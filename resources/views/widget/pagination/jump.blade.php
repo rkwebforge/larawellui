@@ -5,7 +5,7 @@
 
 @php
     $pageName = $paginator->getPageName();
-    $inputId = app(\LarawellUi\Support\ElementIds::class)->claim('goto-'.$pageName);
+    $inputId = app(\Bladewell\Support\ElementIds::class)->claim('goto-'.$pageName);
 
     // Carry over whatever query the paginator's own links carry (filters, appends(), withQueryString()).
     parse_str(parse_url($paginator->url(1), PHP_URL_QUERY) ?? '', $query);

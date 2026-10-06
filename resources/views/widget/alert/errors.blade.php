@@ -36,7 +36,7 @@
             <ul class="text-foreground/80 mt-1 list-disc space-y-1 ps-5 leading-6">
                 @foreach ($problems as $key => $message)
                     <li>
-                        <a href="#{{ \LarawellUi\Support\FormField::idFor($key) }}" data-alert-field="{{ $key }}" class="hover:text-error underline underline-offset-2">{{ $message }}</a>
+                        <a href="#{{ \Bladewell\Support\FormField::idFor($key) }}" data-alert-field="{{ $key }}" class="hover:text-error underline underline-offset-2">{{ $message }}</a>
                     </li>
                 @endforeach
             </ul>

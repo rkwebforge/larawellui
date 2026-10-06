@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace LarawellUi;
+namespace Bladewell;
 
 /**
- * What larawell:add checks in the app's front end before copying anything: the widgets are written for
+ * What bladewell:add checks in the app's front end before copying anything: the widgets are written for
  * Tailwind CSS 4.1+ built by Vite, and on anything older they install fine and then look broken.
  */
 final readonly class Requirements

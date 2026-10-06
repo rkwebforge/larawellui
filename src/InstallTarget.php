@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace LarawellUi;
+namespace Bladewell;
 
 use InvalidArgumentException;
 
 /**
- * Absolute destinations in the user's project, resolved once from config/larawellui.php.
+ * Absolute destinations in the user's project, resolved once from config/bladewell.php.
  */
 final readonly class InstallTarget
 {

@@ -2,24 +2,24 @@
 
 declare(strict_types=1);
 
-namespace LarawellUi\Console;
+namespace Bladewell\Console;
 
+use Bladewell\FileStatus;
+use Bladewell\Installer;
+use Bladewell\InstallTarget;
+use Bladewell\PlannedFile;
+use Bladewell\Registry;
+use Bladewell\Requirements;
+use Bladewell\Widget;
 use Composer\InstalledVersions;
 use Illuminate\Console\Command;
 use InvalidArgumentException;
-use LarawellUi\FileStatus;
-use LarawellUi\Installer;
-use LarawellUi\InstallTarget;
-use LarawellUi\PlannedFile;
-use LarawellUi\Registry;
-use LarawellUi\Requirements;
-use LarawellUi\Widget;
 use LogicException;
 
 final class AddWidgetCommand extends Command
 {
-    protected $signature = 'larawell:add
-        {widgets?* : Widget names, e.g. select datepicker (see larawell:list)}
+    protected $signature = 'bladewell:add
+        {widgets?* : Widget names, e.g. select datepicker (see bladewell:list)}
         {--all : Install every widget}
         {--installed : Update every widget already in this app}
         {--force : Overwrite files you have edited too}
@@ -36,7 +36,7 @@ final class AddWidgetCommand extends Command
         if ($this->option('installed')) {
             $installed = $installer->installed();
             if ($installed === [] && $names === []) {
-                $this->components->error('No widgets are installed yet. Add some first, e.g. php artisan larawell:add '.array_key_first($registry->all()).'.');
+                $this->components->error('No widgets are installed yet. Add some first, e.g. php artisan bladewell:add '.array_key_first($registry->all()).'.');
 
                 return self::INVALID;
             }
@@ -99,11 +99,11 @@ final class AddWidgetCommand extends Command
         }
 
         if (($edited = $count(FileStatus::Conflict)) > 0) {
-            $this->components->warn("{$edited} file(s) you edited were left alone, so they miss this version's changes. See what changed with php artisan larawell:diff, or re-run with --force to replace them.");
+            $this->components->warn("{$edited} file(s) you edited were left alone, so they miss this version's changes. See what changed with php artisan bladewell:diff, or re-run with --force to replace them.");
         }
-        // These predate larawellui.lock, so there's no telling an edit from an older version.
+        // These predate bladewell.lock, so there's no telling an edit from an older version.
         if (($untracked = $count(FileStatus::Untracked)) > 0) {
-            $this->components->warn("{$untracked} file(s) differ from this version and were installed before larawellui.lock kept track, so they were left alone. If you haven't edited them, re-run with --force (it covers every widget you name, so name only those you haven't edited); from then on updates apply by themselves.");
+            $this->components->warn("{$untracked} file(s) differ from this version and were installed before bladewell.lock kept track, so they were left alone. If you haven't edited them, re-run with --force (it covers every widget you name, so name only those you haven't edited); from then on updates apply by themselves.");
         }
 
         $this->notes($widgets, $target, rebuild: !$dryRun && $writes > 0);

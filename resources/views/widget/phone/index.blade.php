@@ -27,11 +27,11 @@
 ])
 
 @php
-    $field = \LarawellUi\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'phone', attributes: $attributes);
+    $field = \Bladewell\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'phone', attributes: $attributes);
     $locale = str_replace('_', '-', $locale ?? app()->getLocale());
     // The stored value is one international number (+60123456789); it opens on its own country.
-    [$selected, $national] = \LarawellUi\Support\Countries::split($field->old($value), \LarawellUi\Support\Countries::guess($country, $locale));
-    $dial = \LarawellUi\Support\Countries::DIAL_CODES[$selected];
+    [$selected, $national] = \Bladewell\Support\Countries::split($field->old($value), \Bladewell\Support\Countries::guess($country, $locale));
+    $dial = \Bladewell\Support\Countries::DIAL_CODES[$selected];
     $flag = implode('', array_map(static fn (string $letter): string => mb_chr(0x1F1E6 + ord($letter) - 65), str_split($selected)));
 @endphp
 
@@ -40,7 +40,7 @@
     e.g. with propaganistas/laravel-phone ('phone' => 'phone:INTERNATIONAL'). The country list is built in
     the browser (resources/js/widget/phone), with names in the page's language.
 --}}
-<x-widget.field :required="$attributes->has('required')" data-phone data-locale="{{ $locale }}" data-countries="{{ \LarawellUi\Support\Countries::compact() }}" :id="$field->id" :label="$label" :error="$field->errors" :info="$info" :disabled="$disabled" :readonly="$readonly" box="h-12 items-center" :class="$attributes->get('class')">
+<x-widget.field :required="$attributes->has('required')" data-phone data-locale="{{ $locale }}" data-countries="{{ \Bladewell\Support\Countries::compact() }}" :id="$field->id" :label="$label" :error="$field->errors" :info="$info" :disabled="$disabled" :readonly="$readonly" box="h-12 items-center" :class="$attributes->get('class')">
     <button
         type="button"
         popovertarget="{{ $field->id }}-countries"
@@ -73,7 +73,7 @@
         ]) }}
     >
 
-    <input type="hidden" @if ($name) name="{{ $name }}" @endif value="{{ \LarawellUi\Support\Countries::international($selected, $national) }}" data-phone-value data-country="{{ $selected }}" {{ $field->bindings($attributes) }}>
+    <input type="hidden" @if ($name) name="{{ $name }}" @endif value="{{ \Bladewell\Support\Countries::international($selected, $national) }}" data-phone-value data-country="{{ $selected }}" {{ $field->bindings($attributes) }}>
 
     <div id="{{ $field->id }}-countries" popover data-phone-popover class="border-line bg-surface text-foreground fixed inset-auto m-0 overflow-hidden rounded-2xl border p-0 text-sm shadow-lg">
         <div class="border-line border-b p-2">

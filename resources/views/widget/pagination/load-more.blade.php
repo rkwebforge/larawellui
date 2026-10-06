@@ -12,7 +12,7 @@
 
 @php
     // The same id on every page, so the script can find this block in the next page's HTML and swap it in.
-    $id = app(\LarawellUi\Support\ElementIds::class)->claim('load-more-'.$paginator->getPageName());
+    $id = app(\Bladewell\Support\ElementIds::class)->claim('load-more-'.$paginator->getPageName());
     $total = $paginator instanceof \Illuminate\Contracts\Pagination\LengthAwarePaginator ? $paginator->total() : null;
     // Items seen so far, counting earlier pages: loading more keeps them on screen.
     $seen = method_exists($paginator, 'lastItem') ? $paginator->lastItem() : null;

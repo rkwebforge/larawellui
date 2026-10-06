@@ -58,16 +58,16 @@
     $endName ??= $name !== null ? "{$name}[end]" : null;
     // wire:model="period" (or x-model) binds an array, as name="period" submits period[start] and period[end]: the
     // start input binds period.start and the end input period.end, with the same modifiers (wire:model.live …).
-    $binding = \LarawellUi\Support\FormField::binding($attributes);
+    $binding = \Bladewell\Support\FormField::binding($attributes);
     $bindingAttribute = array_key_first($binding);
     $bound = $binding[$bindingAttribute] ?? null;
     $startKey = match (true) {
-        $startName !== null => \LarawellUi\Support\FormField::key($startName),
+        $startName !== null => \Bladewell\Support\FormField::key($startName),
         $bound !== null => "{$bound}.start",
         default => null,
     };
     $endKey = match (true) {
-        $endName !== null => \LarawellUi\Support\FormField::key($endName),
+        $endName !== null => \Bladewell\Support\FormField::key($endName),
         $bound !== null => "{$bound}.end",
         default => null,
     };
@@ -79,7 +79,7 @@
     $error ??= $bagErrors
         ? array_values(array_unique(array_merge(...array_map(
             static fn (?string $key): array => $key !== null ? $bagErrors->get($key) : [],
-            [$name !== null ? \LarawellUi\Support\FormField::key($name) : null, $startKey, $endKey],
+            [$name !== null ? \Bladewell\Support\FormField::key($name) : null, $startKey, $endKey],
         ))))
         : null;
 
@@ -91,7 +91,7 @@
     };
     $min = $min === 'today' ? 'today' : $toIso($min);
 
-    $field = \LarawellUi\Support\FormField::make($name ?? $startName, $id, null, $error ?: null, $bag, 'date-range', attributes: $attributes);
+    $field = \Bladewell\Support\FormField::make($name ?? $startName, $id, null, $error ?: null, $bag, 'date-range', attributes: $attributes);
     $id = $field->id;
     // Without start and end props, the bound Livewire property (see FormField::fromLivewire).
     if ($start === null && $end === null && $bound !== null) {
@@ -106,10 +106,10 @@
     }
     // Dates read the way the locale writes them. The browser redraws the range with Intl's formatRange,
     // which also shortens it naturally ("Sep 26 – Oct 3, 2026").
-    $locale = \LarawellUi\Support\LocalDate::locale($locale);
-    $weekStart ??= \LarawellUi\Support\LocalDate::firstDayOfWeek($locale);
+    $locale = \Bladewell\Support\LocalDate::locale($locale);
+    $weekStart ??= \Bladewell\Support\LocalDate::firstDayOfWeek($locale);
     $placeholder ??= 'Choose dates';
-    $shown = $start ? \LarawellUi\Support\LocalDate::format($start, $locale).' – '.\LarawellUi\Support\LocalDate::format($end, $locale) : null;
+    $shown = $start ? \Bladewell\Support\LocalDate::format($start, $locale).' – '.\Bladewell\Support\LocalDate::format($end, $locale) : null;
     // The month and year selects draw their own arrow (appearance-none hides the browser's, which sits against the
     // focus ring), with room for it on the end.
     $control = 'hover:bg-field shrink-0 cursor-pointer appearance-none rounded-md bg-transparent py-1 ps-1 pe-5 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-primary';

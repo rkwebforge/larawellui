@@ -36,7 +36,7 @@
 ])
 
 @php
-    $field = \LarawellUi\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'password', attributes: $attributes);
+    $field = \Bladewell\Support\FormField::make($name, $id, $errors ?? null, $error, $bag, 'password', attributes: $attributes);
     // new: creating a password (sign-up, reset). Password managers then offer to generate one instead of
     // filling an old one, and the requirements show as a checklist that ticks off while typing.
     $autocomplete ??= $new ? 'new-password' : 'current-password';

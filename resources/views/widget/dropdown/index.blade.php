@@ -18,7 +18,7 @@
 
 @php
     // Scripts may open the menu by its id, so an explicit id must be unique; a derived one gets a suffix.
-    $id = app(\LarawellUi\Support\ElementIds::class)->claim($id ?? 'dropdown', explicit: $id !== null);
+    $id = app(\Bladewell\Support\ElementIds::class)->claim($id ?? 'dropdown', explicit: $id !== null);
     $menuId = "{$id}-menu";
     // Which edge of the trigger the menu lines up with: start (left in left-to-right pages) or end.
     // A typo fails loudly, naming the values that work, instead of quietly rendering something else.

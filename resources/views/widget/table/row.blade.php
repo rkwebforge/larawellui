@@ -19,7 +19,7 @@
     if ($href && $hasDetails) {
         throw new \InvalidArgumentException('<x-widget.table.row> takes href or a details slot, not both: a click can only do one. Put the link inside the details instead.');
     }
-    $detailsId = $hasDetails ? app(\LarawellUi\Support\ElementIds::class)->claim('row-details') : null;
+    $detailsId = $hasDetails ? app(\Bladewell\Support\ElementIds::class)->claim('row-details') : null;
     $interactive = $href || $hasDetails;
 @endphp
 

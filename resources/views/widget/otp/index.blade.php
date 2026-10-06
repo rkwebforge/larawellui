@@ -34,8 +34,8 @@
     $length = max(1, (int) $length);
     // Resolved twice: once for the base id the boxes share (otp-0, otp-1 …), once for the first box,
     // which the frame keys its label and messages off.
-    $baseId = \LarawellUi\Support\FormField::make($name, $id, null, idPrefix: 'otp', attributes: $attributes)->id;
-    $field = \LarawellUi\Support\FormField::make($name, "{$baseId}-0", $errors ?? null, $error, $bag, attributes: $attributes);
+    $baseId = \Bladewell\Support\FormField::make($name, $id, null, idPrefix: 'otp', attributes: $attributes)->id;
+    $field = \Bladewell\Support\FormField::make($name, "{$baseId}-0", $errors ?? null, $error, $bag, attributes: $attributes);
     // alphanumeric takes letters too (shown in capitals), for codes like A7K2QX; otherwise digits only.
     $allowed = $alphanumeric ? '/[^A-Za-z0-9]/' : '/\D/';
     $value = strtoupper(substr((string) preg_replace($allowed, '', (string) $field->old($value)), 0, $length));

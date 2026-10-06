@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace LarawellUi\Rules;
+namespace Bladewell\Rules;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;

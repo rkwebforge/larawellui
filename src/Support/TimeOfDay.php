@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace LarawellUi\Support;
+namespace Bladewell\Support;
 
 use DateTimeInterface;
 use IntlDateFormatter;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace LarawellUi\Support;
+namespace Bladewell\Support;
 
 /**
  * Country dial codes for <x-widget.phone>. Only codes: names come from the browser in the page's
