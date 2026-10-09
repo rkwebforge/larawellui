@@ -74,6 +74,112 @@
     }
 }
 
+/*
+ * <x-widget.tree>: how far children sit from their parent, and the lines joining them. Plain CSS rather than classes on
+ * each item: a line depends on where the item sits among its siblings (the last one's stops at its own card). In a
+ * layer, so classes on the markup still win.
+ *
+ * Restyle one tree from its class, without editing this file:
+ *   --tree-line    the lines' colour            class="[--tree-line:var(--color-primary)]"
+ *   --tree-indent  how far each level steps in  class="[--tree-indent:3rem]"
+ *   --tree-gap     the space between nodes      class="[--tree-gap:1.5rem]"
+ */
+@layer components {
+    /* list and checkbox: indented under a guide line that drops from the parent's arrow. */
+    [data-tree]:is([data-variant='list'], [data-variant='checkbox']) [role='group'] {
+        margin-inline-start: 1.125rem;
+        padding-inline-start: calc(var(--tree-indent, 1.5rem) - 1.125rem);
+        border-inline-start: 1px solid var(--tree-line, var(--color-line));
+    }
+
+    /* cards: each child card hangs by a short branch off an upright line that drops from its parent's card. The branch
+       meets the card 1.75rem down, level with its first line. */
+    [data-tree][data-variant='cards'] [role='group'] {
+        padding-inline-start: var(--tree-indent, 2.5rem);
+    }
+    [data-tree][data-variant='cards'] [role='group'] > [role='treeitem'] {
+        position: relative;
+        padding-top: var(--tree-gap, 1rem);
+    }
+    [data-tree][data-variant='cards'] [role='group'] > [role='treeitem']::before,
+    [data-tree][data-variant='cards'] [role='group'] > [role='treeitem']::after {
+        content: '';
+        position: absolute;
+        inset-inline-start: calc(1rem - var(--tree-indent, 2.5rem));
+    }
+    /* The upright: on past this card to the next one, or for the last, only as far as its own branch. */
+    [data-tree][data-variant='cards'] [role='group'] > [role='treeitem']::before {
+        top: 0;
+        height: 100%;
+        border-inline-start: 1px solid var(--tree-line, var(--color-line-strong));
+    }
+    [data-tree][data-variant='cards'] [role='group'] > [role='treeitem']:last-child::before {
+        height: calc(var(--tree-gap, 1rem) + 1.75rem);
+    }
+    [data-tree][data-variant='cards'] [role='group'] > [role='treeitem']::after {
+        top: calc(var(--tree-gap, 1rem) + 1.75rem);
+        width: calc(var(--tree-indent, 2.5rem) - 1rem);
+        border-top: 1px solid var(--tree-line, var(--color-line-strong));
+    }
+
+    /* org: top-down, each parent centred over a bar that spans its children. --tree-gap is each of the two drops (to
+       the bar, then to the child); --tree-indent the room either side of a child. */
+    [data-tree][data-variant='org'] {
+        display: flex;
+        justify-content: center;
+    }
+    [data-tree][data-variant='org'] [role='treeitem'] {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    [data-tree][data-variant='org'] [role='group'] {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        padding-top: var(--tree-gap, 1.25rem);
+    }
+    /* Down from the parent to the bar. */
+    [data-tree][data-variant='org'] [role='group']::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        inset-inline-start: 50%;
+        height: var(--tree-gap, 1.25rem);
+        border-inline-start: 1px solid var(--tree-line, var(--color-line-strong));
+    }
+    [data-tree][data-variant='org'] [role='group'] > [role='treeitem'] {
+        position: relative;
+        padding: var(--tree-gap, 1.25rem) calc(var(--tree-indent, 1rem) / 2) 0;
+    }
+    /* The bar, in two halves over each child, and the drop to it. The bar stops at the first and last child. */
+    [data-tree][data-variant='org'] [role='group'] > [role='treeitem']::before,
+    [data-tree][data-variant='org'] [role='group'] > [role='treeitem']::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        width: 50%;
+        height: var(--tree-gap, 1.25rem);
+        border-top: 1px solid var(--tree-line, var(--color-line-strong));
+    }
+    [data-tree][data-variant='org'] [role='group'] > [role='treeitem']::before {
+        inset-inline-end: 50%;
+    }
+    [data-tree][data-variant='org'] [role='group'] > [role='treeitem']::after {
+        inset-inline-start: 50%;
+        border-inline-start: 1px solid var(--tree-line, var(--color-line-strong));
+    }
+    [data-tree][data-variant='org'] [role='group'] > [role='treeitem']:first-child::before {
+        border-top: 0;
+    }
+    [data-tree][data-variant='org'] [role='group'] > [role='treeitem']:last-child::after {
+        border: 0;
+    }
+    [data-tree][data-variant='org'] [role='group'] > [role='treeitem']:last-child::before {
+        border-inline-end: 1px solid var(--tree-line, var(--color-line-strong));
+    }
+}
+
 /* <x-widget.progress>: the indeterminate bar slides across; striped fills drift. */
 @theme {
     --animate-progress-slide: progress-slide 1.4s ease-in-out infinite;
@@ -121,3 +227,5 @@
 @source inline("[--i:{0..30}]");
 @source inline("{min,max}-h-[calc({1..30}lh+2rem)]");
 @source inline("[--table-window:calc(2.5rem+{1..50}*4rem)]");
+@source inline("[--slider-from:{0..100}]");
+@source inline("[--slider-to:{0..100}]");

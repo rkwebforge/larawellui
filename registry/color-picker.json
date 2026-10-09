@@ -1,0 +1,19 @@
+{
+    "title": "Colour picker",
+    "group": "Forms",
+    "description": "A colour in a field: a hex box that submits #rrggbb, the browser's own picker beside it for any colour, and optional swatches as a radio group, named for screen readers. A preview shows the colour with black or white text, whichever reads better. Typing #abc or #ABCDEF tidies to #aabbcc, and anything that isn't a colour goes back to the last one. Works with Livewire wire:model.",
+    "requires": [
+        "field"
+    ],
+    "support": [
+        "ElementIds",
+        "FormField"
+    ],
+    "usage": [
+        "livewire"
+    ],
+    "examples": [
+        "basic",
+        "swatches"
+    ]
+}

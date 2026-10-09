@@ -1,0 +1,2 @@
+{{-- In a Livewire component, bind with wire:model (deferred) or wire:model.live to an array property: public array $labels = []. No name is needed. With .live each tag added or removed reaches the server at once. The field shows the property after every render, so setting it in PHP shows the new tags, and its validation errors show under the field. --}}
+<x-widget.tags label="Labels" wire:model.live="labels" :suggestions="['urgent', 'billing', 'refund']" />

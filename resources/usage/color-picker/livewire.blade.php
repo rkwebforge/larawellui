@@ -1,0 +1,2 @@
+{{-- In a Livewire component, bind with wire:model (deferred) or wire:model.live to a string property: public string $accent = '#7c3aed'. No name is needed. A swatch, the browser's picker or a typed colour updates it, and setting it in PHP selects the matching swatch and repaints the preview after the render. --}}
+<x-widget.color-picker label="Accent colour" wire:model.live="accent" :swatches="['#dc2626', '#16a34a', '#2563eb']" />

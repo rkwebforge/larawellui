@@ -1,0 +1,27 @@
+{
+    "description": "A tree of nodes that open and close: compact rows like a file explorer, cards joined by lines like a referral network, a top-down org chart, or tick boxes where ticking a parent ticks everything under it. Children can load from your app the first time a node opens, for trees too big to send at once. The arrow keys move through it, as in any tree. Works inside Livewire components, with wire:model for the ticked values.",
+    "requires": [
+        "field",
+        "icon"
+    ],
+    "support": [
+        "ElementIds",
+        "FormField"
+    ],
+    "slots": {
+        "x-widget.tree.item": {
+            "details": "More about the node under its label, such as a card's figures. Read out as its description."
+        }
+    },
+    "usage": [
+        "children-endpoint",
+        "livewire"
+    ],
+    "examples": [
+        "list",
+        "cards",
+        "org",
+        "checkbox",
+        "load-on-open"
+    ]
+}

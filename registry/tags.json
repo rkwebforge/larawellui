@@ -1,0 +1,20 @@
+{
+    "title": "Tags input",
+    "group": "Forms",
+    "description": "Free-text tags in a field: Enter or a comma adds what's typed, a pasted list adds each item, Backspace removes the last, and each tag has its own remove button. Suggestions from the browser's own list, no duplicates in any case, an optional maximum, and a screen reader hears every change. Submits as name[] and works with Livewire wire:model.",
+    "requires": [
+        "field",
+        "icon"
+    ],
+    "support": [
+        "ElementIds",
+        "FormField"
+    ],
+    "usage": [
+        "livewire"
+    ],
+    "examples": [
+        "basic",
+        "suggestions"
+    ]
+}
