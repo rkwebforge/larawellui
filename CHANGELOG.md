@@ -8,7 +8,7 @@ Widgets are copied into your app, so a new release changes nothing until you run
 
 What you build on is only ever added to, never renamed or removed: component names, props and the values they take, `data-*` hooks, JS exports, the `bladewell:*` commands and their flags, and the config keys. A release can still get stricter about input that never worked, such as a mistyped value that used to be ignored and now throws. Those changes are listed under **Changed**, with the widgets they affect.
 
-## [Unreleased]
+## [1.0.0] - 2026-10-09
 
 ### Added
 
@@ -42,11 +42,11 @@ What you build on is only ever added to, never renamed or removed: component nam
 ### Changed
 
 - **All widgets**: LarawellUI is now **Bladewell**. This one release breaks the promise above: the package, commands, config and lock file are renamed, with no aliases for the old names. The widgets, their props and `data-*` hooks, and the `App\View\Widget` / `App\Rules` code they copied into your app are unchanged. To upgrade:
-  1. `composer remove --dev larawellui/larawellui && composer require --dev bladewell/bladewell`
-  2. Rename `config/larawellui.php` to `config/bladewell.php`, if you published it.
-  3. Rename `larawellui.lock` to `bladewell.lock` **before** running any command. Otherwise `bladewell:add --installed` can't tell which files you've edited and will overwrite them.
-  4. Use `php artisan bladewell:add | list | diff | mcp` instead of `larawell:*`, and update the command in your MCP client's config.
-  5. The site is now <https://www.bladewellui.com>.
+    1. `composer remove --dev larawellui/larawellui && composer require --dev bladewell/bladewell`
+    2. Rename `config/larawellui.php` to `config/bladewell.php`, if you published it.
+    3. Rename `larawellui.lock` to `bladewell.lock` **before** running any command. Otherwise `bladewell:add --installed` can't tell which files you've edited and will overwrite them.
+    4. Use `php artisan bladewell:add | list | diff | mcp` instead of `larawell:*`, and update the command in your MCP client's config.
+    5. The site is now <https://www.bladewellui.com>.
 
 ## [0.2.3] - 2026-10-04
 
@@ -128,7 +128,8 @@ What you build on is only ever added to, never renamed or removed: component nam
 - `bladewell.lock`, so updates replace only the files you haven't edited.
 - Livewire 3 and 4 support, with `wire:model` on every form control.
 
-[Unreleased]: https://github.com/rkwebforge/bladewell/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/rkwebforge/bladewell/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/rkwebforge/bladewell/compare/v0.3.0...v1.0.0
 [0.3.0]: https://github.com/rkwebforge/bladewell/compare/v0.2.3...v0.3.0
 [0.2.3]: https://github.com/rkwebforge/bladewell/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/rkwebforge/bladewell/compare/v0.2.1...v0.2.2
