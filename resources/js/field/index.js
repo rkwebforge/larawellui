@@ -151,6 +151,41 @@ function refreshCounters(scope) {
 
 onLivewireMorph(refreshCounters);
 
+// --- Popovers and the on-screen keyboard -------------------------------------------------------------------
+
+// The part of the window that can be seen, in the coordinates getBoundingClientRect() and position: fixed use. An
+// on-screen keyboard covers the bottom of the window without changing innerHeight (iOS, and Android Chrome since 108),
+// so a popover placed by innerHeight opens under it; visualViewport knows where the keyboard starts. The keyboard
+// opening or closing resizes only that, so a popover listens there as well as on the window.
+export function visibleArea() {
+    const view = window.visualViewport;
+
+    return view ? { top: view.offsetTop, bottom: view.offsetTop + view.height } : { top: 0, bottom: window.innerHeight };
+}
+
+// Where a popover goes beside its field (`box`, the field's rectangle): below when it fits there, otherwise on the side
+// with more room. When even that side is too short, as with the keyboard up on a phone, `scroller` (the part of the
+// popover that scrolls) is cut down to fit, rather than the popover running under the keyboard or off the screen.
+// Returns the popover's top.
+export function placeBeside(popover, box, { gap, edge, scroller = null }) {
+    if (scroller) {
+        scroller.style.maxHeight = '';
+    }
+    const view = visibleArea();
+    const roomBelow = view.bottom - edge - (box.bottom + gap);
+    const roomAbove = box.top - gap - (view.top + edge);
+    let height = popover.offsetHeight;
+    const below = height <= roomBelow || roomBelow >= roomAbove;
+    const room = below ? roomBelow : roomAbove;
+    if (scroller && height > room) {
+        // Never shorter than about three rows, so it stays usable.
+        scroller.style.maxHeight = `${Math.max(scroller.offsetHeight - (height - room), 120)}px`;
+        height = popover.offsetHeight;
+    }
+
+    return below ? box.bottom + gap : box.top - gap - height;
+}
+
 // --- Popovers that lose their field ------------------------------------------------------------------------
 
 // Whether any of an element can still be seen: not scrolled out of a container that clips it (a table that scrolls

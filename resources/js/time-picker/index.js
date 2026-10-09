@@ -2,7 +2,7 @@
 // times with the keyboard, writes the choice into the hidden input (HH:MM, 24-hour) and shows it the locale's way.
 // Slots are plain radio buttons and need nothing from here. Delegated from `document`, so pickers added later (a
 // Livewire render, fetched HTML) work without setting up.
-import { closeIfOutOfView, onLivewireMorph, typingIn } from '../field';
+import { closeIfOutOfView, onLivewireMorph, placeBeside, typingIn } from '../field';
 
 const ROOT = '[data-time-picker]';
 const POPOVER = '[data-time-picker-popover]';
@@ -91,13 +91,11 @@ function position(root) {
         popover.style.minWidth = `${box.width}px`;
     }
     const width = popover.offsetWidth;
-    const height = popover.offsetHeight;
     const rtl = getComputedStyle(root).direction === 'rtl';
     const left = rtl ? box.right - width : box.left;
     popover.style.left = `${Math.min(Math.max(left, VIEWPORT_EDGE), window.innerWidth - width - VIEWPORT_EDGE)}px`;
-    const below = window.innerHeight - box.bottom - GAP - VIEWPORT_EDGE;
-    const up = height > below && box.top - GAP - VIEWPORT_EDGE > below;
-    popover.style.top = `${up ? box.top - GAP - height : box.bottom + GAP}px`;
+    // The list scrolls, so it can be cut down to fit; the columns keep their size.
+    popover.style.top = `${placeBeside(popover, box, { gap: GAP, edge: VIEWPORT_EDGE, scroller: root.dataset.timePicker === 'list' ? popover : null })}px`;
 }
 
 let openRoot = null;
@@ -129,6 +127,7 @@ document.addEventListener('toggle', (event) => {
         focusChosen(root);
         window.addEventListener('scroll', reposition, true);
         window.addEventListener('resize', reposition);
+        window.visualViewport?.addEventListener('resize', reposition);
 
         return;
     }
@@ -136,6 +135,7 @@ document.addEventListener('toggle', (event) => {
         openRoot = null;
         window.removeEventListener('scroll', reposition, true);
         window.removeEventListener('resize', reposition);
+        window.visualViewport?.removeEventListener('resize', reposition);
     }
     // Esc, a choice or Done leave focus nowhere; put it back on the field. A click elsewhere keeps its own focus.
     if (document.activeElement === document.body || popover.contains(document.activeElement)) {

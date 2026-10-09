@@ -74,6 +74,28 @@
         'start' => "me-auto h-full {$width} -translate-x-full rtl:translate-x-full group-open:translate-x-0 rtl:group-open:translate-x-0 starting:group-open:-translate-x-full rtl:starting:group-open:translate-x-full",
         'bottom' => "mx-auto mt-auto max-h-[85dvh] {$width} rounded-t-3xl translate-y-full group-open:translate-y-0 starting:group-open:translate-y-full",
     ];
+
+    // In a page drawn under the notch and home indicator (viewport-fit=cover, as NativePHP and home-screen web apps
+    // do), the panel's edges that meet the screen's keep their content clear of them. env() is 0 everywhere else,
+    // so ordinary pages look the same. Physical sides on purpose: the notch doesn't flip in RTL.
+    $safeArea = match (true) {
+        $full => 'pt-[env(safe-area-inset-top)] pr-[env(safe-area-inset-right)] pb-[env(safe-area-inset-bottom)] pl-[env(safe-area-inset-left)]',
+        $drawer && $side === 'end' => 'pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] ltr:pr-[env(safe-area-inset-right)] rtl:pl-[env(safe-area-inset-left)]',
+        $drawer && $side === 'start' => 'pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] ltr:pl-[env(safe-area-inset-left)] rtl:pr-[env(safe-area-inset-right)]',
+        $drawer => 'pb-[env(safe-area-inset-bottom)]',
+        $sheet => 'max-sm:pb-[env(safe-area-inset-bottom)]',
+        default => null,
+    };
+    // The X is placed from the panel's edge, padding included, so it moves in by the same insets.
+    $closeAt = match (true) {
+        $full, $drawer && $side === 'end' => 'top-[calc(1rem+env(safe-area-inset-top))] ltr:right-[calc(1rem+env(safe-area-inset-right))] rtl:left-[calc(1rem+env(safe-area-inset-left))]',
+        $drawer && $side === 'start' => 'end-4 top-[calc(1rem+env(safe-area-inset-top))]',
+        default => 'end-4 top-4',
+    };
+    // A panel at the bottom of the screen is a sheet, which resources/js/modal lets a finger drag down to close: only
+    // when the backdrop may close it too, so a sheet that can't be dismissed stays that way.
+    $bottomSheet = ($drawer && $side === 'bottom') || $sheet;
+    $swipe = $bottomSheet && $closeOnBackdrop && ! $disableClose;
 @endphp
 
 {{--
@@ -112,6 +134,7 @@
     ])
 >
     <div
+        @if ($bottomSheet) data-modal-sheet @endif
         {{ $attributes->class([
             'bg-surface text-foreground relative w-full shadow-xl transition-transform duration-300 motion-reduce:transition-none',
             'flex flex-col' => $pinned,
@@ -122,8 +145,14 @@
             $drawerPanel[$side] => $drawer,
             $glide => $drawer,
             'max-sm:mt-auto max-sm:mb-0 max-sm:max-w-none max-sm:scale-100 max-sm:rounded-b-none max-sm:translate-y-full max-sm:group-open:translate-y-0 max-sm:starting:group-open:translate-y-full max-sm:will-change-[translate] max-sm:group-open:duration-500 max-sm:group-open:ease-[cubic-bezier(0.25,0.46,0.45,0.94)]' => $sheet,
+            $safeArea => $safeArea !== null,
         ]) }}
     >
+        @if ($swipe)
+            {{-- Shows the sheet can be dragged down. Only a cue: Esc, the backdrop and the X close it just the same. --}}
+            <div aria-hidden="true" @class(['bg-line pointer-events-none absolute inset-x-0 top-2 mx-auto h-1 w-9 rounded-full', 'sm:hidden' => $sheet])></div>
+        @endif
+
         @if ($title)
             <div @class(['px-6 pt-6', 'pe-14' => $closeButton, 'pb-6' => ! $pinned, 'shrink-0 pb-4' => $pinned])>
                 <h2 id="{{ $id }}-title" class="text-lg font-semibold">{{ $title }}</h2>
@@ -135,7 +164,7 @@
                 type="button"
                 data-modal-close
                 aria-label="Close"
-                class="text-muted hover:text-foreground focus-visible:ring-primary absolute end-4 top-4 z-10 grid size-8 place-items-center rounded-full outline-none focus-visible:ring-2"
+                class="text-muted hover:text-foreground focus-visible:ring-primary tap-target absolute {{ $closeAt }} z-10 grid size-8 place-items-center rounded-full outline-none focus-visible:ring-2"
             >
                 <x-widget.icon name="x" class="size-5" />
             </button>

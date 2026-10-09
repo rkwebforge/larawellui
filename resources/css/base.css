@@ -40,6 +40,40 @@
     transition: none;
 }
 
+/*
+ * On touch screens, a small control takes taps from at least 44px (the iOS and Android guideline) without looking any
+ * bigger: an invisible layer centred on it. tap-target grows both ways, for a control on its own, like a close button;
+ * tap-target-y only in height, for one in a row, where growing sideways would take taps meant for its neighbour. The
+ * control needs a position (relative or absolute) for the layer to sit on. Mice and trackpads keep the drawn size.
+ */
+@utility tap-target {
+    @media (pointer: coarse) {
+        &::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: max(100%, 2.75rem);
+            height: max(100%, 2.75rem);
+            translate: -50% -50%;
+        }
+    }
+}
+
+@utility tap-target-y {
+    @media (pointer: coarse) {
+        &::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: max(100%, 2.75rem);
+            translate: 0 -50%;
+        }
+    }
+}
+
 /* <x-widget.progress>: the indeterminate bar slides across; striped fills drift. */
 @theme {
     --animate-progress-slide: progress-slide 1.4s ease-in-out infinite;

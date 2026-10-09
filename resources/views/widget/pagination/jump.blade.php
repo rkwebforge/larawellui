@@ -32,6 +32,8 @@
             min="1"
             max="{{ $paginator->lastPage() }}"
             required
+            {{-- An on-screen keyboard's return key reads Go, since it submits. --}}
+            enterkeyhint="go"
             placeholder="{{ $paginator->currentPage() }}"
             class="bg-field border-line hover:border-primary focus:border-primary placeholder:text-muted h-8 w-16 rounded border px-2 text-sm outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none"
         >

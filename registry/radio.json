@@ -1,6 +1,6 @@
 {
     "group": "Forms",
-    "description": "A group of radio buttons in a fieldset, with descriptions and disabled options. Works with Livewire wire:model.",
+    "description": "A group of radio buttons in a fieldset, with descriptions and disabled options, or a segmented track for two to four short choices. Works with Livewire wire:model.",
     "requires": [
         "field"
     ],
@@ -12,6 +12,7 @@
         "livewire"
     ],
     "examples": [
-        "radio"
+        "radio",
+        "segmented"
     ]
 }

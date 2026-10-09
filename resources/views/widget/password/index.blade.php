@@ -88,7 +88,7 @@
         aria-pressed="false"
         aria-label="Show password"
         @disabled($disabled)
-        class="text-foreground/60 hover:text-foreground focus-visible:ring-primary me-3 grid size-8 shrink-0 place-items-center rounded-full outline-none focus-visible:ring-2 disabled:opacity-50"
+        class="text-foreground/60 hover:text-foreground focus-visible:ring-primary tap-target-y relative me-3 grid size-8 shrink-0 place-items-center rounded-full outline-none focus-visible:ring-2 disabled:opacity-50"
     >
         <x-widget.icon name="eye" class="size-4.5" data-icon-show />
         <x-widget.icon name="eye-off" class="hidden size-4.5" data-icon-hide />

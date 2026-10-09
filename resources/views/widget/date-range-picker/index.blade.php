@@ -113,7 +113,7 @@
     // The month and year selects draw their own arrow (appearance-none hides the browser's, which sits against the
     // focus ring), with room for it on the end.
     $control = 'hover:bg-field shrink-0 cursor-pointer appearance-none rounded-md bg-transparent py-1 ps-1 pe-5 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-primary';
-    $nav = 'enabled:hover:bg-field grid size-7 shrink-0 place-items-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-30';
+    $nav = 'enabled:hover:bg-field tap-target relative grid size-7 shrink-0 place-items-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-30';
 @endphp
 
 {{--

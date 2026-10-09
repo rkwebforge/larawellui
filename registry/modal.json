@@ -1,5 +1,5 @@
 {
-    "description": "Dialogs on <dialog>: centred in four sizes or full screen, drawers from either side or the bottom, and a bottom sheet on phones. Pinned header and footer, Esc and backdrop close, focus return, scroll lock, and modal.confirm() for quick yes/no questions. Works inside Livewire components: it stays open through renders, and opens or closes on modal-open and modal-close events.",
+    "description": "Dialogs on <dialog>: centred in four sizes or full screen, drawers from either side or the bottom, and a bottom sheet on phones. Pinned header and footer, Esc, backdrop and swipe-down close, focus return, scroll lock, and modal.confirm() for quick yes/no questions. Works inside Livewire components: it stays open through renders, and opens or closes on modal-open and modal-close events.",
     "requires": [
         "button",
         "icon"

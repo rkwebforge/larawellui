@@ -155,7 +155,7 @@
                 @endif
                 {{-- Uploaded (with upload-url): a check, so a stored file doesn't look like one still waiting. --}}
                 <x-widget.icon name="check" aria-hidden="true" class="text-success hidden size-4 shrink-0 group-data-[state=done]/file:block" />
-                <button type="button" data-file-remove aria-label="Remove {{ $file['name'] }}" class="text-foreground/60 hover:text-foreground hover:bg-field focus-visible:ring-primary grid size-8 shrink-0 place-items-center rounded-full outline-none focus-visible:ring-2">
+                <button type="button" data-file-remove aria-label="Remove {{ $file['name'] }}" class="text-foreground/60 hover:text-foreground hover:bg-field focus-visible:ring-primary tap-target-y relative grid size-8 shrink-0 place-items-center rounded-full outline-none focus-visible:ring-2">
                     <x-widget.icon name="x" class="size-4" />
                 </button>
             </li>
@@ -178,10 +178,10 @@
             </div>
             {{-- Uploaded (with upload-url): a check, so a stored file doesn't look like one still waiting. --}}
             <x-widget.icon name="check" aria-hidden="true" class="text-success hidden size-4 shrink-0 group-data-[state=done]/file:block" />
-            <button type="button" data-file-retry aria-label="Retry" hidden class="text-foreground/60 hover:text-foreground hover:bg-field focus-visible:ring-primary grid size-8 shrink-0 place-items-center rounded-full outline-none focus-visible:ring-2">
+            <button type="button" data-file-retry aria-label="Retry" hidden class="text-foreground/60 hover:text-foreground hover:bg-field focus-visible:ring-primary tap-target-y relative grid size-8 shrink-0 place-items-center rounded-full outline-none focus-visible:ring-2">
                 <x-widget.icon name="refresh-cw" class="size-4" />
             </button>
-            <button type="button" data-file-remove aria-label="Remove" class="text-foreground/60 hover:text-foreground hover:bg-field focus-visible:ring-primary grid size-8 shrink-0 place-items-center rounded-full outline-none focus-visible:ring-2">
+            <button type="button" data-file-remove aria-label="Remove" class="text-foreground/60 hover:text-foreground hover:bg-field focus-visible:ring-primary tap-target-y relative grid size-8 shrink-0 place-items-center rounded-full outline-none focus-visible:ring-2">
                 <x-widget.icon name="x" class="size-4" />
             </button>
         </li>

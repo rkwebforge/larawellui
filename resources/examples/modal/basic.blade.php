@@ -1,4 +1,4 @@
-{{-- Any element with data-modal-open="{id}" opens it; data-modal-close closes it. From JS: modal.open(id), modal.close(id). mobile="sheet" turns it into a bottom sheet on phones. --}}
+{{-- Any element with data-modal-open="{id}" opens it; data-modal-close closes it. From JS: modal.open(id), modal.close(id). mobile="sheet" turns it into a bottom sheet on phones, which close-on-backdrop also lets a finger swipe down. --}}
 <x-widget.button data-modal-open="delete-transaction">Delete transaction</x-widget.button>
 
 <x-widget.modal id="delete-transaction" title="Delete transaction?" close-on-backdrop size="sm" mobile="sheet">

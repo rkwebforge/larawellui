@@ -3,7 +3,7 @@
 // field, with names from Intl.DisplayNames in the page's language and emoji flags, so it costs nothing until used.
 // Pasting or autofilling a full +44… number switches the country to match.
 
-import { closeIfOutOfView, onLivewireMorph } from '../field';
+import { closeIfOutOfView, onLivewireMorph, placeBeside } from '../field';
 
 const VIEWPORT_EDGE = 16;
 const GAP = 4;
@@ -177,10 +177,7 @@ function initPhone(root) {
         }
         const box = anchor.getBoundingClientRect();
         popover.style.width = `${box.width}px`;
-        const height = popover.offsetHeight;
-        const below = box.bottom + GAP;
-        const fitsBelow = below + height <= window.innerHeight - VIEWPORT_EDGE;
-        popover.style.top = `${fitsBelow || box.top - GAP - height < VIEWPORT_EDGE ? below : box.top - GAP - height}px`;
+        popover.style.top = `${placeBeside(popover, box, { gap: GAP, edge: VIEWPORT_EDGE, scroller: list })}px`;
         popover.style.left = `${box.left}px`;
     }
 
@@ -202,6 +199,7 @@ function initPhone(root) {
         if (!open) {
             window.removeEventListener('scroll', position, true);
             window.removeEventListener('resize', position);
+            window.visualViewport?.removeEventListener('resize', position);
             search.value = '';
             filter();
 
@@ -214,6 +212,7 @@ function initPhone(root) {
         setActive(visible().findIndex((option) => option.dataset.iso === country));
         window.addEventListener('scroll', position, true);
         window.addEventListener('resize', position);
+        window.visualViewport?.addEventListener('resize', position);
     });
 
     showCountry();

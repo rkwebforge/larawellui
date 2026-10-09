@@ -68,7 +68,7 @@
             .($fraction !== null ? $formatter->getSymbol(\NumberFormatter::DECIMAL_SEPARATOR_SYMBOL).$fraction : '');
     }
     $grouped = $grouped && ! $mobile;
-    $stepButton = 'text-foreground/70 hover:bg-line hover:text-foreground focus-visible:ring-primary grid size-8 shrink-0 place-items-center rounded-full outline-none focus-visible:ring-2 disabled:opacity-40';
+    $stepButton = 'text-foreground/70 hover:bg-line hover:text-foreground focus-visible:ring-primary tap-target-y relative grid size-8 shrink-0 place-items-center rounded-full outline-none focus-visible:ring-2 disabled:opacity-40';
 @endphp
 
 {{-- type="text" rather than "number": number inputs allow "e", scroll-wheel changes and lose leading zeros.

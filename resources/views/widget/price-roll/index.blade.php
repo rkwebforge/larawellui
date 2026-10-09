@@ -91,8 +91,9 @@
     @if ($decimals !== null) data-decimals="{{ (int) $decimals }}" @endif
     @if ($previous !== null) data-previous="{{ $previous }}" data-change="{{ $change }}" @endif
     data-trend-colors="{{ $trendColors }}"
-    {{-- data-flash is set by the script for a moment after each change: good or bad, per trend-colors. --}}
-    {{ $attributes->class(['text-foreground data-[flash=bad]:text-error data-[flash=good]:text-success inline-flex items-baseline gap-x-1.5 tabular-nums transition-colors duration-500']) }}
+    {{-- data-flash is set by the script for a moment after each change: good or bad, per trend-colors. flex-wrap: a large
+         price with its change badge can be wider than a phone, so the badge drops to the next line rather than spill out. --}}
+    {{ $attributes->class(['text-foreground data-[flash=bad]:text-error data-[flash=good]:text-success inline-flex flex-wrap items-baseline gap-x-1.5 gap-y-1 tabular-nums transition-colors duration-500']) }}
 >
     <span data-price-roll-text class="sr-only" @if ($live) aria-live="polite" @endif>{{ $label ? $label.': ' : '' }}{{ $text }}{{ $spokenChange }}</span>
     {{-- Your own markup before the number: "from", a currency toggle, an icon. Not rolled, and read as written. --}}

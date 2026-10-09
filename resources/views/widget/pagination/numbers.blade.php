@@ -48,11 +48,11 @@
     // Both looks use 28px cells on phones (the "…" narrower still), so all seven fit inside a table on a 320px screen.
     $link = $segmented ? 'hover:bg-field focus-visible:ring-primary outline-none focus-visible:ring-2 focus-visible:ring-inset' : 'hover:bg-field focus-visible:ring-primary outline-none focus-visible:ring-2';
     $arrow = $segmented
-        ? 'text-foreground grid size-7 shrink-0 place-items-center sm:size-10'
-        : 'text-foreground grid size-7 shrink-0 place-items-center rounded-md sm:size-9';
+        ? 'tap-target-y relative text-foreground grid size-7 shrink-0 place-items-center sm:size-10'
+        : 'tap-target-y relative text-foreground grid size-7 shrink-0 place-items-center rounded-md sm:size-9';
     $number = $segmented
-        ? 'grid h-7 min-w-7 shrink-0 place-items-center px-1 tabular-nums sm:h-10 sm:min-w-10 sm:px-3'
-        : 'min-w-7 shrink-0 rounded-md px-1 py-1 text-center tabular-nums sm:min-w-8 sm:px-3';
+        ? 'tap-target-y relative grid h-7 min-w-7 shrink-0 place-items-center px-1 tabular-nums sm:h-10 sm:min-w-10 sm:px-3'
+        : 'tap-target-y relative min-w-7 shrink-0 rounded-md px-1 py-1 text-center tabular-nums sm:min-w-8 sm:px-3';
     $currentLook = $segmented ? 'bg-primary-fill text-on-primary font-semibold' : 'text-primary font-bold';
     $gap = $segmented ? 'text-muted grid h-7 w-5 shrink-0 place-items-center select-none sm:h-10 sm:w-auto sm:min-w-10' : 'text-muted shrink-0 px-1 select-none sm:px-2';
     // A faded cell would fade its border too, so segmented dims only the icon.

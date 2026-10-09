@@ -90,7 +90,7 @@
             >
         </label>
         <span data-file-name data-empty="{{ $emptyText }}" class="text-foreground/75 min-w-0 truncate text-sm">{{ $emptyText }}</span>
-        <button type="button" data-file-clear aria-label="Clear the chosen file" hidden class="text-foreground/60 hover:text-foreground hover:bg-field focus-visible:ring-primary -ms-1 grid size-8 shrink-0 place-items-center rounded-full outline-none focus-visible:ring-2">
+        <button type="button" data-file-clear aria-label="Clear the chosen file" hidden class="text-foreground/60 hover:text-foreground hover:bg-field focus-visible:ring-primary tap-target-y relative -ms-1 grid size-8 shrink-0 place-items-center rounded-full outline-none focus-visible:ring-2">
             <x-widget.icon name="x" class="size-4" />
         </button>
     </div>

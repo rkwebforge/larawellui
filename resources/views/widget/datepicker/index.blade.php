@@ -143,7 +143,7 @@
         {{-- Selects never shrink, so the full month name always shows; a <select> is as wide as its
              longest option, so if "September" fits at the 252px minimum, every month does. --}}
         <div class="mb-2 flex items-center justify-between">
-            <button type="button" data-datepicker-prev aria-label="Previous month" class="enabled:hover:bg-field grid size-7 shrink-0 place-items-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-30">
+            <button type="button" data-datepicker-prev aria-label="Previous month" class="enabled:hover:bg-field tap-target relative grid size-7 shrink-0 place-items-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-30">
                 <x-widget.icon name="chevron-left" class="size-4 rtl:rotate-180" />
             </button>
 
@@ -159,7 +159,7 @@
                 </span>
             </div>
 
-            <button type="button" data-datepicker-next aria-label="Next month" class="enabled:hover:bg-field grid size-7 shrink-0 place-items-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-30">
+            <button type="button" data-datepicker-next aria-label="Next month" class="enabled:hover:bg-field tap-target relative grid size-7 shrink-0 place-items-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:opacity-30">
                 <x-widget.icon name="chevron-right" class="size-4 rtl:rotate-180" />
             </button>
         </div>

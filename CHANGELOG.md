@@ -10,6 +10,26 @@ What you build on is only ever added to, never renamed or removed: component nam
 
 ## [Unreleased]
 
+### Added
+
+- **modal**: a bottom sheet (`variant="drawer" side="bottom"`, or `mobile="sheet"` on phones) can be swiped down to close, as long as the backdrop may close it too (`close-on-backdrop`, without `disable-close`). It follows the finger and closes past a third of its height or on a flick, and springs back otherwise; a list scrolled down inside it scrolls back up first. A small handle at the top shows it can be dragged. The panel that slides carries a new `data-modal-sheet` hook.
+- **pagination** (`drawer`, and the table's page sheet): the page sheet swipes down to close the same way, with the same handle.
+- **tooltip**, **tooltip-cursor**: on a touch screen, a tap shows the tooltip on something a tap does nothing else to (plain text, an icon, a chart's bar), and the next tap anywhere hides it. On a button or a link the tap is still the button's or link's own. The cursor tooltip shows beside the finger.
+- **All widgets** (`base.css`): `tap-target` and `tap-target-y` utilities. On a touch screen they make a small control take taps from at least 44px around it without drawing it any bigger: both ways for a control on its own, only in height for one in a row, where growing sideways would take its neighbour's taps. Mice and trackpads keep the drawn size.
+- **radio**: `variant="segmented"` lays the options out as one track with the chosen one raised in it, for two to four short choices, like the tabs' segmented look. It's still a radio group: the arrow keys move the choice, it submits with the form, and `wire:model`, `required`, disabled options and errors work as before. Without `variant`, radios look as they did.
+- **field**: `visibleArea()` and `placeBeside()` exports: the part of the window not covered by an on-screen keyboard, and where a popover goes beside its field within it, its scrolling part cut down to fit when neither side has room for all of it.
+
+### Changed
+
+- **modal**, **alert**, **toast**, **datepicker**, **date-range-picker**: close buttons and the month arrows take taps from 44px around them on touch screens (`tap-target`). **password**, **number**, **captcha**, **file-upload**, **select** (clear), **pagination** (page numbers and arrows): the same, in height only (`tap-target-y`). Nothing looks different, and with a mouse nothing changes.
+- **price-roll**: the change badge drops to the next line when a large price and its badge are wider than the screen, instead of running off a phone's edge.
+- **pagination** (`jump`): the on-screen keyboard's return key reads Go.
+
+### Fixed
+
+- **modal**, **toast**, **pagination**: in a page drawn under the notch and home indicator (`viewport-fit=cover`, as in NativePHP and home-screen web apps), drawers, full-screen dialogs, bottom sheets and toasts keep their content and close buttons clear of them. Ordinary pages look exactly as before: the extra space is `env(safe-area-inset-*)`, which is 0 there.
+- **search**, **select**, **phone**, **datepicker**, **date-range-picker**, **time-picker**: a list or calendar opened with the on-screen keyboard up no longer opens under it. It goes above the field when the keyboard leaves no room below, and moves back when the keyboard closes. Where neither side has room for the whole list (**search**, **select**, **phone**, **time-picker**'s list), it takes the roomier side and scrolls in what's left, instead of running under the keyboard or off the screen.
+
 ## [0.3.0] - 2026-10-06
 
 ### Changed

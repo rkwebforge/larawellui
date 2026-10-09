@@ -1,6 +1,6 @@
 // Behaviour for <x-widget.search>: the clear button, the keyboard shortcut, and suggestions as you type (suggest-url). Delegated from `document`, so fields added later work without
 // re-initialising. Client-side filtering is only for convenience; the Form Request must validate the same rules.
-import { closeIfOutOfView, on } from '../field';
+import { closeIfOutOfView, on, placeBeside } from '../field';
 
 // --- Search: the clear button ----------------------------------------------------------
 
@@ -96,10 +96,7 @@ function position(box) {
     }
     const rect = box.anchor.getBoundingClientRect();
     box.list.style.width = `${rect.width}px`;
-    const height = box.list.offsetHeight;
-    const below = rect.bottom + GAP;
-    const above = rect.top - GAP - height;
-    box.list.style.top = `${below + height <= window.innerHeight - VIEWPORT_EDGE || above < VIEWPORT_EDGE ? below : above}px`;
+    box.list.style.top = `${placeBeside(box.list, rect, { gap: GAP, edge: VIEWPORT_EDGE, scroller: box.list })}px`;
     box.list.style.left = `${rect.left}px`;
 }
 
@@ -320,3 +317,4 @@ const reposition = () => document.querySelectorAll('[data-search-suggestions]:po
 });
 window.addEventListener('scroll', reposition, { passive: true, capture: true });
 window.addEventListener('resize', reposition);
+window.visualViewport?.addEventListener('resize', reposition);

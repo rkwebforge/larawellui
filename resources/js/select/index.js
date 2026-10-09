@@ -1,7 +1,7 @@
 // Drives <x-widget.select>. Open/close, Esc and click-outside come from the native popover;
 // this adds keyboard navigation, type-to-jump, search filtering (or, with search-url, searching your app) and positioning
 // under the field.
-import { closeIfOutOfView } from '../field';
+import { closeIfOutOfView, placeBeside } from '../field';
 
 const VIEWPORT_EDGE = 16;
 const GAP = 4;
@@ -346,12 +346,7 @@ function initSelect(root) {
         const box = anchor.getBoundingClientRect();
         popup.style.width = `${box.width}px`;
 
-        const height = popup.offsetHeight;
-        const below = box.bottom + GAP;
-        const above = box.top - GAP - height;
-        const fitsBelow = below + height <= window.innerHeight - VIEWPORT_EDGE;
-
-        popup.style.top = `${fitsBelow || above < VIEWPORT_EDGE ? below : above}px`;
+        popup.style.top = `${placeBeside(popup, box, { gap: GAP, edge: VIEWPORT_EDGE, scroller: listbox })}px`;
         popup.style.left = `${box.left}px`;
     }
 
@@ -460,6 +455,7 @@ function initSelect(root) {
         if (!open) {
             window.removeEventListener('scroll', position, true);
             window.removeEventListener('resize', position);
+            window.visualViewport?.removeEventListener('resize', position);
             setActive(-1);
             if (search) {
                 search.value = '';
@@ -478,6 +474,7 @@ function initSelect(root) {
         // Capture phase so scrolling any ancestor also repositions it.
         window.addEventListener('scroll', position, true);
         window.addEventListener('resize', position);
+        window.visualViewport?.addEventListener('resize', position);
     });
 }
 

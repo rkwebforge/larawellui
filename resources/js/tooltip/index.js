@@ -1,4 +1,5 @@
-// Drives <x-widget.tooltip>. Shows it when the pointer rests on the element or it gets keyboard focus, keeps it while
+// Drives <x-widget.tooltip>. Shows it when the pointer rests on the element, a finger taps plain text or an icon, or
+// it gets keyboard focus, keeps it while
 // the pointer moves onto the tooltip, and hides it on Esc, a press, or leaving (WCAG 1.4.13). Points the element's
 // aria-describedby at it, so screen readers read it as the element's description. Delegated from `document`, so
 // tooltips added later (a Livewire render, fetched HTML) work without setting up.
@@ -189,7 +190,21 @@ document.addEventListener('pointerover', (event) => {
     }
 });
 
+// Touch has no hover, so a tap shows a tooltip on something a tap does nothing else to: plain text or an icon, made
+// focusable by link(). On a button or a link the tap is the action, and screen readers read the text either way. It
+// stays until the next press anywhere (the pointerdown below).
+document.addEventListener('pointerup', (event) => {
+    const root = event.pointerType === 'touch' ? event.target.closest?.(ROOT) : null;
+    if (root && targetOf(root) === root) {
+        show(root);
+    }
+});
+
 document.addEventListener('pointerout', (event) => {
+    // A finger lifting leaves the element too, which would take away the tooltip its tap just showed.
+    if (event.pointerType === 'touch') {
+        return;
+    }
     const root = event.target.closest?.(ROOT);
     if (root && !root.contains(event.relatedTarget)) {
         clearTimeout(showTimer);

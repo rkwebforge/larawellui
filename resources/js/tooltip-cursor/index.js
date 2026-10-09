@@ -164,7 +164,21 @@ document.addEventListener('pointermove', (event) => {
     }
 });
 
+// Touch has no hover, so a tap shows it beside the finger, on something a tap does nothing else to (a chart, a map, an
+// icon). On a button or a link the tap is the action. It stays until the next press anywhere (the pointerdown below).
+document.addEventListener('pointerup', (event) => {
+    const root = event.pointerType === 'touch' ? event.target.closest?.(ROOT) : null;
+    if (root && targetOf(root) === root) {
+        pointer = { x: event.clientX, y: event.clientY };
+        show(root);
+    }
+});
+
 document.addEventListener('pointerout', (event) => {
+    // A finger lifting leaves the element too, which would take away the tooltip its tap just showed.
+    if (event.pointerType === 'touch') {
+        return;
+    }
     const root = event.target.closest?.(ROOT);
     if (root && !root.contains(event.relatedTarget)) {
         clearTimeout(showTimer);

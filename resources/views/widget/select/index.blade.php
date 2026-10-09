@@ -181,7 +181,7 @@
         {{-- Centred on the value's line: the box's middle, or with an inner label, half the label's line (and gap) lower. --}}
         <button type="button" data-select-clear aria-label="Clear selection" @if (! $shown) hidden @endif @disabled($disabled)
             @class([
-                'text-foreground/60 hover:text-foreground focus-visible:ring-primary absolute end-[3.125rem] top-1/2 z-20 grid size-7 place-items-center rounded-full outline-none focus-visible:ring-2',
+                'text-foreground/60 hover:text-foreground focus-visible:ring-primary tap-target-y absolute end-[3.125rem] top-1/2 z-20 grid size-7 place-items-center rounded-full outline-none focus-visible:ring-2',
                 '-translate-y-1/2' => ! ($innerLabel && $label && $display !== 'chips'),
                 'translate-y-[calc(-50%+0.75rem)]' => $innerLabel && $label && $display !== 'chips',
             ])>

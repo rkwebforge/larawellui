@@ -1,5 +1,6 @@
 // Drives <x-widget.modal>. Open: <button data-modal-open="id"> or modal.open('id').
-// Close: any [data-modal-close] inside, Esc, or the backdrop when close-on-backdrop is set. A disable-close modal only
+// Close: any [data-modal-close] inside, Esc, or the backdrop when close-on-backdrop is set, which also lets a bottom
+// sheet be swiped down. A disable-close modal only
 // closes through modal.close(id, { force: true }); closing it any other way (even dialog.close()) opens it again.
 // Initial focus: put data-autofocus (not autofocus) on an element inside the dialog.
 // Events on the dialog: modal:before-open, modal:opened, modal:closed (detail.returnValue).
@@ -20,6 +21,7 @@ function open(target) {
     }
     // Lets content be built just in time (e.g. the pagination page list) before focus is placed.
     dialog.dispatchEvent(new CustomEvent('modal:before-open'));
+    swipeToClose(dialog);
     dialog.showModal();
     // data-autofocus rather than the native attribute: the browser also runs page-load autofocus on
     // elements inside closed dialogs, and when the URL has a #fragment (e.g. pagination links) it
@@ -112,6 +114,115 @@ document.addEventListener('close', (event) => {
     // e.g. refresh a list after a form modal closes. The native close event doesn't bubble; this does.
     event.target.dispatchEvent(new CustomEvent('modal:closed', { bubbles: true, detail: { returnValue: event.target.returnValue } }));
 }, true);
+
+// --- Swipe down to close -------------------------------------------------------------------
+
+// A sheet (data-modal-sheet: the panel at the bottom of the screen, or the dialog itself where that is what slides)
+// follows a finger dragged down, then closes past a third of its height or on a flick, and springs back otherwise.
+// Only where the backdrop may close it too: a sheet that can't be dismissed stays that way.
+const SWIPE_DISTANCE = 0.3;
+// Pixels per millisecond: a flick closes it however short.
+const SWIPE_SPEED = 0.5;
+const swipeBound = new WeakSet();
+
+const sheetOf = (dialog) => (dialog.matches('[data-modal-sheet]') ? dialog : dialog.querySelector(':scope > [data-modal-sheet]'));
+
+// Anything between the finger and the sheet that is scrolled down takes the drag first, so scrolling back up never
+// closes the sheet.
+function scrolledDown(target, sheet) {
+    for (let node = target; node instanceof Element; node = node.parentElement) {
+        if (node.scrollTop > 0) {
+            return true;
+        }
+        if (node === sheet) {
+            return false;
+        }
+    }
+
+    return false;
+}
+
+// Touch events, not pointer events: the browser cancels a pointer as soon as it starts scrolling, and Safari has no
+// touch-action that leaves only upward scrolling to it. Bound on each sheet as it first opens rather than on the
+// document, because a listener that can cancel touchmove makes the browser wait for it before scrolling anything.
+function swipeToClose(dialog) {
+    if (swipeBound.has(dialog) || !sheetOf(dialog)) {
+        return;
+    }
+    swipeBound.add(dialog);
+    let drag = null;
+
+    dialog.addEventListener('touchstart', (event) => {
+        drag = null;
+        const sheet = sheetOf(dialog);
+        if (
+            event.touches.length !== 1
+            || !sheet?.contains(event.target)
+            || !dialog.matches('[data-close-on-backdrop]:not([data-disable-close])')
+            // mobile="sheet" is a centred dialog from the sm breakpoint up, where there is nothing to drag down.
+            || Math.abs(sheet.getBoundingClientRect().bottom - window.innerHeight) > 2
+            || event.target.closest('input, textarea, select, [contenteditable]')
+            || scrolledDown(event.target, sheet)
+        ) {
+            return;
+        }
+        const { clientX: x, clientY: y } = event.touches[0];
+        drag = { sheet, x, y, dy: 0, dragging: false, moves: [{ y, t: event.timeStamp }] };
+    }, { passive: true });
+
+    dialog.addEventListener('touchmove', (event) => {
+        if (!drag) {
+            return;
+        }
+        const { clientX: x, clientY: y } = event.touches[0];
+        if (!drag.dragging) {
+            const across = Math.abs(x - drag.x);
+            const down = y - drag.y;
+            if (across === 0 && down === 0) {
+                return;
+            }
+            // Decided on the first movement, the only one iOS lets a script cancel: up, sideways, or a scroll the
+            // browser has already taken is left alone.
+            if (down <= 0 || across > down || !event.cancelable) {
+                drag = null;
+
+                return;
+            }
+            drag.dragging = true;
+            // Through the CSSOM, which a Content Security Policy allows, unlike a style attribute in the markup.
+            drag.sheet.style.transition = 'none';
+        }
+        event.preventDefault();
+        drag.dy = Math.max(0, y - drag.y);
+        drag.sheet.style.translate = `0 ${drag.dy}px`;
+        drag.moves = [drag.moves.at(-1), { y, t: event.timeStamp }];
+    }, { passive: false });
+
+    const release = (event) => {
+        if (!drag?.dragging) {
+            drag = null;
+
+            return;
+        }
+        const { sheet, dy, moves: [from, to] } = drag;
+        drag = null;
+        // No click on whatever the finger was lifted from.
+        if (event.cancelable) {
+            event.preventDefault();
+        }
+        // A finger that stopped before lifting isn't a flick, however fast it moved before.
+        const speed = event.timeStamp - to.t > 100 ? 0 : (to.y - from.y) / Math.max(to.t - from.t, 1);
+        const shut = event.type === 'touchend' && (dy > sheet.offsetHeight * SWIPE_DISTANCE || (dy > 0 && speed > SWIPE_SPEED));
+        // Handing back to the classes slides it from where the finger left it: out if closing, back up if not.
+        sheet.style.transition = '';
+        sheet.style.translate = '';
+        if (shut) {
+            close(dialog);
+        }
+    };
+    dialog.addEventListener('touchend', release);
+    dialog.addEventListener('touchcancel', release);
+}
 
 // From a Livewire component ($this->dispatch('modal-open', id: 'edit')) or any script. Livewire puts the named
 // arguments in detail; a plain CustomEvent can do the same.

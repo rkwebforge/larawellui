@@ -42,17 +42,24 @@
     @endforeach
 </nav>
 
-{{-- Bottom sheet reuses the modal behaviour (data-modal): Esc, backdrop click, focus return, scroll lock. --}}
+{{-- Bottom sheet reuses the modal behaviour (data-modal): Esc, backdrop click, focus return, scroll lock, and a finger
+     dragging it down (data-modal-sheet: the dialog itself is what slides). --}}
 <dialog
     id="{{ $sheetId }}"
     data-modal
+    data-modal-sheet
     data-close-on-backdrop
     tabindex="-1"
     aria-label="Choose a page"
     class="fixed inset-x-0 top-auto bottom-0 m-0 mx-auto h-auto max-h-none w-full max-w-110 translate-y-full bg-transparent p-0 outline-none transition-all transition-discrete duration-300 open:translate-y-0 starting:open:translate-y-full motion-reduce:transition-none backdrop:bg-foreground/40"
 >
-    <div class="bg-surface relative rounded-t-3xl px-6 pt-10 pb-6 shadow-2xl">
-        <button type="button" data-modal-close aria-label="Close" class="text-muted hover:text-foreground focus-visible:ring-primary absolute top-4 right-4 grid size-8 place-items-center rounded-full outline-none focus-visible:ring-2">
+    {{-- The bottom padding clears the home indicator where the page is drawn under it (viewport-fit=cover, as NativePHP
+         and home-screen web apps do); env() is 0 everywhere else. --}}
+    <div class="bg-surface relative rounded-t-3xl px-6 pt-10 pb-[calc(1.5rem+env(safe-area-inset-bottom))] shadow-2xl">
+        {{-- Shows the sheet can be dragged down. Only a cue: Esc, the backdrop and the X close it just the same. --}}
+        <div aria-hidden="true" class="bg-line pointer-events-none absolute inset-x-0 top-2 mx-auto h-1 w-9 rounded-full"></div>
+
+        <button type="button" data-modal-close aria-label="Close" class="text-muted hover:text-foreground focus-visible:ring-primary tap-target absolute top-4 right-4 grid size-8 place-items-center rounded-full outline-none focus-visible:ring-2">
             <x-widget.icon name="x" class="size-5" />
         </button>
 

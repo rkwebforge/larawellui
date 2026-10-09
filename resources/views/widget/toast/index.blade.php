@@ -13,14 +13,20 @@
 ])
 
 @php
+    // 1rem from each edge, plus the notch or home indicator where the page is drawn under them (viewport-fit=cover, as
+    // NativePHP and home-screen web apps do). env() is 0 everywhere else.
+    $top = 'top-[calc(1rem+env(safe-area-inset-top))]';
+    $bottom = 'bottom-[calc(1rem+env(safe-area-inset-bottom))]';
+    $left = 'left-[calc(1rem+env(safe-area-inset-left))]';
+    $right = 'right-[calc(1rem+env(safe-area-inset-right))]';
     $positions = [
-        'top-left' => 'top-4 left-4 flex-col',
-        'top-center' => 'top-4 left-1/2 -translate-x-1/2 flex-col',
-        'top-right' => 'top-4 right-4 flex-col',
+        'top-left' => "{$top} {$left} flex-col",
+        'top-center' => "{$top} left-1/2 -translate-x-1/2 flex-col",
+        'top-right' => "{$top} {$right} flex-col",
         'center' => 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex-col',
-        'bottom-left' => 'bottom-4 left-4 flex-col-reverse',
-        'bottom-center' => 'bottom-4 left-1/2 -translate-x-1/2 flex-col-reverse',
-        'bottom-right' => 'bottom-4 right-4 flex-col-reverse',
+        'bottom-left' => "{$bottom} {$left} flex-col-reverse",
+        'bottom-center' => "{$bottom} left-1/2 -translate-x-1/2 flex-col-reverse",
+        'bottom-right' => "{$bottom} {$right} flex-col-reverse",
     ];
     // A typo fails loudly, naming the values that work, instead of quietly rendering something else.
     if (! array_key_exists($position, $positions)) {

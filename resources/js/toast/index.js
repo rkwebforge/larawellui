@@ -200,7 +200,7 @@ function render(t, type, message, options) {
         element('p', 'text-sm font-semibold', options.title ?? spec.title),
     );
 
-    const close = element('button', 'text-muted hover:text-foreground focus-visible:ring-primary -m-1 grid size-7 shrink-0 place-items-center rounded-full outline-none focus-visible:ring-2');
+    const close = element('button', 'text-muted hover:text-foreground focus-visible:ring-primary tap-target relative -m-1 grid size-7 shrink-0 place-items-center rounded-full outline-none focus-visible:ring-2');
     close.type = 'button';
     close.setAttribute('aria-label', 'Dismiss notification');
     close.append(icon(ICONS.close, 'size-5'));

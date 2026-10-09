@@ -1,7 +1,7 @@
 // Drives <x-widget.date-range-picker>: the first click sets the start, the second the end (a click
 // before the start restarts from there). Nothing is submitted until both ends are chosen; closing
 // half-way keeps the previous range.
-import { closeIfOutOfView } from '../field';
+import { closeIfOutOfView, visibleArea } from '../field';
 import { addDays, addMonths, alignedLeft, daysInMonth, horizontalStep, localeTools, MIN_WIDTH, parseIso, POPOVER_GAP, toIso, VIEWPORT_EDGE } from '../datepicker';
 
 const DAY_BASE = 'mx-auto grid aspect-square w-full max-w-11 place-items-center rounded-full text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-primary';
@@ -283,14 +283,15 @@ function initDateRange(root) {
         const wanted = count === 2 ? TWO_MONTH_WIDTH : MIN_WIDTH;
         const fit = Math.min(Math.max(box.width, wanted), window.innerWidth - VIEWPORT_EDGE * 2);
         popover.style.width = `${fit}px`;
-        popover.style.maxHeight = `${window.innerHeight - VIEWPORT_EDGE * 2}px`;
+        const view = visibleArea();
+        popover.style.maxHeight = `${view.bottom - view.top - VIEWPORT_EDGE * 2}px`;
 
         const { offsetWidth: width, offsetHeight: height } = popover;
         const below = box.bottom + POPOVER_GAP;
         const above = box.top - POPOVER_GAP - height;
-        const top = below + height <= window.innerHeight - VIEWPORT_EDGE ? below
-            : above >= VIEWPORT_EDGE ? above
-            : Math.max(VIEWPORT_EDGE, window.innerHeight - VIEWPORT_EDGE - height);
+        const top = below + height <= view.bottom - VIEWPORT_EDGE ? below
+            : above >= view.top + VIEWPORT_EDGE ? above
+            : Math.max(view.top + VIEWPORT_EDGE, view.bottom - VIEWPORT_EDGE - height);
 
         popover.style.top = `${top}px`;
         popover.style.left = `${alignedLeft(box, width, tools.rtl)}px`;
@@ -392,6 +393,7 @@ function initDateRange(root) {
         if (!open) {
             window.removeEventListener('scroll', position, true);
             window.removeEventListener('resize', onResize);
+            window.visualViewport?.removeEventListener('resize', position);
 
             return;
         }
@@ -402,6 +404,8 @@ function initDateRange(root) {
         // Capture phase so scrolling any ancestor container also repositions it.
         window.addEventListener('scroll', position, true);
         window.addEventListener('resize', onResize);
+        // The on-screen keyboard changes only the visible height, so placing it again is enough.
+        window.visualViewport?.addEventListener('resize', position);
     });
 }
 

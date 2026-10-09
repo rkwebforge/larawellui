@@ -1,4 +1,4 @@
-{{-- variant="drawer" slides a panel in from the end edge (side="end", the right in left-to-right pages), the start edge, or the bottom. Same focus, Esc and backdrop behaviour as a dialog; size sets its width. --}}
+{{-- variant="drawer" slides a panel in from the end edge (side="end", the right in left-to-right pages), the start edge, or the bottom. Same focus, Esc and backdrop behaviour as a dialog, and with close-on-backdrop a bottom drawer can be swiped down too; size sets its width. --}}
 <div class="flex flex-wrap gap-3">
     <x-widget.button variant="neutral" data-modal-open="filters-drawer">Filters</x-widget.button>
     <x-widget.button variant="neutral" data-modal-open="share-sheet">Share</x-widget.button>

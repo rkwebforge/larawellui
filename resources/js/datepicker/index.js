@@ -1,7 +1,7 @@
 // Drives <x-widget.datepicker>. Dates are plain local calendar days (no time
 // part) so a timezone offset can never shift the selected day. The date helpers are
 // exported for <x-widget.date-range-picker>, which works on the same calendar days.
-import { closeIfOutOfView } from '../field';
+import { closeIfOutOfView, visibleArea } from '../field';
 
 export const pad = (n) => String(n).padStart(2, '0');
 export const toIso = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
@@ -237,20 +237,21 @@ function initDatepicker(root) {
         const fit = Math.min(Math.max(box.width, MIN_WIDTH), window.innerWidth - VIEWPORT_EDGE * 2);
         popover.style.width = `${fit}px`;
         // On very short screens the calendar scrolls inside itself rather than running off-screen.
-        popover.style.maxHeight = `${window.innerHeight - VIEWPORT_EDGE * 2}px`;
+        const view = visibleArea();
+        popover.style.maxHeight = `${view.bottom - view.top - VIEWPORT_EDGE * 2}px`;
 
         const { offsetWidth: width, offsetHeight: height } = popover;
         const below = box.bottom + POPOVER_GAP;
         const above = box.top - POPOVER_GAP - height;
 
         let top;
-        if (below + height <= window.innerHeight - VIEWPORT_EDGE) {
+        if (below + height <= view.bottom - VIEWPORT_EDGE) {
             top = below;
-        } else if (above >= VIEWPORT_EDGE) {
+        } else if (above >= view.top + VIEWPORT_EDGE) {
             top = above;
         } else {
             // No room either side (e.g. a phone in landscape): stay fully visible, even if that covers the field.
-            top = Math.max(VIEWPORT_EDGE, window.innerHeight - VIEWPORT_EDGE - height);
+            top = Math.max(view.top + VIEWPORT_EDGE, view.bottom - VIEWPORT_EDGE - height);
         }
 
         popover.style.top = `${top}px`;
@@ -317,6 +318,7 @@ function initDatepicker(root) {
         if (!open) {
             window.removeEventListener('scroll', position, true);
             window.removeEventListener('resize', position);
+            window.visualViewport?.removeEventListener('resize', position);
 
             return;
         }
@@ -327,6 +329,7 @@ function initDatepicker(root) {
         // Capture phase so scrolling any ancestor container also repositions it.
         window.addEventListener('scroll', position, true);
         window.addEventListener('resize', position);
+        window.visualViewport?.addEventListener('resize', position);
     });
 }
 
